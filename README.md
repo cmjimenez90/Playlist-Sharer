@@ -1,7 +1,7 @@
 # Shareable-Playlist
 
 ## Author: Carlos M Jimenez
-## Version 0.0.0.1
+## Version 0.0.1
 
 API Service for Sharing Playlist Accross Streaming Platforms
 
