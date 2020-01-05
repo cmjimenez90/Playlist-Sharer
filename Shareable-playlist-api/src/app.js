@@ -1,9 +1,8 @@
-const express = require('express');
-const helmet = require('helmet');
-const cors = require('cors');
-const cookieParser = require('cookie-parser')
-const morgan = require('morgan');
-
+import express from 'express';
+import helmet from 'helmet';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import morgan from 'morgan';
 
 const app = express();
 const port = 80;
@@ -13,7 +12,10 @@ app.use(cors());
 app.use(cookieParser());
 app.use(morgan());
 
-app.use(require('./controllers'));
+import defaultRoute from './controller/index';
+
+
+app.use('/',defaultRoute);
 
 app.listen(port, function(){
     console.log("Starting Shareable Playlist Api on Port 80");

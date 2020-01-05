@@ -5,7 +5,8 @@
   "main": "app.js",
   "private": true,
   "scripts": {
-    "dev":"nodemon ./app.js"
+    "start": "babel-node -- ./app.js",
+    "dev": "nodemon --exec npm run start"
   },
   "author": "Carlos M Jimenez",
   "license": "UNLICENSED",
@@ -18,6 +19,10 @@
     "morgan": "^1.9.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
     "nodemon": "^2.0.2"
   }
 }
