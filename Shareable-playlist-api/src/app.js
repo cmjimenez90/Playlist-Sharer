@@ -3,6 +3,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
+import bodyParser from 'body-parser';
 import config from './config/server-config'
 
 const app = express();
@@ -12,6 +13,8 @@ app.use(helmet());
 app.use(cors());
 app.use(cookieParser());
 app.use(morgan());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 import defaultRoute from './routes/index';
 
