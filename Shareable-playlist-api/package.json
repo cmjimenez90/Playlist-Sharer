@@ -5,8 +5,9 @@
   "main": "app.js",
   "private": true,
   "scripts": {
-    "start": "babel-node -- ./app.js",
-    "dev": "nodemon --exec npm run start"
+    "start": "babel-node -- ./src/app.js",
+    "dev": "nodemon --exec npm run start",
+    "test": "jest"
   },
   "author": "Carlos M Jimenez",
   "license": "UNLICENSED",

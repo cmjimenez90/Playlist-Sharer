@@ -21,5 +21,5 @@ import defaultRoute from './routes/index';
 app.use(defaultRoute);
 
 app.listen(port, function(){
-    console.log(`Starting Shareable Playlist Api on Port ${config.PORT}`);
+    console.log(`Starting Shareable Playlist Api ${config.PORT}`);
 })
