@@ -7,7 +7,9 @@
   "scripts": {
     "start": "babel-node -- ./src/app.js",
     "dev": "nodemon --exec npm run start",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint --fix ./src"
   },
   "author": "Carlos M Jimenez",
   "license": "UNLICENSED",
@@ -28,6 +30,8 @@
     "@babel/node": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
     "babel-jest": "^24.9.0",
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0",
     "jest": "^24.9.0",
     "nodemon": "^2.0.2"
   }

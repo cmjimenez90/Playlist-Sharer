@@ -1,10 +1,10 @@
 import {Router} from 'express';
-import authorization from '../routes/authorization/spotify'
-const router = Router();
+import authorization from '../routes/authorization/spotify';
 
-router.use('/authorize',authorization);
-router.get('/*', function(req,res){
-    res.send("Welcome to Shareable Playlists");
+const router = new Router();
+router.use('/authorize', authorization);
+router.get('/*', function(req, res) {
+  res.send('Welcome to Shareable Playlists');
 });
 
 export default router;
