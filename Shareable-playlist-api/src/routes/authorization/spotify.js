@@ -12,7 +12,7 @@ router.get('/spotify/callback', function(req, res) {
     res.send('something went wrong');
   }
   const authorizationResult =
-  spotifyAuth.asyncHandleSpotifyAuthorizationCallback(req.query.code);
+  spotifyAuth.asyncHandleSpotifyCallback(req.query.code);
   authorizationResult.then((data) => {
     res.send(data);
   }).catch( (error) => {

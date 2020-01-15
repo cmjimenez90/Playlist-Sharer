@@ -16,7 +16,7 @@ function getSpotifyAuthorizationUri() {
   return authorizationUrl;
 }
 
-async function asyncHandleSpotifyAuthorizationCallback(code) {
+async function asyncHandleSpotifyCallback(code) {
   const postParameters = {
     grant_type: 'authorization_code',
     code: code,
@@ -25,23 +25,13 @@ async function asyncHandleSpotifyAuthorizationCallback(code) {
     client_secret: config.SPOTIFY_SECRET,
 
   };
-  const postOptions = {
-    method: 'POST',
-    headers: {'content-type': 'application/x-www-form-urlencoded'},
-    data: queryString.stringify(postParameters),
-    url: spotifyTokenUrl,
-  };
+  const data = queryString.stringify(postParameters);
   try {
-    const result = await axios(postOptions);
+    const result = await axios.post(spotifyTokenUrl, data);
     return result.data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
-
-export default {
-  asyncHandleSpotifyAuthorizationCallback,
-  getSpotifyAuthorizationUri,
-}
-;
+export default {getSpotifyAuthorizationUri, asyncHandleSpotifyCallback};
