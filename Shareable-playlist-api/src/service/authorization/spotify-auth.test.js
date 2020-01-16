@@ -18,18 +18,28 @@ describe('getSpotifyAuthorizationUri', ()=>{
 });
 
 describe('asyncHandleSpotifyCallback', () => {
-  it('returns the data when successful', async ()=> {
-    const FAKE_TOKEN = {
-      'access_token': '123-123-123-123-123-123',
-      'token_type': 'Bearer',
-      'expires_in': 3600,
-      'refresh_token': '1234-1234-1234-1234',
-      'scope': ''};
-    const FAKE_DATA = {'data': FAKE_TOKEN};
-    axios.post.mockResolvedValue(FAKE_DATA);
-    expect.assertions(2);
-    const data = await spotifyAuth.asyncHandleSpotifyCallback('fakecode');
-    expect(data).toBeDefined();
-    expect(data).toBe(FAKE_TOKEN);
+  describe('user approves the access request', () =>{
+    it('returns the access token when successful', async ()=> {
+      const FAKE_TOKEN = {
+        'access_token': '123-123-123-123-123-123',
+        'token_type': 'Bearer',
+        'expires_in': 3600,
+        'refresh_token': '1234-1234-1234-1234',
+        'scope': ''};
+      const FAKE_RESPONSE = {
+        'status': 200,
+        'statusText': 'OK',
+        'data': FAKE_TOKEN,
+      };
+      axios.post.mockResolvedValue(FAKE_RESPONSE);
+      expect.assertions(2);
+      const token = await spotifyAuth.asyncHandleSpotifyCallback('fakecode');
+      expect(token).toBeDefined();
+      expect(token).toBe(FAKE_TOKEN);
+    });
+  });
+
+  describe('when the user denies the request', ()=>{
+    it('returns an error message of user denied', async () => {});
   });
 });
