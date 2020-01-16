@@ -1,6 +1,8 @@
-import spotifyAuth from './spotify-auth';
 import axios from 'axios';
+import spotifyAuth from './spotify-auth';
+
 jest.mock('axios');
+
 describe('getSpotifyAuthorizationUri', ()=>{
   it('Returns the redirect url with required query parameters', ()=>{
     const uri = spotifyAuth.getSpotifyAuthorizationUri();
@@ -16,19 +18,18 @@ describe('getSpotifyAuthorizationUri', ()=>{
 });
 
 describe('asyncHandleSpotifyCallback', () => {
-  it('returns the data when successful', ()=> {
-    const axiosReponse = {
-      data: {
-        values: 'test',
-      },
-    };
-    axios.post.mockImplementationOnce(() => {
-      Promise.resolve(axiosReponse);
-    });
-    return spotifyAuth.asyncHandleSpotifyCallback('FAKECODE').then(
-        (data) => {
-          expect(data).toBeDefined();
-        },
-    );
+  it('returns the data when successful', async ()=> {
+    const FAKE_TOKEN = {
+      'access_token': '123-123-123-123-123-123',
+      'token_type': 'Bearer',
+      'expires_in': 3600,
+      'refresh_token': '1234-1234-1234-1234',
+      'scope': ''};
+    const FAKE_DATA = {'data': FAKE_TOKEN};
+    axios.post.mockResolvedValue(FAKE_DATA);
+    expect.assertions(2);
+    const data = await spotifyAuth.asyncHandleSpotifyCallback('fakecode');
+    expect(data).toBeDefined();
+    expect(data).toBe(FAKE_TOKEN);
   });
 });
