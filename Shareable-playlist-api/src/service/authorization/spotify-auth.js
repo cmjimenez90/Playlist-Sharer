@@ -30,7 +30,10 @@ async function asyncHandleSpotifyCallback(code) {
     const result = await axios.post(spotifyTokenUrl, data);
     return result.data;
   } catch (error) {
-    console.log(error);
+    return {
+      error: 'CALLBACK FAILURE',
+      message: 'SPOTIFY - NO TOKEN RETRIEVED',
+    };
   }
 };
 

@@ -39,7 +39,21 @@ describe('asyncHandleSpotifyCallback', () => {
     });
   });
 
-  describe('when the user denies the request', ()=>{
-    it('returns an error message of user denied', async () => {});
+  describe('when a status other than 200 ok is returned', ()=>{
+    it('returns an error message', async () => {
+      const FAKE_RESPONSE = {
+        'status': 500,
+        'statusText': 'SERVER ERROR',
+      };
+      const ERROR_MESSAGE = {
+        error: 'CALLBACK FAILURE',
+        message: 'SPOTIFY - NO TOKEN RETRIEVED',
+      };
+      axios.post.mockRejectedValue(FAKE_RESPONSE);
+      expect.assertions(2);
+      const token = await spotifyAuth.asyncHandleSpotifyCallback('fakecode');
+      expect(token).toBeDefined();
+      expect(token).toMatchObject(ERROR_MESSAGE);
+    });
   });
 });
