@@ -42,25 +42,26 @@ async function asyncHandleSpotifyCallback(code) {
 };
 
 async function asyncRefreshSpotifyToken(refreshToken) {
-  const RequestAuthorizationDetails = `${clientId}:${clientSecret}`;
-  const config = {
+  const requestAuthorizationDetails = `${clientId}:${clientSecret}`;
+  console.log(requestAuthorizationDetails);
+  const postConfig = {
     headers: {
-      Authorization:
-      'Basic' + Buffer.from(RequestAuthorizationDetails, 'base64'),
+      'Authorization': 'Basic ' + Buffer.from(requestAuthorizationDetails).toString('base64'),
     },
   };
   const postParameters = {
     grant_type: 'refresh_token',
     refresh_token: refreshToken,
+
   };
   const data = queryString.stringify(postParameters);
   try {
-    const response = await axios.post(spotifyTokenUrl, data, config);
+    const response = await axios.post(spotifyTokenUrl, data, postConfig);
     return response.data;
   } catch (error) {
     return {
       error: 'REFRESH FAILURE',
-      message: 'SPOTIFY - NO REFRESH TOKEN RETRIEVED',
+      message: error,
     };
   }
 }

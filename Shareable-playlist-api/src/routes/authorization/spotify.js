@@ -20,5 +20,20 @@ router.get('/spotify/callback', function(req, res) {
   });
 });
 
+router.post('/spotify/refresh', function(req, res) {
+  if (!req.body || !req.body['refresh_token']) {
+    console.log(req.body);
+    res.send('something went wrong');
+  }
+  const refreshToken = req.body['refresh_token'];
+  const newAuthorizationToken =
+  spotifyAuth.asyncRefreshSpotifyToken(refreshToken);
+  newAuthorizationToken.then((data) => {
+    res.send(data);
+  }).catch( (error) => {
+    console.log(error);
+    res.send('something went wrong');
+  });
+});
 export default router
 ;

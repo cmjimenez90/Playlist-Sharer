@@ -13,7 +13,6 @@ app.use(helmet());
 app.use(cors());
 app.use(cookieParser());
 app.use(morgan());
-app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 import defaultRoute from './routes/index';
