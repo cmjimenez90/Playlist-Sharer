@@ -1,15 +1,19 @@
+/* eslint-disable max-len */
 import axios from 'axios';
 import queryString from 'qs';
 import config from '../../config/server-config';
 
 const spotifyAuthorizeUrl = 'https://accounts.spotify.com/authorize';
 const spotifyTokenUrl = 'https://accounts.spotify.com/api/token';
+const clientId = config.SPOTIFY_CLIENTID;
+const redirectUri = config.SPOTIFY_REDIRECT_URI;
+const clientSecret = config.SPOTIFY_SECRET;
 
 function getSpotifyAuthorizationUri() {
   const urlParameters = new URLSearchParams({
-    client_id: config.SPOTIFY_CLIENTID,
+    client_id: clientId,
     response_type: 'code',
-    redirect_uri: config.SPOTIFY_REDIRECT_URI,
+    redirect_uri: redirectUri,
   });
   const authorizationUrl = new URL(spotifyAuthorizeUrl);
   authorizationUrl.search = urlParameters;
@@ -20,9 +24,9 @@ async function asyncHandleSpotifyCallback(code) {
   const postParameters = {
     grant_type: 'authorization_code',
     code: code,
-    redirect_uri: config.SPOTIFY_REDIRECT_URI,
-    client_id: config.SPOTIFY_CLIENTID,
-    client_secret: config.SPOTIFY_SECRET,
+    redirect_uri: redirectUri,
+    client_id: clientId,
+    client_secret: clientSecret,
 
   };
   const data = queryString.stringify(postParameters);
@@ -37,4 +41,32 @@ async function asyncHandleSpotifyCallback(code) {
   }
 };
 
-export default {getSpotifyAuthorizationUri, asyncHandleSpotifyCallback};
+async function asyncRefreshSpotifyToken(refreshToken) {
+  const RequestAuthorizationDetails = `${clientId}:${clientSecret}`;
+  const config = {
+    headers: {
+      Authorization:
+      'Basic' + Buffer.from(RequestAuthorizationDetails, 'base64'),
+    },
+  };
+  const postParameters = {
+    grant_type: 'refresh_token',
+    refresh_token: refreshToken,
+  };
+  const data = queryString.stringify(postParameters);
+  try {
+    const response = await axios.post(spotifyTokenUrl, data, config);
+    return response.data;
+  } catch (error) {
+    return {
+      error: 'REFRESH FAILURE',
+      message: 'SPOTIFY - NO REFRESH TOKEN RETRIEVED',
+    };
+  }
+}
+
+export default {
+  getSpotifyAuthorizationUri,
+  asyncHandleSpotifyCallback,
+  asyncRefreshSpotifyToken,
+};

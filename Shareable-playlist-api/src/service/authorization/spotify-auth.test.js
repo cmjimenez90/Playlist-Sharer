@@ -57,3 +57,29 @@ describe('asyncHandleSpotifyCallback', () => {
     });
   });
 });
+
+describe('asyncRefreshSpotifyToken', () => {
+  describe('process is succesful', () => {
+    it('returns the access token when successful', async ()=> {
+      const FAKE_TOKEN = {
+        'access_token': '123-123-123-123-123-123',
+        'token_type': 'Bearer',
+        'expires_in': 3600,
+        'scope': ''};
+      const FAKE_RESPONSE = {
+        'status': 200,
+        'statusText': 'OK',
+        'data': FAKE_TOKEN,
+      };
+      axios.post.mockResolvedValue(FAKE_RESPONSE);
+      expect.assertions(2);
+      const refreshToken =
+      await spotifyAuth.asyncRefreshSpotifyToken('REFRESH TOKEN HERE');
+      expect(refreshToken).toBeDefined();
+      expect(refreshToken).toMatchObject(FAKE_TOKEN);
+    });
+    describe('process is unsuccessful', () => {
+      it('returns an error message', ()=>{});
+    });
+  });
+});
