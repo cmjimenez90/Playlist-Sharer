@@ -27,7 +27,7 @@ const identify = (urlString) => {
     validProvider.platform = acceptedMusicProviders[provider];
     validProvider.language = path.split('/')[1];
     validProvider.type = path.split('/')[2];
-    validProvider.destination = path.split('/').slice(3).join('/');
+    validProvider.destination = `/${path.split('/').slice(3).join('/')}`;
     validProvider.url = url;
     validProvider.known = true;
 

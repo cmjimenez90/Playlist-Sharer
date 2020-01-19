@@ -19,7 +19,7 @@ describe('sharedurl-parser', () => {
       let platformProvider = urlParser.identify(testUrl);
       expectedProvider.language = 'us';
       expectedProvider.type = 'album';
-      expectedProvider.destination = 'revenge-of-the-dreamers-iii-directors-cut/1494857069';
+      expectedProvider.destination = '/revenge-of-the-dreamers-iii-directors-cut/1494857069';
       expectedProvider.url = new URL(testUrl);
 
       expect(platformProvider.known).toBe(true);
@@ -30,7 +30,7 @@ describe('sharedurl-parser', () => {
       platformProvider = urlParser.identify(testUrl);
       expectedProvider.language = 'us';
       expectedProvider.type = 'playlist';
-      expectedProvider.destination = 'rap-life/pl.abe8ba42278f4ef490e3a9fc5ec8e8c5';
+      expectedProvider.destination = '/rap-life/pl.abe8ba42278f4ef490e3a9fc5ec8e8c5';
       expectedProvider.url = new URL(testUrl);
 
       expect(platformProvider.known).toBe(true);
