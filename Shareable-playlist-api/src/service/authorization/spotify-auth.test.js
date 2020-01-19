@@ -79,7 +79,21 @@ describe('asyncRefreshSpotifyToken', () => {
       expect(refreshToken).toMatchObject(FAKE_TOKEN);
     });
     describe('process is unsuccessful', () => {
-      it('returns an error message', ()=>{});
+      it('returns an error message', async ()=>{
+        const FAKE_RESPONSE = {
+          'status': 500,
+          'statusText': 'SERVER ERROR',
+        };
+        const ERROR_RESPONSE = {
+          error: 'REFRESH FAILURE',
+        };
+        axios.post.mockRejectedValue(FAKE_RESPONSE);
+        expect.assertions(2);
+        const refreshToken =
+        await spotifyAuth.asyncRefreshSpotifyToken('REFRESH TOKEN HERE');
+        expect(refreshToken).toBeDefined();
+        expect(refreshToken).toMatchObject(ERROR_RESPONSE);
+      });
     });
   });
 });
