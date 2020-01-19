@@ -1,5 +1,5 @@
 import axios from 'axios';
-import spotifyAuth from './spotify-auth';
+import spotifyAuth from '../../src/service/authorization/spotify/spotify-auth';
 
 jest.mock('axios');
 

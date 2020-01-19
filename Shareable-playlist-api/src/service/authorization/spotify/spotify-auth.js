@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import axios from 'axios';
 import queryString from 'qs';
-import config from '../../config/server-config';
+import config from '../../../config/server-config';
 
 const spotifyAuthorizeUrl = 'https://accounts.spotify.com/authorize';
 const spotifyTokenUrl = 'https://accounts.spotify.com/api/token';
