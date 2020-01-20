@@ -5,7 +5,7 @@ const acceptedMusicProviders = {
   'open.spotify.com': parseSpotifyMusicUrl,
 };
 
-const ParsedMusicProvider = class {
+const ParsedMusicProviderUrl = class {
   constructor(platform,
       language,
       type,
@@ -21,7 +21,7 @@ const ParsedMusicProvider = class {
 
 function parseAppleMusicUrl(url) {
   const path = url.pathname;
-  const parsedMusicProvider = new ParsedMusicProvider();
+  const parsedMusicProvider = new ParsedMusicProviderUrl();
   parsedMusicProvider.platform = 'apple';
   parsedMusicProvider.language = path.split('/')[1];
   parsedMusicProvider.type = path.split('/')[2];
@@ -33,7 +33,7 @@ function parseAppleMusicUrl(url) {
 
 function parseSpotifyMusicUrl(url) {
   const path = url.pathname;
-  const parsedMusicProvider = new ParsedMusicProvider();
+  const parsedMusicProvider = new ParsedMusicProviderUrl();
   parsedMusicProvider.platform = 'spotify';
   parsedMusicProvider.type = path.split('/')[1];
   parsedMusicProvider.language = 'unknown';
@@ -55,5 +55,5 @@ function identify(urlString) {
 };
 
 export default {
-  identify,
+  identify, ParsedMusicProviderUrl,
 };
