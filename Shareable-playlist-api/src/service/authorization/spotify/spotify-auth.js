@@ -43,7 +43,6 @@ async function asyncHandleSpotifyCallback(code) {
 
 async function asyncRefreshSpotifyToken(refreshToken) {
   const requestAuthorizationDetails = `${clientId}:${clientSecret}`;
-  console.log(requestAuthorizationDetails);
   const postConfig = {
     headers: {
       'Authorization': 'Basic ' + Buffer.from(requestAuthorizationDetails).toString('base64'),

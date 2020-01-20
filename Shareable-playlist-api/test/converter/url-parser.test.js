@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import urlParser from '../../src/service/converter/platform-urlparser';
+import urlParser from '../../src/service/converter/url-parser';
 
 describe('sharedurl-parser', () => {
   describe('Understood link types', () => {
