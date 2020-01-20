@@ -33,7 +33,8 @@ function parseAppleMusicUrl(url) {
 
 function parseSpotifyMusicUrl() { };
 
-const identify = (urlString) => {
+
+function identify(urlString) {
   const url = new URL(urlString);
   const provider = url.host;
   if (acceptedMusicProviders[provider]) {
