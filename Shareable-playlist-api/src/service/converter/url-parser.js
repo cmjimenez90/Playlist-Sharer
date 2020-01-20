@@ -22,7 +22,7 @@ const MusicProvider = class {
 function parseAppleMusicUrl(url) {
   const path = url.pathname;
   const musicProvider = new MusicProvider();
-  musicProvider.platform = 'apple_music';
+  musicProvider.platform = 'apple';
   musicProvider.language = path.split('/')[1];
   musicProvider.type = path.split('/')[2];
   musicProvider.destination = `/${path.split('/').slice(3).join('/')}`;
@@ -31,7 +31,17 @@ function parseAppleMusicUrl(url) {
   return musicProvider;
 };
 
-function parseSpotifyMusicUrl() { };
+function parseSpotifyMusicUrl(url) {
+  const path = url.pathname;
+  const musicProvider = new MusicProvider();
+  musicProvider.platform = 'spotify';
+  musicProvider.type = path.split('/')[1];
+  musicProvider.language = 'unknown';
+  musicProvider.destination = `/${path.split('/').slice(2).join('/')}`;
+  musicProvider.url = url;
+  musicProvider.known = true;
+  return musicProvider;
+};
 
 
 function identify(urlString) {
