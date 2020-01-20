@@ -5,7 +5,7 @@ const acceptedMusicProviders = {
   'open.spotify.com': parseSpotifyMusicUrl,
 };
 
-const MusicProvider = class {
+const ParsedMusicProvider = class {
   constructor(platform,
       language,
       type,
@@ -21,26 +21,26 @@ const MusicProvider = class {
 
 function parseAppleMusicUrl(url) {
   const path = url.pathname;
-  const musicProvider = new MusicProvider();
-  musicProvider.platform = 'apple';
-  musicProvider.language = path.split('/')[1];
-  musicProvider.type = path.split('/')[2];
-  musicProvider.destination = `/${path.split('/').slice(3).join('/')}`;
-  musicProvider.url = url;
-  musicProvider.known = true;
-  return musicProvider;
+  const parsedMusicProvider = new ParsedMusicProvider();
+  parsedMusicProvider.platform = 'apple';
+  parsedMusicProvider.language = path.split('/')[1];
+  parsedMusicProvider.type = path.split('/')[2];
+  parsedMusicProvider.destination = `/${path.split('/').slice(3).join('/')}`;
+  parsedMusicProvider.url = url;
+  parsedMusicProvider.known = true;
+  return parsedMusicProvider;
 };
 
 function parseSpotifyMusicUrl(url) {
   const path = url.pathname;
-  const musicProvider = new MusicProvider();
-  musicProvider.platform = 'spotify';
-  musicProvider.type = path.split('/')[1];
-  musicProvider.language = 'unknown';
-  musicProvider.destination = `/${path.split('/').slice(2).join('/')}`;
-  musicProvider.url = url;
-  musicProvider.known = true;
-  return musicProvider;
+  const parsedMusicProvider = new ParsedMusicProvider();
+  parsedMusicProvider.platform = 'spotify';
+  parsedMusicProvider.type = path.split('/')[1];
+  parsedMusicProvider.language = 'unknown';
+  parsedMusicProvider.destination = `/${path.split('/').slice(2).join('/')}`;
+  parsedMusicProvider.url = url;
+  parsedMusicProvider.known = true;
+  return parsedMusicProvider;
 };
 
 
