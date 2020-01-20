@@ -68,7 +68,7 @@ describe('sharedurl-parser', () => {
 
       const platformProvider = urlParser.identify(testUrl);
 
-      expect(platformProvider.known).toBe(false);
+      expect(platformProvider).toBeNull();
     });
   });
 });

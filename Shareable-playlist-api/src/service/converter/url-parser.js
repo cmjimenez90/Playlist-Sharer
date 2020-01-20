@@ -10,14 +10,12 @@ const MusicProvider = class {
       language,
       type,
       destination,
-      url,
-      known = false) {
+      url) {
     this.platform = platform;
     this.language = language;
     this.type = type;
     this.destination = destination;
     this.url = url;
-    this.known = known;
   }
 };
 
@@ -53,7 +51,7 @@ function identify(urlString) {
     const urlParser = acceptedMusicProviders[provider];
     return urlParser(url);
   }
-  return new MusicProvider();
+  return null;
 };
 
 export default {
