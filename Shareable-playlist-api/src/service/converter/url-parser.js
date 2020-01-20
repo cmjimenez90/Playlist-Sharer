@@ -1,3 +1,5 @@
+'use strict';
+
 const acceptedMusicProviders = {
   'music.apple.com': parseAppleMusicUrl,
   'open.spotify.com': parseSpotifyMusicUrl,

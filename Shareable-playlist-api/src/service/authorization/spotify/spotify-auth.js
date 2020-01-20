@@ -1,3 +1,5 @@
+'use strict';
+
 /* eslint-disable max-len */
 import axios from 'axios';
 import queryString from 'qs';
