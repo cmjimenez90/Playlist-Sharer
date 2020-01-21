@@ -6,6 +6,6 @@ export default class ParsedShareLink {
     this.language = language;
     this.type = type;
     this.destination = destination;
-    this.url = shareUrl;
+    this.url = url;
   }
 };
