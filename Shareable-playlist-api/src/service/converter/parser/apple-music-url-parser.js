@@ -1,11 +1,11 @@
 'use strict';
-import MusicProvider from '../music-provider/music-provider';
+import ParsedShareUrl from '../parser/parsed-share-url';
 
 export default class AppleMusicUrlParser {
   constructor() {};
   parse(url) {
     const path = url.pathname;
-    const appleProvider = new MusicProvider();
+    const appleProvider = new ParsedShareUrl();
     appleProvider.platform = 'apple';
     appleProvider.language = path.split('/')[1];
     appleProvider.type = path.split('/')[2];

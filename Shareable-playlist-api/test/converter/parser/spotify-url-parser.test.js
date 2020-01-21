@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import MusicProvider from '../../../src/service/converter/music-provider/music-provider';
+import ParsedShareUrl from '../../../src/service/converter/parser/parsed-share-url';
 import SpotifyUrlParser from '../../../src/service/converter/parser/spotify-url-parser';
 
 describe('spotify-url-parser', () => {
@@ -8,7 +8,7 @@ describe('spotify-url-parser', () => {
     const spotifyAlbumUrl = new URL('https://open.spotify.com/album/37i9dQZF1DWXRqgorJj26U');
     const parsedUrl = urlParser.parse(spotifyAlbumUrl);
 
-    const expectedMusicProvider = new MusicProvider(
+    const expectedMusicProvider = new ParsedShareUrl(
         'spotify', '', 'album', '/37i9dQZF1DWXRqgorJj26U', spotifyAlbumUrl,
     );
 
@@ -20,7 +20,7 @@ describe('spotify-url-parser', () => {
     const spotifySongUrl = new URL('https://open.spotify.com/song/37i9dQZF1DWXRqgorJj26U');
     const parsedUrl = urlParser.parse(spotifySongUrl);
 
-    const expectedMusicProvider = new MusicProvider(
+    const expectedMusicProvider = new ParsedShareUrl(
         'spotify', '', 'song', '/37i9dQZF1DWXRqgorJj26U', spotifySongUrl,
     );
 
@@ -32,7 +32,7 @@ describe('spotify-url-parser', () => {
     const spotifyPlaylistUrl = new URL('https://open.spotify.com/playlist/37i9dQZF1DWXRqgorJj26U');
     const parsedUrl = urlParser.parse(spotifyPlaylistUrl);
 
-    const expectedMusicProvider = new MusicProvider(
+    const expectedMusicProvider = new ParsedShareUrl(
         'spotify', '', 'playlist', '/37i9dQZF1DWXRqgorJj26U', spotifyPlaylistUrl,
     );
 

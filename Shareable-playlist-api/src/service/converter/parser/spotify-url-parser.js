@@ -1,10 +1,10 @@
 'use strict';
-import MusicProvider from '../music-provider/music-provider';
+import ParsedShareUrl from '../parser/parsed-share-url';
 
 export default class SpotifyUrlParser {
   constructor() {};
   parse(url) {
-    const spotifyProvider = new MusicProvider();
+    const spotifyProvider = new ParsedShareUrl();
     const path = url.pathname;
     spotifyProvider.platform = 'spotify';
     spotifyProvider.type = path.split('/')[1];
