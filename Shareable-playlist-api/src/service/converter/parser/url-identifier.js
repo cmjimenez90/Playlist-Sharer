@@ -1,6 +1,6 @@
 'use strict';
-import SpotifyParser from '../parser/spotify-url-parser';
-import AppleParser from '../parser/apple-music-url-parser';
+import SpotifyParser from './spotify-url-parser';
+import AppleParser from './apple-music-url-parser';
 
 
 const acceptedMusicProviders = {

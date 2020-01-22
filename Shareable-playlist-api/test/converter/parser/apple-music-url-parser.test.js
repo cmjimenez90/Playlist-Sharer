@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import ParsedShareUrl from '../../../src/service/converter/parser/parsed-share-url';
+import ParsedProviderURL from '../../../src/service/converter/parser/parsed-provider-url';
 import AppleMusicUrlParser from '../../../src/service/converter/parser/apple-music-url-parser';
 
 describe('apple-music-url-parser', () => {
@@ -8,7 +8,7 @@ describe('apple-music-url-parser', () => {
     const appleUrl = new URL('https://music.apple.com/us/album/revenge-of-the-dreamers-iii-directors-cut/1494857069');
     const parsedUrl = urlParser.parse(appleUrl);
 
-    const expectedMusicProvider = new ParsedShareUrl(
+    const expectedMusicProvider = new ParsedProviderURL(
         'apple', 'us', 'album', '/revenge-of-the-dreamers-iii-directors-cut/1494857069', appleUrl,
     );
 
@@ -20,7 +20,7 @@ describe('apple-music-url-parser', () => {
     const appleUrl = new URL('https://music.apple.com/us/song/anothersong/1494857069');
     const parsedUrl = urlParser.parse(appleUrl);
 
-    const expectedMusicProvider = new ParsedShareUrl(
+    const expectedMusicProvider = new ParsedProviderURL(
         'apple', 'us', 'song', '/anothersong/1494857069', appleUrl,
     );
 
@@ -32,7 +32,7 @@ describe('apple-music-url-parser', () => {
     const appleUrl = new URL('https://music.apple.com/us/playlist/rap-life/pl.abe8ba42278f4ef490e3a9fc5ec8e8c5?app=music&ign-itsct=330&ign-itscg=10000');
     const parsedUrl = urlParser.parse(appleUrl);
 
-    const expectedMusicProvider = new ParsedShareUrl(
+    const expectedMusicProvider = new ParsedProviderURL(
         'apple', 'us', 'playlist', '/rap-life/pl.abe8ba42278f4ef490e3a9fc5ec8e8c5', appleUrl,
     );
 
