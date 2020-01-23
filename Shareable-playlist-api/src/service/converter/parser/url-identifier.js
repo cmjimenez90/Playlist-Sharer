@@ -1,20 +1,14 @@
 'use strict';
-import AppleMusicProvider from '../providers/apple-music-provider';
-import SpotifyMusicProvider from '../providers/spotify-music-provider';
+import ValidProviders from '../providers/valid-providers';
 
-const appleMusicProvider = new AppleMusicProvider();
-const spotifyMusicProvider = new SpotifyMusicProvider();
-const acceptedMusicProviders = {
-  'music.apple.com': appleMusicProvider,
-  'open.spotify.com': spotifyMusicProvider,
-};
+const validProviders = new ValidProviders();
 
+const acceptedMusicProviders = validProviders.providers; ;
 function identify(urlString) {
   const url = new URL(urlString);
   const rootUrl = url.host;
-  if (acceptedMusicProviders[rootUrl]) {
-    const provider = acceptedMusicProviders[rootUrl];
-    console.log(provider);
+  if (acceptedMusicProviders.has(rootUrl)) {
+    const provider = acceptedMusicProviders.get(rootUrl);
     return provider.parse(url);
   }
   return null;
