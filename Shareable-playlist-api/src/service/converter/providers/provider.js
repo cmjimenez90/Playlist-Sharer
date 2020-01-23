@@ -1,7 +1,8 @@
 export default class Provider {
-  constructor(platform, apiRootUrl, shareRootUrl) {
+  constructor(platform, apiRootURL, rootURL, parser) {
     this.platform = platform;
-    this.apiRootUrl = apiRootUrl;
-    this.shareRootUrl = shareRootUrl;
+    this.apiRootURL = apiRootURL;
+    this.rootUrl = rootURL;
+    this.parse = parser.parse;
   };
 };
