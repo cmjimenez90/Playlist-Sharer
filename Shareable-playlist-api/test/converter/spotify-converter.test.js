@@ -9,14 +9,14 @@ jest.mock('axios');
 
 describe('spotify-converter', ()=>{
   it('can convert a song', async ()=> {
-    const expectedURL = 'https://open.spotify.com/track/6glsMWIMIxQ4BedzLqGVi4';
+    const expectedConvertedSong = new Song('So Fresh, So Clean', 'OutKast', 'Stankonia', 'https://open.spotify.com/track/6glsMWIMIxQ4BedzLqGVi4');
     const FAKE_RESPONSE = {
       status: 200,
       data: {
         tracks: {
           items: [{
             external_urls: {
-              spotify: expectedURL,
+              spotify: expectedConvertedSong.url,
             },
           }],
         },
@@ -26,20 +26,24 @@ describe('spotify-converter', ()=>{
     const song = new Song('So Fresh, So Clean', 'OutKast', 'Stankonia');
     const converter = new SpotifyConverter(accessToken);
     axios.get.mockResolvedValue(FAKE_RESPONSE);
-    const url = await converter.convertSong(song);
-    expect(url).not.toBeNull();
-    expect(url).toBe(expectedURL);
+    const convertedSong = await converter.asyncConvertSong(song);
+    expect(convertedSong).not.toBeNull();
+    expect(convertedSong).toMatchObject(expectedConvertedSong);
   });
 
   it('can convert an album', async () => {
-    const expectedURL = 'https://open.spotify.com/album/2tm3Ht61kqqRZtIYsBjxEj';
+    const expectedConvertedAlbum = new Album(
+        'Stankonia',
+        'OutKast',
+        'https://open.spotify.com/album/2tm3Ht61kqqRZtIYsBjxEj',
+    );
     const FAKE_RESPONSE = {
       status: 200,
       data: {
         albums: {
           items: [{
             external_urls: {
-              spotify: expectedURL,
+              spotify: expectedConvertedAlbum.url,
             },
           }],
         },
@@ -49,8 +53,12 @@ describe('spotify-converter', ()=>{
     const album = new Album('Stankonia', 'OutKast');
     const converter = new SpotifyConverter(accessToken);
     axios.get.mockResolvedValue(FAKE_RESPONSE);
-    const url = await converter.convertAlbum(album);
-    expect(url).not.toBeNull();
-    expect(url).toBe(expectedURL);
+    const convertedAlbum = await converter.asyncConvertAlbum(album);
+    expect(convertedAlbum).not.toBeNull();
+    expect(convertedAlbum).toMatchObject(expectedConvertedAlbum);
+  });
+
+  it('can convert a playlist', async () => {
+
   });
 });
