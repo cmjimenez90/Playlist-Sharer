@@ -14,25 +14,22 @@ export default class SpotifyConverter extends Converter {
     };
   };
   convertAlbum(album) {
-    query = `artists:${album.artist} album:${album.name}`;
-    const convertedAlbum = axios.get(this.searchPath, {
-      params: {
-        q: encodeURI(query),
-        type: 'album',
-      }}).then( (response) => {
-      album = response.data.albums.items[0];
-      return album.external_urls.spotify;
-    }).catch((error) => {
-      return null;
-    });
+    const q = `?q=${album.name} artist:${album.artist}&type=album`;
+    const convertedAlbum = axios.get(`${this.searchPath}${encodeURI(q)}`, this.config)
+        .then( (response) => {
+          console.log(response.data.albums.items[0].external_urls.spotify);
+          album = response.data.albums.items[0];
+          return album.external_urls.spotify;
+        }).catch((error) => {
+          return null;
+        });
     return convertedAlbum;
   };
+
   convertSong(song) {
     const q = `?q=${song.name} artist:${song.artist} album:${song.releaseAlbum}&type=track`;
-    const convertedSong = axios.get(`${this.searchPath}${encodeURI(q)}`)
+    const convertedSong = axios.get(`${this.searchPath}${encodeURI(q)}`, this.config)
         .then( (response) => {
-          console.log(response.status);
-          console.log(response.data);
           song = response.data.tracks.items[0];
           return song.external_urls.spotify;
         }).catch((error) => {
@@ -41,5 +38,6 @@ export default class SpotifyConverter extends Converter {
         });
     return convertedSong;
   };
+
   convertPlaylist(playlist) {};
 };

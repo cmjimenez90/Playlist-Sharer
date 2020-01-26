@@ -22,11 +22,34 @@ describe('spotify-converter', ()=>{
         },
       },
     };
-    const accessToken = 'FAKE_ACCESS_TOKEN';
+    const accessToken = 'FAKE_TOKEN';
     const song = new Song('So Fresh, So Clean', 'OutKast', 'Stankonia');
     const converter = new SpotifyConverter(accessToken);
     axios.get.mockResolvedValue(FAKE_RESPONSE);
     const url = await converter.convertSong(song);
+    expect(url).not.toBeNull();
+    expect(url).toBe(expectedURL);
+  });
+
+  it('can convert an album', async () => {
+    const expectedURL = 'https://open.spotify.com/album/2tm3Ht61kqqRZtIYsBjxEj';
+    const FAKE_RESPONSE = {
+      status: 200,
+      data: {
+        albums: {
+          items: [{
+            external_urls: {
+              spotify: expectedURL,
+            },
+          }],
+        },
+      },
+    };
+    const accessToken = 'FAKE_TOKEN';
+    const album = new Album('Stankonia', 'OutKast');
+    const converter = new SpotifyConverter(accessToken);
+    axios.get.mockResolvedValue(FAKE_RESPONSE);
+    const url = await converter.convertAlbum(album);
     expect(url).not.toBeNull();
     expect(url).toBe(expectedURL);
   });
