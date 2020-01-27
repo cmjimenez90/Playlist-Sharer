@@ -97,3 +97,17 @@ describe('asyncRefreshSpotifyToken', () => {
     });
   });
 });
+
+describe('asyncGetClientCredentials', () => {
+  describe('valid authorization token is already available', () => {
+    it('returns the same authorization token', async () => {});
+  });
+  describe('expired authorization token is available', () => {
+    it('generates a new authorization token', async () => {});
+    it('stores the new authorization token internally', () => {});
+  });
+  describe('no authorization token is avaiable', () =>{
+    it('generates a new authorization token', () => {});
+    it('stores the new authorization token internally', () => {});
+  });
+});

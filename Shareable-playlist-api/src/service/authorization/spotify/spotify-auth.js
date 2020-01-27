@@ -11,6 +11,16 @@ const clientId = config.SPOTIFY_CLIENTID;
 const redirectUri = config.SPOTIFY_REDIRECT_URI;
 const clientSecret = config.SPOTIFY_SECRET;
 
+function createAuthorizationHeader() {
+  const requestAuthorizationDetails = `${clientId}:${clientSecret}`;
+  const postConfig = {
+    headers: {
+      'Authorization': 'Basic ' + Buffer.from(requestAuthorizationDetails).toString('base64'),
+    },
+  };
+  return postConfig;
+}
+
 function getSpotifyAuthorizationUri() {
   const urlParameters = new URLSearchParams({
     client_id: clientId,
@@ -44,12 +54,7 @@ async function asyncHandleSpotifyCallback(code) {
 };
 
 async function asyncRefreshSpotifyToken(refreshToken) {
-  const requestAuthorizationDetails = `${clientId}:${clientSecret}`;
-  const postConfig = {
-    headers: {
-      'Authorization': 'Basic ' + Buffer.from(requestAuthorizationDetails).toString('base64'),
-    },
-  };
+  const postConfig = createAuthorizationHeader();
   const postParameters = {
     grant_type: 'refresh_token',
     refresh_token: refreshToken,
@@ -67,8 +72,26 @@ async function asyncRefreshSpotifyToken(refreshToken) {
   }
 }
 
+async function asyncGetClientCredentials() {
+  const postConfig = createAuthorizationHeader();
+  const postParameters = {
+    grant_type: 'client_credentials',
+  };
+  const data = queryString.stringify(postParameters);
+  try {
+    const response = await axios.post(spotifyTokenUrl, data, postConfig);
+    return response.data;
+  } catch (error) {
+    return {
+      error: 'CLIENT AUTH FAILURE',
+      message: error,
+    };
+  }
+}
+
 export default {
   getSpotifyAuthorizationUri,
   asyncHandleSpotifyCallback,
   asyncRefreshSpotifyToken,
+  asyncGetClientCredentials,
 };
