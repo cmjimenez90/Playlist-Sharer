@@ -51,7 +51,6 @@ export default class SpotifyConverter extends Converter {
 
     const convertedPlaylist = new Playlist(playlist.name);
     convertedPlaylist.songs = await Promise.all(convertedSongs);
-    console.log(convertedPlaylist);
     return convertedPlaylist;
   };
 };
