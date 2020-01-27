@@ -1,11 +1,12 @@
 import axios from 'axios';
-import spotifyAuth from '../../src/service/authorization/spotify/spotify-auth';
+import SpotifyAuthorizationHandler from '../../src/service/authorization/spotify/spotify-authorization-handler';
 
 jest.mock('axios');
 
 describe('getSpotifyAuthorizationUri', ()=>{
   it('Returns the redirect url with required query parameters', ()=>{
-    const uri = spotifyAuth.getSpotifyAuthorizationUri();
+    const spotifyAuthorizationHandler = new SpotifyAuthorizationHandler();
+    const uri = spotifyAuthorizationHandler.getSpotifyAuthorizationUri();
     const searchParameters = uri.searchParams;
     const clientId = searchParameters.get('client_id');
     const responseType = searchParameters.get('response_type');
@@ -33,7 +34,8 @@ describe('asyncHandleSpotifyCallback', () => {
       };
       axios.post.mockResolvedValue(FAKE_RESPONSE);
       expect.assertions(2);
-      const token = await spotifyAuth.asyncHandleSpotifyCallback('fakecode');
+      const spotifyAuthorizationHandler = new SpotifyAuthorizationHandler();
+      const token = await spotifyAuthorizationHandler.asyncHandleSpotifyCallback('fakecode');
       expect(token).toBeDefined();
       expect(token).toBe(FAKE_TOKEN);
     });
@@ -51,7 +53,8 @@ describe('asyncHandleSpotifyCallback', () => {
       };
       axios.post.mockRejectedValue(FAKE_RESPONSE);
       expect.assertions(2);
-      const token = await spotifyAuth.asyncHandleSpotifyCallback('fakecode');
+      const spotifyAuthorizationHandler = new SpotifyAuthorizationHandler();
+      const token = await spotifyAuthorizationHandler.asyncHandleSpotifyCallback('fakecode');
       expect(token).toBeDefined();
       expect(token).toMatchObject(ERROR_MESSAGE);
     });
@@ -73,8 +76,9 @@ describe('asyncRefreshSpotifyToken', () => {
       };
       axios.post.mockResolvedValue(FAKE_RESPONSE);
       expect.assertions(2);
+      const spotifyAuthorizationHandler = new SpotifyAuthorizationHandler();
       const refreshToken =
-      await spotifyAuth.asyncRefreshSpotifyToken('REFRESH TOKEN HERE');
+      await spotifyAuthorizationHandler.asyncRefreshSpotifyToken('REFRESH TOKEN HERE');
       expect(refreshToken).toBeDefined();
       expect(refreshToken).toMatchObject(FAKE_TOKEN);
     });
@@ -89,8 +93,9 @@ describe('asyncRefreshSpotifyToken', () => {
         };
         axios.post.mockRejectedValue(FAKE_RESPONSE);
         expect.assertions(2);
+        const spotifyAuthorizationHandler = new SpotifyAuthorizationHandler();
         const refreshToken =
-        await spotifyAuth.asyncRefreshSpotifyToken('REFRESH TOKEN HERE');
+        await spotifyAuthorizationHandler.asyncRefreshSpotifyToken('REFRESH TOKEN HERE');
         expect(refreshToken).toBeDefined();
         expect(refreshToken).toMatchObject(ERROR_RESPONSE);
       });
@@ -100,7 +105,9 @@ describe('asyncRefreshSpotifyToken', () => {
 
 describe('asyncGetClientCredentials', () => {
   describe('valid authorization token is already available', () => {
-    it('returns the same authorization token', async () => {});
+    it('returns the same authorization token', async () => {
+
+    });
   });
   describe('expired authorization token is available', () => {
     it('generates a new authorization token', async () => {});
