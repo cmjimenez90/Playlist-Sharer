@@ -3,6 +3,7 @@ import Converter from './converter';
 import axios from 'axios';
 import Album from './entity-types/album';
 import Song from './entity-types/song';
+import Playlist from './entity-types/playlist';
 
 export default class SpotifyConverter extends Converter {
   constructor(accessToken) {
@@ -42,5 +43,15 @@ export default class SpotifyConverter extends Converter {
     return null;
   };
 
-  async asyncConvertPlaylist(playlist) {};
+  async asyncConvertPlaylist(playlist) {
+    const songsToConvert = playlist.songs;
+    const convertedSongs = songsToConvert.map(async (song) => {
+      return await this.asyncConvertSong(song);
+    });
+
+    const convertedPlaylist = new Playlist(playlist.name);
+    convertedPlaylist.songs = await Promise.all(convertedSongs);
+    console.log(convertedPlaylist);
+    return convertedPlaylist;
+  };
 };
