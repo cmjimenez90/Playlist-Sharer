@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import urlIdentifier from '../../../src/service/converter/parser/url-identifier';
+import urlIdentifier from '../../src/service/converter/url-identifier';
 
 describe('url-parser', () => {
   it('Can identity Apple Music links', () => {

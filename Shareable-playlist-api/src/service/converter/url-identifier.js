@@ -1,5 +1,5 @@
 'use strict';
-import ValidProviders from '../providers/valid-providers';
+import ValidProviders from './valid-providers';
 
 const validProviders = new ValidProviders();
 

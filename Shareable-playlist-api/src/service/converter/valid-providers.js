@@ -1,5 +1,5 @@
-import AppleMusicProvider from '../providers/apple-music-provider';
-import SpotifyMusicProvider from '../providers/spotify-music-provider';
+import AppleMusicProvider from './apple/apple-music-provider';
+import SpotifyMusicProvider from './spotify/spotify-music-provider';
 
 
 export default class ValidProviders {

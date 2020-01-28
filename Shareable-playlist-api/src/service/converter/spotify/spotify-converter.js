@@ -1,9 +1,9 @@
 'use strict';
-import Converter from './converter';
+import Converter from '../base/converter';
 import axios from 'axios';
-import Album from './entity-types/album';
-import Song from './entity-types/song';
-import Playlist from './entity-types/playlist';
+import Album from '../types/album';
+import Song from '../types/song';
+import Playlist from '../types/playlist';
 
 export default class SpotifyConverter extends Converter {
   constructor(accessToken) {

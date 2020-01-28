@@ -1,5 +1,5 @@
 'use strict';
-import ParsedProviderURL from './parsed-provider-url';
+import ParsedProviderURL from '../base/parsed-provider-url';
 
 export default class SpotifyUrlParser {
   constructor() {};
