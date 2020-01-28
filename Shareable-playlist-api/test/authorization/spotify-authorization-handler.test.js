@@ -49,7 +49,6 @@ describe('asyncHandleSpotifyCallback', () => {
       };
       const ERROR_MESSAGE = {
         error: 'CALLBACK FAILURE',
-        message: 'SPOTIFY - NO TOKEN RETRIEVED',
       };
       axios.post.mockRejectedValue(FAKE_RESPONSE);
       expect.assertions(2);
@@ -103,18 +102,40 @@ describe('asyncRefreshSpotifyToken', () => {
   });
 });
 
-describe('asyncGetClientCredentials', () => {
-  describe('valid authorization token is already available', () => {
-    it('returns the same authorization token', async () => {
-
-    });
+describe('asyncGenerateClientCredential', () => {
+  it('returns a valid token when successfull', async () => {
+    const FAKE_TOKEN = {
+      'access_token': '123-123-123-123-123-123',
+      'token_type': 'Bearer',
+      'expires_in': 3600,
+    };
+    const FAKE_RESPONSE = {
+      'status': 200,
+      'statusText': 'OK',
+      'data': FAKE_TOKEN,
+    };
+    axios.post.mockResolvedValue(FAKE_RESPONSE);
+    expect.assertions(2);
+    const spotifyAuthorizationHandler = new SpotifyAuthorizationHandler();
+    const refreshToken =
+    await spotifyAuthorizationHandler.asyncGenerateClientCredential();
+    expect(refreshToken).toBeDefined();
+    expect(refreshToken).toMatchObject(FAKE_TOKEN);
   });
-  describe('expired authorization token is available', () => {
-    it('generates a new authorization token', async () => {});
-    it('stores the new authorization token internally', () => {});
-  });
-  describe('no authorization token is avaiable', () =>{
-    it('generates a new authorization token', () => {});
-    it('stores the new authorization token internally', () => {});
+  it('returns an error object when unsuccessful', async () => {
+    const FAKE_RESPONSE = {
+      'status': 500,
+      'statusText': 'SERVER ERROR',
+    };
+    const ERROR_RESPONSE = {
+      error: 'CLIENT AUTH FAILURE',
+    };
+    axios.post.mockRejectedValue(FAKE_RESPONSE);
+    expect.assertions(2);
+    const spotifyAuthorizationHandler = new SpotifyAuthorizationHandler();
+    const refreshToken =
+    await spotifyAuthorizationHandler.asyncGenerateClientCredential();
+    expect(refreshToken).toBeDefined();
+    expect(refreshToken).toMatchObject(ERROR_RESPONSE);
   });
 });

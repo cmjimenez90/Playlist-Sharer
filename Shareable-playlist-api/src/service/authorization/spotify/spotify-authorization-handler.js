@@ -51,7 +51,7 @@ export default class SpotifyAuthorizationHandler {
     } catch (error) {
       return {
         error: 'CALLBACK FAILURE',
-        message: 'SPOTIFY - NO TOKEN RETRIEVED',
+        message: error,
       };
     }
   }
@@ -69,6 +69,23 @@ export default class SpotifyAuthorizationHandler {
     } catch (error) {
       return {
         error: 'REFRESH FAILURE',
+        message: error,
+      };
+    }
+  }
+
+  async asyncGenerateClientCredential() {
+    const postConfig = this.createAuthorizationHeader();
+    const postParameters = {
+      grant_type: 'client_credentials',
+    };
+    const data = queryString.stringify(postParameters);
+    try {
+      const response = await axios.post(this.tokenURI, data, postConfig);
+      return response.data;
+    } catch (error) {
+      return {
+        error: 'CLIENT AUTH FAILURE',
         message: error,
       };
     }
