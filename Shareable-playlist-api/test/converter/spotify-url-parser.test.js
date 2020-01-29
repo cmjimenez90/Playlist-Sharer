@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
-import ParsedProviderURL from '../../src/service/converter/base/parsed-provider-url';
-import SpotifyUrlParser from '../../src/service/converter/spotify/spotify-url-parser';
+import ParsedProviderURL from '../../src/service/provider/base/provider-url';
+import SpotifyUrlParser from '../../src/service/provider/spotify/spotify-url-parser';
 
 describe('spotify-url-parser', () => {
   it('can parse album url', () => {

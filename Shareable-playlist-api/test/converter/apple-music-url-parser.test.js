@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
-import ParsedProviderURL from '../../src/service/converter/base/parsed-provider-url';
-import AppleMusicUrlParser from '../../src/service/converter/apple/apple-music-url-parser';
+import AppleMusicUrlParser from '../../src/service/provider/apple/apple-music-url-parser';
+import ParsedProviderURL from '../../src/service/provider/base/provider-url';
 
 describe('apple-music-url-parser', () => {
   it('can parse albums', () =>{

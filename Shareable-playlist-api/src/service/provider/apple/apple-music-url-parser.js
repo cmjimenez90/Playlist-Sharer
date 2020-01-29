@@ -1,5 +1,5 @@
 'use strict';
-import ParsedProviderURL from '../base/parsed-provider-url';
+import ParsedProviderURL from '../base/provider-url';
 
 export default class AppleMusicUrlParser {
   constructor() {};

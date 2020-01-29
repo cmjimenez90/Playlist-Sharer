@@ -1,6 +1,6 @@
 'use strict';
 
-export default class Converter {
+export default class ProviderConverter {
   constructor() {};
   convertAlbum(album) {};
   convertSong(song) {};

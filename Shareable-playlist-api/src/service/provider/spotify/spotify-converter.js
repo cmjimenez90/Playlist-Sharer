@@ -1,11 +1,11 @@
 'use strict';
-import Converter from '../base/converter';
 import axios from 'axios';
+import ProviderConverter from '../base/provider-converter';
 import Album from '../types/album';
-import Song from '../types/song';
 import Playlist from '../types/playlist';
+import Song from '../types/song';
 
-export default class SpotifyConverter extends Converter {
+export default class SpotifyConverter extends ProviderConverter {
   constructor(accessToken) {
     super();
     this.searchPath = '/search';

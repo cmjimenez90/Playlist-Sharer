@@ -1,6 +1,6 @@
 'use strict';
 
-export default class ParsedProviderUrl {
+export default class ProviderUrl {
   constructor(platform, language, type, destination, url) {
     this.platform = platform;
     this.language = language;

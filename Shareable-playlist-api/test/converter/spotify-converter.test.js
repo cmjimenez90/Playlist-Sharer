@@ -1,9 +1,9 @@
 /* eslint-disable max-len */
 import axios from 'axios';
-import SpotifyConverter from '../../src/service/converter/spotify/spotify-converter';
-import Song from '../../src/service/converter/types/song';
-import Album from '../../src/service/converter/types/album';
-import Playlist from '../../src/service/converter/types/playlist';
+import SpotifyConverter from '../../src/service/provider/spotify/spotify-converter';
+import Album from '../../src/service/provider/types/album';
+import Playlist from '../../src/service/provider/types/playlist';
+import Song from '../../src/service/provider/types/song';
 
 jest.mock('axios');
 
