@@ -3,7 +3,7 @@
 /* eslint-disable max-len */
 import axios from 'axios';
 import queryString from 'qs';
-import config from '../../../config/server-config';
+import config from '../../config/server-config';
 
 
 export default class SpotifyAuthorizationHandler {

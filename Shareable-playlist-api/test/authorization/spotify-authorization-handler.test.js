@@ -1,5 +1,5 @@
 import axios from 'axios';
-import SpotifyAuthorizationHandler from '../../src/service/authorization/spotify/spotify-authorization-handler';
+import SpotifyAuthorizationHandler from '../../src/service/authorization/spotify-authorization-handler';
 
 jest.mock('axios');
 
