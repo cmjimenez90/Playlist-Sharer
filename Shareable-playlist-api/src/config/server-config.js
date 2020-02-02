@@ -8,4 +8,6 @@ export default {
   SPOTIFY_SECRET: process.env.SPOTIFY_SECRET || '',
   SPOTIFY_REDIRECT_URI: process.env.SPOTIFY_REDIRECT_URI || '',
   APPLEMUSIC_SECRET: process.env.APPLEMUSIC_SECRET || '',
+  APPLEMUSIC_KID: process.env.APPLEMUSIC_KID || '',
+  APPLEMUSIC_TEAMID: process.env.APPLEMUSIC_TEAMID || '',
 };
