@@ -29,8 +29,10 @@ export default class SpotifyAuthorizationHandler {
     const urlParameters = new URLSearchParams({
       client_id: this.clientID,
       response_type: 'code',
-      redirect_uri: this.redirectUri,
+      redirect_uri: this.redirectURI,
     });
+    console.log(this.redirectURI);
+    console.log(urlParameters);
     const authorizationUrl = new URL(this.authorizeURI);
     authorizationUrl.search = urlParameters;
     return authorizationUrl;
