@@ -21,5 +21,10 @@ app.use(defaultRoute);
 
 app.listen(port, function() {
   console.log(`Starting Shareable Playlist Api ${config.PORT}`);
+  const runtimeENV = process.env.NODE_ENV || 'dev';
+  console.log(`Running in ${runtimeENV}`);
+  if (runtimeENV !== 'production') {
+    console.log(config);
+  }
 })
 ;
