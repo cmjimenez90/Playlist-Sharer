@@ -1,10 +1,11 @@
 import {Router} from 'express';
-import spotifyAuth from '../../service/authorization/spotify-authorization-handler';
+import SpotifyAuthorziationHandler from '../../service/authorization/spotify-authorization-handler';
 
+const spotifyAuthHandler = new SpotifyAuthorziationHandler();
 const router = new Router();
 
 router.get('/spotify', function(req, res) {
-  res.redirect(spotifyAuth.getSpotifyAuthorizationUri());
+  res.redirect(spotifyAuthHandler.getSpotifyAuthorizationUri());
 });
 
 router.get('/spotify/callback', function(req, res) {
@@ -12,7 +13,7 @@ router.get('/spotify/callback', function(req, res) {
     res.send('something went wrong');
   }
   const authorizationResult =
-  spotifyAuth.asyncHandleSpotifyCallback(req.query.code);
+  spotifyAuthHandler.asyncHandleSpotifyCallback(req.query.code);
   authorizationResult.then((data) => {
     res.send(data);
   }).catch( (error) => {
@@ -27,7 +28,7 @@ router.post('/spotify/refresh', function(req, res) {
   }
   const refreshToken = req.body['refresh_token'];
   const newAuthorizationToken =
-  spotifyAuth.asyncRefreshSpotifyToken(refreshToken);
+  spotifyAuthHandler.asyncRefreshSpotifyToken(refreshToken);
   newAuthorizationToken.then((data) => {
     res.send(data);
   }).catch( (error) => {
