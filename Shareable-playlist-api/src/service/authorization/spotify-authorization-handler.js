@@ -42,7 +42,7 @@ export default class SpotifyAuthorizationHandler {
     const postParameters = {
       grant_type: 'authorization_code',
       code: code,
-      redirect_uri: this.redirectUri,
+      redirect_uri: this.redirectURI,
       client_id: this.clientID,
       client_secret: this.clientSecret,
     };
