@@ -38,7 +38,20 @@ export default class SpotifyClient {
       return null;
     }
   }
-  async createPlaylist(userAccessToken, playlistName, songIDs) {
+
+  async getUserDetails(userAccessToken) {
+    const userURL = '/me';
+    try {
+      const response = await this.axiosClient.get(userURL, {
+        headers: {
+          Authorization: `Bearer ${userAccessToken}`,
+        }});
+      return response.data;
+    } catch (error) {
+      return null;
+    }
+  }
+  async createPlaylist(userAccessToken, userID, playlistName, songIDs) {
 
   }
 

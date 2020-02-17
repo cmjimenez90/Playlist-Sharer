@@ -22,4 +22,8 @@ it('does all the following', async ()=> {
   // Search for a song
   const searchedSong = await client.search(['track'], 'ooh I love it artist:The Salsoul Orchestra');
   expect(searchedSong.tracks.items).not.toBeNull();
+
+  // Create a playlist
+  const userDetails = await client.getUserDetails('');
+  expect(userDetails.display_name).toBe('River');
 });
