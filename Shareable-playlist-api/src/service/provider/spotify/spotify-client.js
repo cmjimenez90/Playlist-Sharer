@@ -51,8 +51,56 @@ export default class SpotifyClient {
       return null;
     }
   }
-  async createPlaylist(userAccessToken, userID, playlistName, songIDs) {
 
+  async createPlaylist(userAccessToken, userID, playlistName) {
+    const createPlaylistURL = `users/${userID}/playlists`;
+    try {
+      const response = await this.axiosClient.post(
+          createPlaylistURL,
+          {
+            name: playlistName,
+          },
+          {
+            headers: {
+              'Authorization': `Bearer ${userAccessToken}`,
+              'Content-Type': 'application/json',
+            },
+          });
+      return response.data;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async addSongsToPlaylist(userAccessToken, playlistID, songIDs) {
+    // max submission is 100 at a time
+    const playlistURL = `/playlists/${playlistID}/tracks`;
+    const songURIs = songIDs.map((id)=>{
+      return `spotify:track:${id}`;
+    });
+    const totalRequestNeeded = Math.ceil(songURIs.length / 100);
+    let allSongsAddedSuccesfully = true;
+    for (let requestNumber = 0; requestNumber < totalRequestNeeded; requestNumber++) {
+      const requestSongs = songURIs.slice(requestNumber*100, requestNumber*100+100);
+      console.log(requestSongs);
+      try {
+        await this.axiosClient.post(
+            playlistURL,
+            {
+              uris: requestSongs,
+            },
+            {
+              headers: {
+                'Authorization': `Bearer ${userAccessToken}`,
+                'Content-Type': 'application/json',
+              },
+            });
+      } catch (error) {
+        console.log(error);
+        allSongsAddedSuccesfully = false;
+      }
+    }
+    return allSongsAddedSuccesfully;
   }
 
   async search(itemTypes, query) {
@@ -62,7 +110,6 @@ export default class SpotifyClient {
       ;
     });
     const constructedQuery = encodeURI(`q=${query}&type=${types}`);
-    console.log(constructedQuery);
     try {
       const response = await this.axiosClient.get(`${searchURL}?${constructedQuery}`);
       return response.data;

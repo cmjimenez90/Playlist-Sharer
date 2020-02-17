@@ -1,5 +1,6 @@
 import SpotifyClient from '../../src/service/provider/spotify/spotify-client';
 import SpotifyAuthorizationHandler from '../../src/service/authorization/spotify-authorization-handler';
+// this entire test needs to be redone but works to test dependencies with working client
 it('does all the following', async ()=> {
   const authorizationHandler = new SpotifyAuthorizationHandler();
   const clientToken = await authorizationHandler.asyncGenerateClientCredential();
@@ -23,7 +24,11 @@ it('does all the following', async ()=> {
   const searchedSong = await client.search(['track'], 'ooh I love it artist:The Salsoul Orchestra');
   expect(searchedSong.tracks.items).not.toBeNull();
 
-  // Create a playlist
-  const userDetails = await client.getUserDetails('');
-  expect(userDetails.display_name).toBe('River');
+  // Create a playlist and adds songs.. needs user token to work successfully
+  // const userToken = '';
+  // const userDetails = await client.getUserDetails(userToken);
+  // const newPlaylist = await client.createPlaylist(userToken, userDetails.id, 'test-playlist');
+  // const songIDs = ['4KyEeZwIuoFH0n68qvl35b', '3hq2vQXYuiF5FVoCQZJbac', '0F7I2jEvpQnLpiiS0wbCpO'];
+  // const successfullyAddedSongs = await client.addSongsToPlaylist(userToken, newPlaylist.id, songIDs);
+  // expect(successfullyAddedSongs).toBeTruthy();
 });

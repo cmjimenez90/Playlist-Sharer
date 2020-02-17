@@ -30,6 +30,7 @@ export default class SpotifyAuthorizationHandler {
       client_id: this.clientID,
       response_type: 'code',
       redirect_uri: this.redirectURI,
+      scope: 'playlist-modify-public',
     });
     const authorizationUrl = new URL(this.authorizeURI);
     authorizationUrl.search = urlParameters;
@@ -43,7 +44,6 @@ export default class SpotifyAuthorizationHandler {
       redirect_uri: this.redirectURI,
       client_id: this.clientID,
       client_secret: this.clientSecret,
-      scope: 'playlist-modify-public',
     };
     const data = queryString.stringify(postParameters);
     try {
