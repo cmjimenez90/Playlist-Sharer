@@ -11,7 +11,7 @@ export default class SpotifyClient {
     });
   }
 
-  async getSong(songID) {
+  async asyncGetSong(songID) {
     const songURL = '/tracks';
     try {
       const response = await this.axiosClient.get(`${songURL}/${songID}`);
@@ -20,7 +20,7 @@ export default class SpotifyClient {
       return null;
     }
   }
-  async getAlbum(albumID) {
+  async asyncGetAlbum(albumID) {
     const albumURL = '/albums';
     try {
       const response = await this.axiosClient.get(`${albumURL}/${albumID}`);
@@ -29,7 +29,7 @@ export default class SpotifyClient {
       return null;
     }
   }
-  async getPlaylist(playlistID) {
+  async asyncGetPlaylist(playlistID) {
     const playlistURL = '/playlists';
     try {
       const response = await this.axiosClient.get(`${playlistURL}/${playlistID}`);
@@ -39,7 +39,7 @@ export default class SpotifyClient {
     }
   }
 
-  async getUserDetails(userAccessToken) {
+  async asyncGetUserDetails(userAccessToken) {
     const userURL = '/me';
     try {
       const response = await this.axiosClient.get(userURL, {
@@ -52,7 +52,7 @@ export default class SpotifyClient {
     }
   }
 
-  async createPlaylist(userAccessToken, userID, playlistName) {
+  async asynCreatePlaylist(userAccessToken, userID, playlistName) {
     const createPlaylistURL = `users/${userID}/playlists`;
     try {
       const response = await this.axiosClient.post(
@@ -72,7 +72,7 @@ export default class SpotifyClient {
     }
   }
 
-  async addSongsToPlaylist(userAccessToken, playlistID, songIDs) {
+  async asyncAddSongsToPlaylist(userAccessToken, playlistID, songIDs) {
     // max submission is 100 at a time
     const playlistURL = `/playlists/${playlistID}/tracks`;
     const songURIs = songIDs.map((id)=>{
@@ -103,7 +103,7 @@ export default class SpotifyClient {
     return allSongsAddedSuccesfully;
   }
 
-  async search(itemTypes, query) {
+  async asyncSearch(itemTypes, query) {
     const searchURL = '/search';
     const types = itemTypes.reduce((prev, current)=>{
       return `${prev},${current}`

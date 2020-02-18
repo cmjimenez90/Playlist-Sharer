@@ -9,19 +9,19 @@ it('does all the following', async ()=> {
   const client = new SpotifyClient(clientToken.access_token);
 
   // In Arms song
-  const song = await client.getSong('0mqDNdnkSOTKqsUIsAEfW2');
+  const song = await client.asyncGetSong('0mqDNdnkSOTKqsUIsAEfW2');
   expect(song.name).toBe('In Arms');
 
   // Brothers album by Black Eyed Peas
-  const album = await client.getAlbum('7qE6RXYyz5kj5Tll7mJU0v');
+  const album = await client.asyncGetAlbum('7qE6RXYyz5kj5Tll7mJU0v');
   expect(album.name).toBe('Brothers');
 
   // Housewerk Playlist
-  const playlist = await client.getPlaylist('37i9dQZF1DXa8NOEUWPn9W');
+  const playlist = await client.asyncGetPlaylist('37i9dQZF1DXa8NOEUWPn9W');
   expect(playlist.name).toBe('Housewerk');
 
   // Search for a song
-  const searchedSong = await client.search(['track'], 'ooh I love it artist:The Salsoul Orchestra');
+  const searchedSong = await client.asyncSearch(['track'], 'ooh I love it artist:The Salsoul Orchestra');
   expect(searchedSong.tracks.items).not.toBeNull();
 
   // Create a playlist and adds songs.. needs user token to work successfully
