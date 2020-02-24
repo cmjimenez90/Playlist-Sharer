@@ -1,4 +1,5 @@
 import ProviderConverter from '../../provider/base/provider-converter';
+
 export default class AppleMusicConverter extends ProviderConverter {
   constructor(appleMusicClient) {
     super();
@@ -6,14 +7,16 @@ export default class AppleMusicConverter extends ProviderConverter {
   };
 
   async asyncConvertAlbum(album) {
+    const searchTerm = `${album.name}+${album.artist}`;
 
+    this.appleMusicClient.asyncSearch([albums], searchTerm, 'US');
   };
 
   async asyncConvertSong(song) {
 
   };
 
-  async asyncConvertPlaylist(playlist) {
+  async asyncConvertPlaylist(userAccessToken, playlist) {
 
   };
 };
