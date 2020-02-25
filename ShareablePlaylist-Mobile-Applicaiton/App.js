@@ -3,10 +3,14 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
-  return (
-    <View style={styles.baseContainer}>
-      <Text style={styles.baseText}>SI love you baby</Text>
+  return(
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Shareable Playlists</Text>
+      </View>
+      <View style={styles.baseContainer}>
+
+      </View>
     </View>
-  );
-}
+)}
 

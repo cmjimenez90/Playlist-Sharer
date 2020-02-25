@@ -6,14 +6,20 @@ export const color = {
 }
 
 export const styles = StyleSheet.create({
-    baseContainer: {
-      flex: 1,
-      backgroundColor: color.primary,
-      alignItems: 'center',
-      justifyContent: 'center',
+    container: {
+        height: "100%",
+        backgroundColor: color.primary
     },
-    baseText: {
+    header: {
+        paddingTop: 45,
+        paddingBottom: 15,
+        backgroundColor: color.secondary,
+    },
+    headerText: {
         color: color.fontPrimary,
+        fontWeight: "bold",
+        fontSize: 30,
+        textAlign: "center",
     }
   });
   
