@@ -1,6 +1,6 @@
 import {styles} from './style/main.style'
 import React from 'react';
-import {Text, View, StatusBar, Platform} from 'react-native';
+import {Text, View, StatusBar} from 'react-native';
 
 export default function App() {
   return(
