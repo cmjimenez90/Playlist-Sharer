@@ -1,8 +1,8 @@
 import {StyleSheet} from 'react-native'
 export const color = {
-    primary: '#c85cd6',
-    secondary: '#9845a3',
-    fontPrimary: '#e9daeb'
+    primary: '#D5CBFF',
+    secondary: '#A49ACC',
+    accent: '#F1EFFB'
 }
 
 export const styles = StyleSheet.create({
@@ -11,15 +11,13 @@ export const styles = StyleSheet.create({
         backgroundColor: color.primary
     },
     header: {
-        paddingTop: 45,
-        paddingBottom: 15,
         backgroundColor: color.secondary,
     },
     headerText: {
-        color: color.fontPrimary,
+        paddingLeft: 20,
+        color: color.accent,
         fontWeight: "bold",
         fontSize: 30,
-        textAlign: "center",
     }
   });
   
