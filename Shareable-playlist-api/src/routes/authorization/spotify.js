@@ -4,11 +4,11 @@ import SpotifyAuthorziationHandler from '../../service/authorization/spotify-aut
 const spotifyAuthHandler = new SpotifyAuthorziationHandler();
 const router = new Router();
 
-router.get('/spotify', function(req, res) {
+router.get('/', function(req, res) {
   res.redirect(spotifyAuthHandler.getSpotifyAuthorizationUri());
 });
 
-router.get('/spotify/callback', function(req, res) {
+router.get('/callback', function(req, res) {
   if (req.query.error || !req.query.code) {
     res.send('something went wrong');
   }
@@ -21,9 +21,8 @@ router.get('/spotify/callback', function(req, res) {
   });
 });
 
-router.post('/spotify/refresh', function(req, res) {
+router.post('/refresh', function(req, res) {
   if (!req.body || !req.body['refresh_token']) {
-    console.log(req.body);
     res.send('something went wrong');
   }
   const refreshToken = req.body['refresh_token'];

@@ -8,9 +8,15 @@ export default class AppleMusicUrlParser {
     const appleProvider = new ParsedProviderURL();
     appleProvider.platform = 'apple';
     appleProvider.language = path.split('/')[1];
-    appleProvider.type = path.split('/')[2];
-    appleProvider.destination = `/${path.split('/').slice(3).join('/')}`;
     appleProvider.shareUrl = url;
+
+    if (url.searchParams.get('i')) {
+      appleProvider.type = 'song';
+      appleProvider.destination = url.searchParams.get('i');
+    } else {
+      appleProvider.type = path.split('/')[2];
+      appleProvider.destination = `/${path.split('/').slice(3).join('/')}`;
+    }
     return appleProvider;
   }
 };
