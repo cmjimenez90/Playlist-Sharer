@@ -38,7 +38,7 @@ export default class AppleMusicClient {
     }
   }
 
-  async asyncSearch(itemTypes, term, storefront='us', limit = 100) {
+  async asyncSearch(itemTypes, term, storefront='us', limit = 25) {
     const searchURL = `/v1/catalog/${storefront}/search`;
     const types = itemTypes.reduce((prev, current)=>{
       return `${prev},${current}`;
