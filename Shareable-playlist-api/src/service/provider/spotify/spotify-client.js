@@ -17,7 +17,7 @@ export default class SpotifyClient {
       const response = await this.axiosClient.get(`${songURL}/${songID}`);
       return response.data;
     } catch (error) {
-      return null;
+      return error;
     }
   }
   async asyncGetAlbum(albumID) {
@@ -26,7 +26,7 @@ export default class SpotifyClient {
       const response = await this.axiosClient.get(`${albumURL}/${albumID}`);
       return response.data;
     } catch (error) {
-      return null;
+      return error;
     }
   }
   async asyncGetPlaylist(playlistID) {
@@ -35,7 +35,7 @@ export default class SpotifyClient {
       const response = await this.axiosClient.get(`${playlistURL}/${playlistID}`);
       return response.data;
     } catch (error) {
-      return null;
+      return error;
     }
   }
 
@@ -48,7 +48,7 @@ export default class SpotifyClient {
         }});
       return response.data;
     } catch (error) {
-      return null;
+      return error;
     }
   }
 
@@ -106,15 +106,15 @@ export default class SpotifyClient {
   async asyncSearch(itemTypes, query) {
     const searchURL = '/search';
     const types = itemTypes.reduce((prev, current)=>{
-      return `${prev},${current}`
-      ;
+      return `${prev},${current}`;
     });
     const constructedQuery = encodeURI(`q=${query}&type=${types}`);
+
     try {
       const response = await this.axiosClient.get(`${searchURL}?${constructedQuery}`);
       return response.data;
     } catch (error) {
-      return null;
+      return error;
     }
   }
 };
