@@ -52,7 +52,7 @@ export default class SpotifyClient {
     }
   }
 
-  async asynCreatePlaylist(userAccessToken, userID, playlistName) {
+  async asyncCreatePlaylist(userAccessToken, userID, playlistName) {
     const createPlaylistURL = `users/${userID}/playlists`;
     try {
       const response = await this.axiosClient.post(
@@ -68,7 +68,7 @@ export default class SpotifyClient {
           });
       return response.data;
     } catch (error) {
-      return null;
+      return error;
     }
   }
 
