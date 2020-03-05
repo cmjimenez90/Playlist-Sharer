@@ -9,6 +9,7 @@ import Album from '../../../service/provider/types/album';
 import SpotifyConverter from '../../../service/provider/spotify/spotify-converter';
 import Playlist from '../../../service/provider/types/playlist';
 import SpotifyClient from '../../../service/provider/spotify/spotify-client';
+import AppleMusicConverter from '../../../service/provider/apple/apple-music-converter';
 
 const router = new Router();
 
@@ -25,6 +26,7 @@ router.post('/spotify-music', async function(req, res) {
   }
   const requestURL = req.body['itemURL'];
   const acceptableProviderURL = UrlIdentifier.identify(requestURL);
+
   if (acceptableProviderURL.platform === 'spotify') {
     res.send(requestURL);
   }
@@ -47,7 +49,7 @@ router.post('/spotify-music', async function(req, res) {
 
         try {
           const convertedSong = await spotifyConverter.asyncConvertSong(song);
-          res.send(convertedSong);
+          res.send(convertedSong.url);
         } catch (error) {
           res.status(400).send(error);
         }
@@ -64,7 +66,7 @@ router.post('/spotify-music', async function(req, res) {
           const album = new Album(details.name, details.artistName);
           const convertedAlbum = await spotifyConverter.asyncConvertAlbum(album);
 
-          res.send(convertedAlbum);
+          res.send(convertedAlbum.url);
         } catch (error) {
           res.status(400).send(error);
         }
@@ -106,7 +108,42 @@ router.post('/apple-music', async function(req, res) {
     res.send(requestURL);
   }
 
-  res.send('I WILL CONVERT');
+  const token = await spotifyAuthHandler.asyncGenerateClientCredential();
+  const spotifyClient = new SpotifyClient(token.access_token);
+  const appleClient = new AppleMusicClient(await appleAuthHandler.asyncGenerateDeveloperToken());
+  const appleConverter = new AppleMusicConverter(appleClient);
+
+  let clientResponse = null;
+  switch (acceptableProviderURL.type) {
+    case 'track':
+      const songID = acceptableProviderURL.destination.split('/')[1];
+      clientResponse = await spotifyClient.asyncGetSong(songID);
+      const spotifySong = new Song(clientResponse.name, clientResponse.artists[0].name, clientResponse.album.name);
+
+      try {
+        const convertedSong = await appleConverter.asyncConvertSong(spotifySong);
+        res.send(convertedSong.url);
+      } catch (error) {
+        res.status(400).send(error);
+      }
+      break;
+    case 'album':
+      const albumID = acceptableProviderURL.destination.split('/')[1];
+      clientResponse = await spotifyClient.asyncGetAlbum(albumID);
+      const spotifyAlbum = new Album(clientResponse.name, clientResponse.artists[0].name);
+      try {
+        const convertedAlbum = await appleConverter.asyncConvertAlbum(spotifyAlbum);
+        res.send(convertedAlbum.url);
+      } catch (error) {
+        res.status(400).send();
+      }
+      break;
+
+    case 'playlist':
+      res.send('TBD');
+      break;
+    default: res.status(400).send('Oops, something went wrong');
+  }
 });
 
 export default router;
