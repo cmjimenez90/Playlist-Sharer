@@ -9,4 +9,13 @@ How great would it be to be able to share your playlist with any of your friends
 
 ### Setting up your environment
 
+__ENVIRONMENT VARIABLES__
+SERVER_PORT=3000
+SPOTIFY_REDIRECT_URI=http://localhost:3000/authorize/spotify/callback
+SPOTIFY_CLIENTID=
+SPOTIFY_SECRET=
+APPLE_CLIENTID=
+APPLE_SECRET=
+APPLE_REDIRECT=
+
 ### Using the API

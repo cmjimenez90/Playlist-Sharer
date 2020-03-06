@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "Shareable-playlist-api"
+		}
+	],
+	"settings": {
+		"jest.pathToJest": "npm run test --"
+	}
+}

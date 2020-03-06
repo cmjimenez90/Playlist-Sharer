@@ -1,22 +1,39 @@
 import {Router} from 'express';
-import spotifyAuth from '../../service/authorization/spotify-auth';
+import SpotifyAuthorziationHandler from '../../service/authorization/spotify-authorization-handler';
 
-const router = Router();
+const spotifyAuthHandler = new SpotifyAuthorziationHandler();
+const router = new Router();
 
-router.get('/spotify',function(req,res){
-    res.redirect(spotifyAuth.getSpotifyAuthorizationUri());
+router.get('/', function(req, res) {
+  res.redirect(spotifyAuthHandler.getSpotifyAuthorizationUri());
 });
 
-router.get('/spotify/callback',function(req,res){
-    if(req.query.error || !req.query.code){
-        res.send("something went wrong");
-    }
-    const authorizationResult = spotifyAuth.asyncHandleSpotifyAuthorizationCallback(req.query.code);
-    authorizationResult.then((data) => {
-        res.send(data);
-    }).catch( (error) => {
-        res.send("something went wrong");
-    });
+router.get('/callback', function(req, res) {
+  if (req.query.error || !req.query.code) {
+    res.send('something went wrong');
+  }
+  const authorizationResult =
+  spotifyAuthHandler.asyncHandleSpotifyCallback(req.query.code);
+  authorizationResult.then((data) => {
+    res.send(data);
+  }).catch( (error) => {
+    res.send('something went wrong');
+  });
 });
 
+router.post('/refresh', function(req, res) {
+  if (!req.body || !req.body['refresh_token']) {
+    res.send('something went wrong');
+  }
+  const refreshToken = req.body['refresh_token'];
+  const newAuthorizationToken =
+  spotifyAuthHandler.asyncRefreshSpotifyToken(refreshToken);
+  newAuthorizationToken.then((data) => {
+    res.send(data);
+  }).catch( (error) => {
+    console.log(error);
+    res.send('something went wrong');
+  });
+});
 export default router
+;
