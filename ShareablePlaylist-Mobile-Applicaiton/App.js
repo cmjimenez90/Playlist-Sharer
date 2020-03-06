@@ -9,7 +9,7 @@ export default function App() {
         <StatusBar></StatusBar>
       </View>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Playlist Sharer</Text>
+        <Text style={styles.headerText}>Shareable Playlists</Text>
       </View>
     </View>
 )}
