@@ -128,7 +128,7 @@ router.post('/apple-music', async function(req, res) {
       }
       break;
     case 'album':
-      const albumID = acceptableProviderURL.destination.split('/')[1];
+      const albumID = acceptableProviderURL.destination.split('/')[2];
       clientResponse = await spotifyClient.asyncGetAlbum(albumID);
       const spotifyAlbum = new Album(clientResponse.name, clientResponse.artists[0].name);
       try {
@@ -146,4 +146,36 @@ router.post('/apple-music', async function(req, res) {
   }
 });
 
+router.get('/apple-music', async function(req, res) {
+  if (!req.query.url) {
+    res.status(400).send('Please send a URL to convert');
+  }
+  const requestURL = req.query.url;
+  console.log(requestURL);
+  const acceptableProviderURL = UrlIdentifier.identify(requestURL);
+
+  if (acceptableProviderURL.platform !== 'apple') {
+    res.status(400).send('Invalid URL');
+  }
+
+  const appleClient = new AppleMusicClient(await appleAuthHandler.asyncGenerateDeveloperToken());
+  let clientResponse = null;
+  switch (acceptableProviderURL.type) {
+    case 'song':
+      const songID = acceptableProviderURL.destination;
+      clientResponse = await appleClient.asyncGetSong(songID);
+      break;
+    case 'album':
+      const albumID = acceptableProviderURL.destination.split('/')[1];
+      clientResponse = await appleClient.asyncGetAlbum(albumID);
+      break;
+
+    case 'playlist':
+      const playlistID = acceptableProviderURL.destination.split('/')[2];
+      clientResponse = await appleClient.asyncGetPlaylist(playlistID);
+      break;
+    default: res.status(400).send('Oops, something went wrong');
+  }
+  res.send(clientResponse[0]);
+});
 export default router;

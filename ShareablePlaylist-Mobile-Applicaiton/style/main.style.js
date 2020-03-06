@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
         color: color.accent,
         fontWeight: "bold",
         fontSize: 30,
-    }
+    },
+    urlDisplay: {}
   });
   
