@@ -96,6 +96,38 @@ router.post('/spotify-music', async function(req, res) {
   }
 });
 
+router.get('/spotify-music', async function(req, res) {
+  if (!req.query.url) {
+    res.status(400).send('Please send a URL to convert');
+  }
+  const requestURL = req.query.url;
+  const acceptableProviderURL = UrlIdentifier.identify(requestURL);
+
+  if (acceptableProviderURL.platform !== 'spotify') {
+    res.status(400).send('Invalid URL');
+  }
+
+  const token = await spotifyAuthHandler.asyncGenerateClientCredential();
+  const spotifyClient = new SpotifyClient(token.access_token);
+  let clientResponse = null;
+  switch (acceptableProviderURL.type) {
+    case 'track':
+      const songID = acceptableProviderURL.destination.split('/')[1];
+      clientResponse = await spotifyClient.asyncGetSong(songID);
+      break;
+    case 'album':
+      const albumID = acceptableProviderURL.destination.split('/')[1];
+      clientResponse = await spotifyClient.asyncGetAlbum(albumID);
+      break;
+    case 'playlist':
+      const playlistID = acceptableProviderURL.destination.split('/')[1];
+      clientResponse = await spotifyClient.asyncGetPlaylist(playlistID);
+      break;
+    default: res.status(400).send('Oops, something went wrong');
+  }
+  res.send(clientResponse);
+});
+
 router.post('/apple-music', async function(req, res) {
   if (!req.body || !req.body['itemURL']) {
     res.status(400).send('Missing Item URL');
