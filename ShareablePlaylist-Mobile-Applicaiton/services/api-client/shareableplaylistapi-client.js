@@ -7,7 +7,7 @@ export default class ShareablePlaylistClient {
         this.apiURL = ShareablePlaylistAPIURL;
         const baseURL = ShareablePlaylistURL;
         this.axiosClient = axios.create({
-            baseURL = baseURL,
+            baseURL: baseURL,
         });
     };
 
@@ -34,6 +34,16 @@ export default class ShareablePlaylistClient {
 
     async getAppleMusicURLDetails(url){
         requestURL = `${this.apiURL}/apple-music`;
+        try {
+            const response = await this.axiosClient.get(`${requestURL}?url=${url}`);
+            return response.data; 
+        }catch (error) {
+            return error;
+        } 
+    }
+
+    async getSpotifyMusicURLDetails(url){
+        requestURL = `${this.apiURL}/spotify-music`;
         try {
             const response = await this.axiosClient.get(`${requestURL}?url=${url}`);
             return response.data; 
