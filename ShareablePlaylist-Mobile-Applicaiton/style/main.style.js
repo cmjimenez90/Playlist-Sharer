@@ -24,6 +24,27 @@ export const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 30,
     },
-    urlDisplay: {}
+    urlDisplayContainer: {  
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    urlDisplayTextContainer: {
+        marginBottom: 10
+    },
+    urlDisplay: {
+        width: 200,
+        height: 200,
+    },
+    urlDisplayName: {
+        color: color.accent,
+        fontSize: 30
+    },
+    urlDisplayType:{
+        color: color.accent,
+        textAlign: "right",
+        fontSize: 20,
+        fontWeight: "bold",
+        textTransform: "uppercase"
+    }
   });
   
