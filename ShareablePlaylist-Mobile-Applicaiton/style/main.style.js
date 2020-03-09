@@ -7,7 +7,9 @@ export const color = {
 
 export const styles = StyleSheet.create({
     statusBar: {
-        height: (Platform.OS === 'ios') ? 40 : StatusBar.currentHeight
+        height: (Platform.OS === 'ios') ? 40 : StatusBar.currentHeight,
+        backgroundColor: color.secondary
+
     },
     container: {
         height: "100%",
@@ -24,9 +26,13 @@ export const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 30,
     },
-    urlDisplayContainer: {  
+    body: {
+        height: "60%",
         justifyContent: "center",
+    },
+    urlDisplayContainer: {
         alignItems: "center",
+        marginBottom: 100
     },
     urlDisplayTextContainer: {
         marginBottom: 10
@@ -45,6 +51,15 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         textTransform: "uppercase"
+    },
+    logoButtonContainer: {
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    logoButton: {
+       width: 200,
+       height: 50,
+       resizeMode: "contain"
     }
   });
   

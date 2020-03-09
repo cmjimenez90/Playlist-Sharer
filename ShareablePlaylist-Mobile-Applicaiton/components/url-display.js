@@ -4,7 +4,7 @@ import {View, Image,Text} from 'react-native';
 import UseURLDisplayDetails from './customHooks/use-url-display-details';
 
 export default function URLDisplay({url}){
-    const [urlDetails,isLoading] = UseURLDisplayDetails(url);
+    let [urlDetails,isLoading] = UseURLDisplayDetails(url);
 
     if(isLoading === null){
         return(
@@ -14,7 +14,7 @@ export default function URLDisplay({url}){
         )
     }
 
-    if(isLoading || urlDetails === null){
+    if(isLoading === true || urlDetails === null){
        return (
         <View styles={styles.urlDisplayContainer}>
           <Text>Loading ....</Text>

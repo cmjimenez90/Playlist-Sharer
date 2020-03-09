@@ -1,8 +1,10 @@
 import {useState, useEffect} from 'react';
+import useValidateURL from './use-validate-url';
 import APIClient from '../../services/api-client/shareableplaylistapi-client';
 
 function useURLDisplayDetails(url) {
     const apiClient = new APIClient();
+    const urlType = useValidateURL(url);
     const [urlDisplayDetails, setUrlDisplayDetails] = useState(null);
     const [isLoading,setLoading] = useState(false);
 
@@ -49,13 +51,14 @@ function useURLDisplayDetails(url) {
     }
 
     useEffect(() => {
-        if(url.includes('open.spotify.com')){
+        if(urlType === 'SPOTIFY'){
             getSpotifyURLDisplayDetails(url);
         }
-        else if(url.includes('music.apple.com')) {
+        else if(urlType === 'APPLE') {
             getAppleURLDisplayDetails(url);
         } else {
             setUrlDisplayDetails(null);
+            setLoading(false);
         }    
     },[url]);
 
