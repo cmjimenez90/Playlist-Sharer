@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
         fontSize: 30,
     },
     body: {
-        height: "60%",
+        height: "80%",
         justifyContent: "center",
     },
     urlDisplayContainer: {
@@ -60,7 +60,8 @@ export const styles = StyleSheet.create({
     logoButton: {
        width: 200,
        height: 50,
-       resizeMode: "contain"
+       resizeMode: "contain",
+       marginBottom: 20
     }
   });
   

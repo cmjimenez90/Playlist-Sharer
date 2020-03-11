@@ -42,11 +42,9 @@ router.post('/spotify-music', async function(req, res) {
     case 'song':
       const songID = acceptableProviderURL.destination;
       clientResponse = await appleClient.asyncGetSong(songID);
-
       if (clientResponse[0]) {
         const details = clientResponse[0].attributes;
         const song = new Song(details.name, details.artistName, details.albumName);
-
         try {
           const convertedSong = await spotifyConverter.asyncConvertSong(song);
           res.send(convertedSong.url);

@@ -30,7 +30,7 @@ export default class SpotifyConverter extends ProviderConverter {
   };
 
   async asyncConvertSong(song) {
-    const q = `?q=${song.name} artist:${song.artist} album:${song.releaseAlbum}&type=track`;
+    const q = `?q=${song.name} artist:${song.artist}&type=track`;
 
     try {
       const response = await axios.get(`${this.searchPath}${encodeURI(q)}`, this.config);
