@@ -13,8 +13,8 @@ export default function App() {
         <Text style={styles.headerText}>Shareable Playlists</Text>
       </View>
       <View style={styles.body}>
-        <UrlDisplay url="https://open.spotify.com/playlist/37i9dQZF1DX4zbZrYRGVam"></UrlDisplay>
-        <ConvertButton url="https://open.spotify.com/playlist/37i9dQZF1DX4zbZrYRGVam"></ConvertButton>
+        <UrlDisplay url="https://music.apple.com/us/album/i-love-me/1501001885?i=1501002276"></UrlDisplay>
+        <ConvertButton url="https://music.apple.com/us/album/i-love-me/1501001885?i=1501002276"></ConvertButton>
       </View>
     </View>
 )}

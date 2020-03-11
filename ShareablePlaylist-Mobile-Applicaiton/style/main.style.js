@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
         marginBottom: 100
     },
     urlDisplayTextContainer: {
-        marginBottom: 10
+        marginBottom: 10,
     },
     urlDisplay: {
         width: 200,
@@ -43,6 +43,7 @@ export const styles = StyleSheet.create({
     },
     urlDisplayName: {
         color: color.accent,
+        textAlign: "right",
         fontSize: 30
     },
     urlDisplayType:{

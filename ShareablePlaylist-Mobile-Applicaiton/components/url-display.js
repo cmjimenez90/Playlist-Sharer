@@ -3,33 +3,29 @@ import React from 'react';
 import {View, Image,Text} from 'react-native';
 import UseURLDisplayDetails from './customHooks/use-url-display-details';
 
-export default function URLDisplay({url}){
-    let [urlDetails,isLoading] = UseURLDisplayDetails(url);
-
-    if(isLoading === null){
-        return(
-            <View styles={styles.urlDisplayContainer}>
-                <Text>Something went wrong</Text>
-            </View>
-        )
-    }
-
-    if(isLoading === true || urlDetails === null){
-       return (
-        <View styles={styles.urlDisplayContainer}>
-          <Text>Loading ....</Text>
-        </View>
-       )
-    }
+function URLDisplay({url}){
+    const {urlDisplayDetails,isLoading,hasError} = UseURLDisplayDetails(url);
 
     return (
-        <View style={styles.urlDisplayContainer}>
-            <View style={styles.urlDisplayTextContainer}>
-                <Text style={styles.urlDisplayName}>{urlDetails.name}</Text>
-                <Text style={styles.urlDisplayType}>{urlDetails.type}</Text>
-            </View>
-            <Image source={{uri: urlDetails.url}} style={styles.urlDisplay}/>
+        <View style={styles.urlDisplayContainer}>     
+            {
+                isLoading ? 
+                    (
+                        <Text>Loading ...</Text>
+                        ) : (
+                        <View>
+                            <View style={styles.urlDisplayTextContainer}>
+                                <Text style={styles.urlDisplayName}>{urlDisplayDetails.name}</Text>
+                                <Text style={styles.urlDisplayType}>{urlDisplayDetails.type}</Text>
+                            </View>
+                            <Image source={{uri: urlDisplayDetails.url}} style={styles.urlDisplay}/>
+                        </View>
+                    )
+            }
+            {hasError && <Text>Trouble fetching data..</Text>}
         </View>
-    )
+    )    
 }
+
+export default URLDisplay;
 

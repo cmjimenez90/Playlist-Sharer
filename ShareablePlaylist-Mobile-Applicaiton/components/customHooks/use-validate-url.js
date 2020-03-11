@@ -9,10 +9,8 @@ function useValidateUrl(url) {
         }
         else if(url.toString().includes('music.apple.com')) {
             setUrlType('APPLE');
-        } else {
-            setUrlType(null);
-        }    
-    },[]);
+        }   
+    },[url]);
 
     return urlType
 }
