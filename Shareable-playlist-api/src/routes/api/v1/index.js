@@ -21,14 +21,14 @@ router.get('/', function(req, res) {
 });
 
 router.post('/spotify-music', async function(req, res) {
-  if (!req.body || !req.body['itemURL'] || !req.headers['authorization']) {
-    res.status(400).send('Missing Item URL');
+  if (!req.body || !req.body['itemURL']) {
+    return res.status(400).send('Missing Item URL');
   }
   const requestURL = req.body['itemURL'];
   const acceptableProviderURL = UrlIdentifier.identify(requestURL);
 
   if (acceptableProviderURL.platform === 'spotify') {
-    res.send(requestURL);
+    return res.send(requestURL);
   }
   const appleClient = new AppleMusicClient(await appleAuthHandler.asyncGenerateDeveloperToken());
 
@@ -47,10 +47,10 @@ router.post('/spotify-music', async function(req, res) {
         try {
           const convertedSong = await spotifyConverter.asyncConvertSong(song);
           console.log(convertedSong);
-          res.send(convertedSong);
+          return res.send(convertedSong);
         } catch (error) {
           console.log(error);
-          res.status(400).send(error);
+          return res.status(400).send(error);
         }
       }
       break;
@@ -73,6 +73,9 @@ router.post('/spotify-music', async function(req, res) {
       break;
 
     case 'playlist':
+      if (!req.headers['authorization']) {
+        return res.status(400).send('Personal Authorization Toke Required');
+      }
       const playlistID = acceptableProviderURL.destination.split('/')[2];
       clientResponse = await appleClient.asyncGetPlaylist(playlistID);
       if (clientResponse[0]) {
@@ -81,7 +84,6 @@ router.post('/spotify-music', async function(req, res) {
           return new Song(track.attributes.name, track.attributes.artistName, track.attributes.albumName);
         });
         const playlist = new Playlist(clientResponse[0].attributes.name, playlistTracks);
-        console.log(token.access_token);
         const convertedPlaylist = await spotifyConverter.asyncConvertPlaylist(playlist);
         const userToken = req.headers['authorization'].split(' ')[1];
         const userDetails = await spotifyClient.asyncGetUserDetails(userToken);
@@ -122,7 +124,7 @@ router.get('/spotify-music', async function(req, res) {
       const playlistID = acceptableProviderURL.destination.split('/')[1];
       clientResponse = await spotifyClient.asyncGetPlaylist(playlistID);
       break;
-    default: return res.status(400).send('Oops, something went wrong');
+    default: return res.status(400).send('trouble converting the stream url');
   }
   return res.send(clientResponse);
 });

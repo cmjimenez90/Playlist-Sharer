@@ -13,8 +13,8 @@ export default class SpotifyConverter extends ProviderConverter {
   async asyncConvertAlbum(album) {
     // Filter results to return the closet match
     function filterAlbumResult(results) {
-      if (results.albums.items.length <= 1) {
-        return results.albums.items[0];
+      if (results.albums.items.length < 1) {
+        return null;
       }
 
       const match = results.albums.items.filter((item) => {
@@ -30,8 +30,11 @@ export default class SpotifyConverter extends ProviderConverter {
     const types = ['album'];
     try {
       const response = await this.client.asyncSearch(types, query);
-      const url = filterAlbumResult(response).external_urls.spotify;
-      const convertedAlbum = new Album(album.name, album.artist, url);
+      const filteredAlbum = filterAlbumResult(response);
+      if (filteredAlbum === null) {
+        return album;
+      }
+      const convertedAlbum = new Album(album.name, album.artist, filteredAlbum.external_urls.spotify);
       return convertedAlbum;
     } catch (error) {
       return error;
@@ -40,8 +43,8 @@ export default class SpotifyConverter extends ProviderConverter {
 
   async asyncConvertSong(song) {
     function filterTrackResults(results) {
-      if (results.tracks.items.length <= 1) {
-        return results.tracks.items[0];
+      if (results.tracks.items.length < 1) {
+        return null;
       }
 
       const match = results.tracks.items.filter((item) => {
@@ -57,8 +60,11 @@ export default class SpotifyConverter extends ProviderConverter {
     const types = ['track'];
     try {
       const response = await this.client.asyncSearch(types, query);
-      const url = filterTrackResults(response).external_urls.spotify;
-      const covertedSong = new Song(song.name, song.artist, song.releaseAlbum, url);
+      const filteredTrack = filterTrackResults(response);
+      if (filteredTrack === null) {
+        return song;
+      }
+      const covertedSong = new Song(song.name, song.artist, song.releaseAlbum, filteredTrack.external_urls.spotify);
       return covertedSong;
     } catch (error) {
       return error;
@@ -67,12 +73,14 @@ export default class SpotifyConverter extends ProviderConverter {
 
   async asyncConvertPlaylist(playlist) {
     const songsToConvert = playlist.songs;
-    const convertedSongs = songsToConvert.map(async (song) => {
+    const songs = songsToConvert.map((song) => {
       return this.asyncConvertSong(song);
     });
-
     const convertedPlaylist = new Playlist(playlist.name);
-    convertedPlaylist.songs = await Promise.all(convertedSongs);
+    const convertedSongs = await Promise.all(songs);
+    convertedPlaylist.songs = convertedSongs.filter((item)=>{
+      return (item.url !== null && item.url !== '');
+    });
     return convertedPlaylist;
   };
 };
