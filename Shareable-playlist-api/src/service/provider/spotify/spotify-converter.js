@@ -1,27 +1,21 @@
 'use strict';
-import axios from 'axios';
 import ProviderConverter from '../base/provider-converter';
 import Album from '../types/album';
 import Playlist from '../types/playlist';
 import Song from '../types/song';
 
 export default class SpotifyConverter extends ProviderConverter {
-  constructor(accessToken) {
+  constructor(spotifyClient) {
     super();
-    this.searchPath = '/search';
-    this.config = {
-      baseURL: 'https://api.spotify.com/v1',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
+    this.client = spotifyClient;
   };
 
   async asyncConvertAlbum(album) {
-    const q = `?q=${album.name} artist:${album.artist}&type=album`;
+    const query = `${album.name} artist:${album.artist}`;
+    const types = ['album'];
     try {
-      const response = await axios.get(`${this.searchPath}${encodeURI(q)}`, this.config);
-      const url = response.data.albums.items[0].external_urls.spotify;
+      const response = await this.client.asyncSearch(types, query);
+      const url = response.albums.items[0].external_urls.spotify;
       const convertedAlbum = new Album(album.name, album.artist, url);
       return convertedAlbum;
     } catch (error) {
@@ -30,12 +24,12 @@ export default class SpotifyConverter extends ProviderConverter {
   };
 
   async asyncConvertSong(song) {
-    const q = `?q=${song.name} artist:${song.artist}&type=track`;
-
+    const query = `${song.name} artist:${song.artist}`;
+    const types = ['track'];
     try {
-      const response = await axios.get(`${this.searchPath}${encodeURI(q)}`, this.config);
-      const url = response.data.tracks.items[0].external_urls.spotify;
-      console.log(url);
+      const response = await this.client.asyncSearch(types, query);
+      console.log(response);
+      const url = response.tracks.items[0].external_urls.spotify;
       const covertedSong = new Song(song.name, song.artist, song.releaseAlbum, url);
       return covertedSong;
     } catch (error) {

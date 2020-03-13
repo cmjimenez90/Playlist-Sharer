@@ -19,7 +19,7 @@ it('does all the following', async ()=> {
 
   const playlist = await appleClient.asyncGetPlaylist('pl.f4d106fed2bd41149aaacabb233eb5eb');
   expect(playlist[0]).not.toBeNull();
-  expect(playlist[0].attributes.name).toBe('Today\'s Hits');
+  expect(playlist[0].attributes.name).toMatch(/Today*/);
 
   const response = await appleClient.asyncSearch(['songs'], 'monster', 'us', 1);
   expect(response.results.songs.data[0].id).toBe('1440742912');
