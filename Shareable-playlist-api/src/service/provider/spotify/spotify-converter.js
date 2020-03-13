@@ -11,11 +11,26 @@ export default class SpotifyConverter extends ProviderConverter {
   };
 
   async asyncConvertAlbum(album) {
+    // Filter results to return the closet match
+    function filterAlbumResult(results) {
+      if (results.albums.items.length <= 1) {
+        return results.albums.items[0];
+      }
+
+      const match = results.albums.items.filter((item) => {
+        if (item.name = album.name && item.type == 'album') {
+          return true;
+        }
+        return false;
+      });
+      return match[0];
+    }
+
     const query = `${album.name} artist:${album.artist}`;
     const types = ['album'];
     try {
       const response = await this.client.asyncSearch(types, query);
-      const url = response.albums.items[0].external_urls.spotify;
+      const url = filterAlbumResult(response).external_urls.spotify;
       const convertedAlbum = new Album(album.name, album.artist, url);
       return convertedAlbum;
     } catch (error) {
@@ -24,12 +39,25 @@ export default class SpotifyConverter extends ProviderConverter {
   };
 
   async asyncConvertSong(song) {
+    function filterTrackResults(results) {
+      if (results.tracks.items.length <= 1) {
+        return results.tracks.items[0];
+      }
+
+      const match = results.tracks.items.filter((item) => {
+        if (item.name = song.name && item.type == 'track') {
+          return true;
+        }
+        return false;
+      });
+      return match[0];
+    }
+
     const query = `${song.name} artist:${song.artist}`;
     const types = ['track'];
     try {
       const response = await this.client.asyncSearch(types, query);
-      console.log(response);
-      const url = response.tracks.items[0].external_urls.spotify;
+      const url = filterTrackResults(response).external_urls.spotify;
       const covertedSong = new Song(song.name, song.artist, song.releaseAlbum, url);
       return covertedSong;
     } catch (error) {
