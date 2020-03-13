@@ -11,7 +11,7 @@ function URLDisplay({url}){
             {
                 isLoading ? 
                     (
-                        <Text>Loading ...</Text>
+                        <Text style={{fontSize:25}}>Loading ...</Text>
                         ) : (
                         <View>
                             <View style={styles.urlDisplayTextContainer}>

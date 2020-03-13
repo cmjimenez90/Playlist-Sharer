@@ -30,7 +30,6 @@ router.post('/spotify-music', async function(req, res) {
   if (acceptableProviderURL.platform === 'spotify') {
     res.send(requestURL);
   }
-
   const appleClient = new AppleMusicClient(await appleAuthHandler.asyncGenerateDeveloperToken());
 
   const token = await spotifyAuthHandler.asyncGenerateClientCredential();
@@ -47,8 +46,10 @@ router.post('/spotify-music', async function(req, res) {
         const song = new Song(details.name, details.artistName, details.albumName);
         try {
           const convertedSong = await spotifyConverter.asyncConvertSong(song);
-          res.send(convertedSong.url);
+          console.log(convertedSong);
+          res.send(convertedSong);
         } catch (error) {
+          console.log(error);
           res.status(400).send(error);
         }
       }
@@ -64,9 +65,9 @@ router.post('/spotify-music', async function(req, res) {
           const album = new Album(details.name, details.artistName);
           const convertedAlbum = await spotifyConverter.asyncConvertAlbum(album);
 
-          res.send(convertedAlbum.url);
+          return res.send(convertedAlbum.url);
         } catch (error) {
-          res.status(400).send(error);
+          return res.status(400).send(error);
         }
       }
       break;
@@ -87,7 +88,7 @@ router.post('/spotify-music', async function(req, res) {
         const newPlaylist = await spotifyClient.asyncCreatePlaylist(userToken, userDetails.id, convertedPlaylist.name);
         const songIds = convertedPlaylist.songs.filter((song) => song.hasOwnProperty('url')).map((song) => song.url.split('/track/')[1]);
         await spotifyClient.asyncAddSongsToPlaylist(userToken, newPlaylist.id, songIds);
-        res.send(newPlaylist.external_urls.spotify);
+        return res.send(newPlaylist.external_urls.spotify);
       }
       break;
     default: res.status(400).send('Well this should have never happened. Please try again!');
@@ -96,13 +97,13 @@ router.post('/spotify-music', async function(req, res) {
 
 router.get('/spotify-music', async function(req, res) {
   if (!req.query.url) {
-    res.status(400).send('Please send a URL to convert');
+    return res.status(400).send('Please send a URL to convert');
   }
   const requestURL = req.query.url;
   const acceptableProviderURL = UrlIdentifier.identify(requestURL);
 
   if (acceptableProviderURL.platform !== 'spotify') {
-    res.status(400).send('Invalid URL');
+    return res.status(400).send('Invalid URL');
   }
 
   const token = await spotifyAuthHandler.asyncGenerateClientCredential();
@@ -121,9 +122,9 @@ router.get('/spotify-music', async function(req, res) {
       const playlistID = acceptableProviderURL.destination.split('/')[1];
       clientResponse = await spotifyClient.asyncGetPlaylist(playlistID);
       break;
-    default: res.status(400).send('Oops, something went wrong');
+    default: return res.status(400).send('Oops, something went wrong');
   }
-  res.send(clientResponse);
+  return res.send(clientResponse);
 });
 
 router.post('/apple-music', async function(req, res) {

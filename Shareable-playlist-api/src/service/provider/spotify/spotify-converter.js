@@ -35,6 +35,7 @@ export default class SpotifyConverter extends ProviderConverter {
     try {
       const response = await axios.get(`${this.searchPath}${encodeURI(q)}`, this.config);
       const url = response.data.tracks.items[0].external_urls.spotify;
+      console.log(url);
       const covertedSong = new Song(song.name, song.artist, song.releaseAlbum, url);
       return covertedSong;
     } catch (error) {

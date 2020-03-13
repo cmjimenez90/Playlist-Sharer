@@ -16,16 +16,16 @@ const useConversionAPI = (url) => {
                 setResponse(response);
             }
             catch (error){
-                setHasError(ture);
+                setHasError(true);
             }
             setAwatingResponse(false);
 
         };
         if(urlType === 'SPOTIFY'){
-            convertToSpotify();
+            setResponse({TYPE:"abc"});
         }
         if(urlType === 'APPLE'){
-            
+            convertToSpotify();
         }
     },[url]);
     
