@@ -80,10 +80,9 @@ export default class SpotifyClient {
       return `spotify:track:${id}`;
     });
     const totalRequestNeeded = Math.ceil(songURIs.length / 100);
-    let allSongsAddedSuccesfully = true;
+    let missingPlaylist = false;
     for (let requestNumber = 0; requestNumber < totalRequestNeeded; requestNumber++) {
       const requestSongs = songURIs.slice(requestNumber*100, requestNumber*100+100);
-      console.log(requestSongs);
       try {
         await this.axiosClient.post(
             playlistURL,
@@ -97,10 +96,13 @@ export default class SpotifyClient {
               },
             });
       } catch (error) {
-        allSongsAddedSuccesfully = false;
+        missingPlaylist = true;
       }
     }
-    return allSongsAddedSuccesfully;
+    return {
+      playlistID: playlistID,
+      missingPlaylist: missingPlaylist,
+    };
   }
 
   async asyncSearch(itemTypes, query) {
