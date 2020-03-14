@@ -1,5 +1,5 @@
-import SpotifyClient from '../../src/service/provider/spotify/spotify-client';
-import SpotifyAuthorizationHandler from '../../src/service/authorization/spotify-authorization-handler';
+import SpotifyClient from '../../../src/service/provider/spotify/spotify-client';
+import SpotifyAuthorizationHandler from '../../../src/service/authorization/spotify-authorization-handler';
 // this entire test needs to be redone but works to test dependencies with working client
 it('does all the following', async ()=> {
   const authorizationHandler = new SpotifyAuthorizationHandler();

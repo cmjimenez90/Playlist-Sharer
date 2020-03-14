@@ -1,5 +1,5 @@
-import AppleClient from '../../src/service/provider/apple/apple-music-client';
-import AppleAuthorizationHandler from '../../src/service/authorization/apple-authorization-handler';
+import AppleClient from '../../../src/service/provider/apple/apple-music-client';
+import AppleAuthorizationHandler from '../../../src/service/authorization/apple-authorization-handler';
 // this entire test needs to be redone but works to test dependencies with working client
 it('does all the following', async ()=> {
   const authorizationHandler = new AppleAuthorizationHandler();

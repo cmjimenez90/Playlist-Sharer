@@ -1,10 +1,10 @@
 /* eslint-disable max-len */
-import SpotifyAuthHandler from '../../src/service/authorization/spotify-authorization-handler';
-import SpotifyClient from '../../src/service/provider/spotify/spotify-client';
-import SpotifyConverter from '../../src/service/provider/spotify/spotify-converter';
-import Album from '../../src/service/provider/types/album';
-import Playlist from '../../src/service/provider/types/playlist';
-import Song from '../../src/service/provider/types/song';
+import SpotifyAuthHandler from '../../../src/service/authorization/spotify-authorization-handler';
+import SpotifyClient from '../../../src/service/provider/spotify/spotify-client';
+import SpotifyConverter from '../../../src/service/provider/spotify/spotify-converter';
+import Album from '../../../src/service/provider/types/album';
+import Playlist from '../../../src/service/provider/types/playlist';
+import Song from '../../../src/service/provider/types/song';
 
 describe('spotify-converter', ()=>{
   it('can convert a song', async ()=> {
