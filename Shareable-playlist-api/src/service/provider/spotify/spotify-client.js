@@ -1,5 +1,6 @@
 'use strict';
 import axios from 'axios';
+import ClientError from '../types/client-error';
 
 export default class SpotifyClient {
   constructor(applicationToken) {
@@ -17,7 +18,7 @@ export default class SpotifyClient {
       const response = await this.axiosClient.get(`${songURL}/${songID}`);
       return response.data;
     } catch (error) {
-      return error;
+      return this.handleErrorResponse(error);
     }
   }
   async asyncGetAlbum(albumID) {
@@ -26,7 +27,7 @@ export default class SpotifyClient {
       const response = await this.axiosClient.get(`${albumURL}/${albumID}`);
       return response.data;
     } catch (error) {
-      return error;
+      return this.handleErrorResponse(error);
     }
   }
   async asyncGetPlaylist(playlistID) {
@@ -35,7 +36,7 @@ export default class SpotifyClient {
       const response = await this.axiosClient.get(`${playlistURL}/${playlistID}`);
       return response.data;
     } catch (error) {
-      return error;
+      return this.handleErrorResponse(error);
     }
   }
 
@@ -48,7 +49,7 @@ export default class SpotifyClient {
         }});
       return response.data;
     } catch (error) {
-      return error;
+      return this.handleErrorResponse(error);
     }
   }
 
@@ -68,7 +69,7 @@ export default class SpotifyClient {
           });
       return response.data;
     } catch (error) {
-      return error;
+      return this.handleErrorResponse(error);
     }
   }
 
@@ -113,7 +114,22 @@ export default class SpotifyClient {
       const response = await this.axiosClient.get(`${searchURL}?${constructedQuery}`);
       return response.data;
     } catch (error) {
-      return error;
+      return this.handleErrorResponse(error);
     }
+  }
+  handleErrorResponse(error) {
+    if (error.response) {
+      switch (error.response.status) {
+        case '400':
+          return new ClientError(ClientError.REQUEST_ERROR, 'REQUEST WAS RECIEVED INCORRECTLY');
+        case '401':
+          return new ClientError(ClientError.AUTHORIZATION, 'TOKEN IS EXPIRED, INVALID, OR MISSING');
+        case '429':
+          return new ClientError(ClientError.RATE_LIMIT, 'RATE LIMIT IN EFFECT... RETRY AT LATER TIME');
+        default:
+          return new ClientError(ClientError.SERVER_ERROR, 'UNKNOWN ERROR HAS OCCURED');
+      }
+    }
+    return new ClientError(ClientError.SERVER_ERROR, 'UNKNOWN ERROR HAS OCCURED');
   }
 };
