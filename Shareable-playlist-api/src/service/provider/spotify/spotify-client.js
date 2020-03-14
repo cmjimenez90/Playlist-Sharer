@@ -96,7 +96,6 @@ export default class SpotifyClient {
               },
             });
       } catch (error) {
-        console.log(error);
         allSongsAddedSuccesfully = false;
       }
     }
