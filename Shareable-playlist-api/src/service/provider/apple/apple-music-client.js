@@ -1,4 +1,6 @@
+'use strict';
 import axios from 'axios';
+import ClientError from '../types/client-error';
 
 export default class AppleMusicClient {
   constructor(developerToken) {
@@ -16,7 +18,7 @@ export default class AppleMusicClient {
       const response = await this.axiosClient.get(songURL);
       return response.data.data;
     } catch (error) {
-      return error;
+      return this.handleErrorResponse(error);
     }
   }
   async asyncGetAlbum(albumID, storefront='us') {
@@ -25,7 +27,7 @@ export default class AppleMusicClient {
       const response = await this.axiosClient.get(albumURL);
       return response.data.data;
     } catch (error) {
-      return error;
+      return this.handleErrorResponse(error);
     }
   }
   async asyncGetPlaylist(playlistID, storefront='us') {
@@ -34,7 +36,7 @@ export default class AppleMusicClient {
       const response = await this.axiosClient.get(playlistURL);
       return response.data.data;
     } catch (error) {
-      return error;
+      return this.handleErrorResponse(error);
     }
   }
 
@@ -48,7 +50,25 @@ export default class AppleMusicClient {
       const response = await this.axiosClient.get(`${searchURL}${constructedQuery}`);
       return response.data;
     } catch (error) {
-      return error;
+      return this.handleErrorResponse(error);
     }
+  }
+
+  handleErrorResponse(error) {
+    if (error.response) {
+      switch (error.response.status) {
+        case '400':
+          return new ClientError(ClientError.REQUEST_ERROR, 'REQUEST WAS RECIEVED INCORRECTLY');
+        case '401':
+          return new ClientError(ClientError.AUTHORIZATION, 'TOKEN IS EXPIRED, INVALID, OR MISSING');
+        case '413':
+          return new ClientError(ClientError.PAYLOAD_SIZE, 'REQUEST WAS TOO LARGE');
+        case '429':
+          return new ClientError(ClientError.RATE_LIMIT, 'RATE LIMIT IN EFFECT... RETRY AT LATER TIME');
+        default:
+          return new ClientError(ClientError.SERVER_ERROR, 'UNKNOWN ERROR HAS OCCURED');
+      }
+    }
+    return new ClientError(ClientError.SERVER_ERROR, 'UNKNOWN ERROR HAS OCCURED');
   }
 }
