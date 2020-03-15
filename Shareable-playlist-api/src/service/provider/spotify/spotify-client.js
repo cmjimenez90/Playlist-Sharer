@@ -1,6 +1,6 @@
 'use strict';
 import axios from 'axios';
-import ClientError from '../types/client-error';
+import {ClientError, CLIENT_ERROR_STATES} from '../types/client-error';
 
 export default class SpotifyClient {
   constructor(applicationToken) {
@@ -11,7 +11,6 @@ export default class SpotifyClient {
       },
     });
   }
-
   async asyncGetSong(songID) {
     const songURL = '/tracks';
     try {
@@ -49,6 +48,7 @@ export default class SpotifyClient {
         }});
       return response.data;
     } catch (error) {
+      console.log(error.response.status);
       return this.handleErrorResponse(error);
     }
   }
@@ -121,17 +121,18 @@ export default class SpotifyClient {
   }
   handleErrorResponse(error) {
     if (error.response) {
-      switch (error.response.status) {
-        case '400':
-          return new ClientError(ClientError.REQUEST_ERROR, 'REQUEST WAS RECIEVED INCORRECTLY');
-        case '401':
-          return new ClientError(ClientError.AUTHORIZATION, 'TOKEN IS EXPIRED, INVALID, OR MISSING');
-        case '429':
-          return new ClientError(ClientError.RATE_LIMIT, 'RATE LIMIT IN EFFECT... RETRY AT LATER TIME');
+      const status = error.response.status;
+      switch (status) {
+        case 400:
+          return new ClientError(CLIENT_ERROR_STATES.REQUEST_ERROR, 'REQUEST WAS RECIEVED INCORRECTLY');
+        case 401:
+          return new ClientError(CLIENT_ERROR_STATES.AUTHORIZATION, 'TOKEN IS EXPIRED, INVALID, OR MISSING');
+        case 429:
+          return new ClientError(CLIENT_ERROR_STATES.RATE_LIMIT, 'RATE LIMIT IN EFFECT... RETRY AT LATER TIME');
         default:
-          return new ClientError(ClientError.SERVER_ERROR, 'UNKNOWN ERROR HAS OCCURED');
+          return new ClientError(CLIENT_ERROR_STATES.SERVER_ERROR, 'UNKNOWN ERROR HAS OCCURED');
       }
     }
-    return new ClientError(ClientError.SERVER_ERROR, 'UNKNOWN ERROR HAS OCCURED');
+    return new ClientError(CLIENT_ERROR_STATES.SERVER_ERROR, 'UNKNOWN ERROR HAS OCCURED');
   }
 };

@@ -10,7 +10,7 @@ export default class AppleAuthorizationHandler {
     this.teamId = Config.APPLEMUSIC_TEAMID;
   }
 
-  async asyncGenerateDeveloperToken() {
+  asyncGenerateDeveloperToken() {
     const jwtOptions = {
       header: {
         kid: this.kid,

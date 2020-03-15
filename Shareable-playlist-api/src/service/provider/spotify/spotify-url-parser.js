@@ -7,10 +7,15 @@ export default class SpotifyUrlParser {
     const spotifyProvider = new ParsedProviderURL();
     const path = url.pathname;
     spotifyProvider.platform = 'spotify';
-    spotifyProvider.type = path.split('/')[1];
     spotifyProvider.language = '';
     spotifyProvider.destination = `/${path.split('/').slice(2).join('/')}`;
     spotifyProvider.shareUrl = url;
+
+    const type = path.split('/')[1];
+    if (type === 'track') {
+      type = 'song';
+    }
+    spotifyProvider.type = type;
     return spotifyProvider;
   }
 };

@@ -16,7 +16,6 @@ export default class SpotifyConverter extends ProviderConverter {
       if (results.albums.items.length < 1) {
         return null;
       }
-
       const match = results.albums.items.filter((item) => {
         if (item.name = album.name && item.type == 'album') {
           return true;
