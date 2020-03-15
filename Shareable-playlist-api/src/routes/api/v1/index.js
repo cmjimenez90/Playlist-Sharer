@@ -40,7 +40,8 @@ router.post('/spotify-music', verifyAuthroizationHeader, async function(req, res
 
   const requestURL = req.body['itemURL'];
   try {
-    const conversionResult = await conversionHandler.asyncConvertURLtoSpotifyMusic(requestURL);
+    const userToken = req.headers['authorization'].split(' ')[1];
+    const conversionResult = await conversionHandler.asyncConvertURLtoSpotifyMusic(requestURL, userToken);
     res.send(conversionResult);
   } catch (error) {
     return res.status(500).send({
@@ -82,7 +83,8 @@ router.post('/apple-music', verifyAuthroizationHeader, async function(req, res) 
   const requestURL = req.body['itemURL'];
 
   try {
-    const conversionResult = await conversionHandler.asyncConvertURLToAppleMusic(requestURL);
+    const userToken = req.headers['authorization'].split(' ')[1];
+    const conversionResult = await conversionHandler.asyncConvertURLToAppleMusic(requestURL, userToken);
     res.send(conversionResult);
   } catch (error) {
     return res.status(500).send({
