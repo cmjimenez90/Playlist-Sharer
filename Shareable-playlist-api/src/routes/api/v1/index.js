@@ -2,15 +2,16 @@ import {Router} from 'express';
 
 import SpotifyAuthorizationHandler from '../../../service/authorization/spotify-authorization-handler';
 import AppleAuthorizationHandler from '../../../service/authorization/apple-authorization-handler';
-import UrlIdentifier from '../../../service/provider/url-identifier';
 import AppleMusicClient from '../../../service/provider/apple/apple-music-client';
 import SpotifyClient from '../../../service/provider/spotify/spotify-client';
 import ConversionHandler from '../../../service/provider/conversion-handler';
+import URLRetriever from '../../../service/provider/url-retriever';
 
 const router = new Router();
 
 const appleAuthHandler = new AppleAuthorizationHandler();
 const spotifyAuthHandler = new SpotifyAuthorizationHandler();
+const urlRetriever = new URLRetriever();
 
 const verifyAuthroizationHeader = (req, res, next) => {
   if (req.headers['authorization']) {
@@ -54,31 +55,18 @@ router.get('/spotify-music', async function(req, res) {
     return res.status(400).send('Please send a URL to retrieve');
   }
   const requestURL = req.query.url;
-  const acceptableProviderURL = UrlIdentifier.identify(requestURL);
-
-  if (acceptableProviderURL.platform !== 'spotify') {
-    return res.status(400).send('Invalid URL');
-  }
-
   const token = await spotifyAuthHandler.asyncGenerateClientCredential();
   const spotifyClient = new SpotifyClient(token.access_token);
-  let clientResponse = null;
-  switch (acceptableProviderURL.type) {
-    case 'track':
-      const songID = acceptableProviderURL.destination.split('/')[1];
-      clientResponse = await spotifyClient.asyncGetSong(songID);
-      break;
-    case 'album':
-      const albumID = acceptableProviderURL.destination.split('/')[1];
-      clientResponse = await spotifyClient.asyncGetAlbum(albumID);
-      break;
-    case 'playlist':
-      const playlistID = acceptableProviderURL.destination.split('/')[1];
-      clientResponse = await spotifyClient.asyncGetPlaylist(playlistID);
-      break;
-    default: return res.status(400).send('trouble converting the stream url');
+
+  try {
+    const retrievalResult = await urlRetriever.asyncGetSpotifyURL(requestURL, spotifyClient);
+    return res.send(retrievalResult);
+  } catch (error) {
+    return res.status(500).send({
+      error: 'SERVER ERROR',
+      message: error.message,
+    });
   }
-  return res.send(clientResponse);
 });
 
 // Request relating to Apple Music
@@ -109,31 +97,16 @@ router.get('/apple-music', async function(req, res) {
     return res.status(400).send('Please send a URL to retrieve');
   }
   const requestURL = req.query.url;
-  console.log(requestURL);
-  const acceptableProviderURL = UrlIdentifier.identify(requestURL);
-
-  if (acceptableProviderURL.platform !== 'apple') {
-    res.status(400).send('Invalid URL');
-  }
-
   const appleClient = new AppleMusicClient(await appleAuthHandler.asyncGenerateDeveloperToken());
-  let clientResponse = null;
-  switch (acceptableProviderURL.type) {
-    case 'song':
-      const songID = acceptableProviderURL.destination;
-      clientResponse = await appleClient.asyncGetSong(songID);
-      break;
-    case 'album':
-      const albumID = acceptableProviderURL.destination.split('/')[1];
-      clientResponse = await appleClient.asyncGetAlbum(albumID);
-      break;
 
-    case 'playlist':
-      const playlistID = acceptableProviderURL.destination.split('/')[2];
-      clientResponse = await appleClient.asyncGetPlaylist(playlistID);
-      break;
-    default: res.status(400).send('Oops, something went wrong');
+  try {
+    const retrievalResult = await urlRetriever.asyncGetAppleURL(requestURL, appleClient);
+    return res.send(retrievalResult);
+  } catch (error) {
+    return res.status(500).send({
+      error: 'SERVER ERROR',
+      message: error.message,
+    });
   }
-  res.send(clientResponse[0]);
 });
 export default router;
