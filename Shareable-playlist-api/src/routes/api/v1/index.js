@@ -92,6 +92,16 @@ router.post('/apple-music', verifyAuthroizationHeader, async function(req, res) 
   const conversionHandler = new ConversionHandler(spotifyClient, appleClient);
 
   const requestURL = req.body['itemURL'];
+
+  try {
+    const conversionResult = await conversionHandler.asyncConvertURLToAppleMusic(requestURL);
+    res.send(conversionResult);
+  } catch (error) {
+    return res.status(500).send({
+      'error': 'SERVER ERROR',
+      'message': error.message,
+    });
+  }
 });
 
 router.get('/apple-music', async function(req, res) {

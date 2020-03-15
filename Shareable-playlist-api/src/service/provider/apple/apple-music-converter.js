@@ -10,16 +10,25 @@ export default class AppleMusicConverter extends ProviderConverter {
   };
 
   async asyncConvertAlbum(album) {
+    function filterAlbumResults(results) {
+      if (results.results.albums.data.length < 1) {
+        return null;
+      }
+
+      const match = results.results.albums.data.filter((item) => {
+        if (item.attributes.name = album.name) {
+          return true;
+        }
+        return false;
+      });
+      return match[0];
+    }
     let searchTerm = `${album.name}+${album.artist}`;
     searchTerm = searchTerm.replace(' ', '+');
     try {
-      const response = await this.appleMusicClient.asyncSearch(['albums'], searchTerm);
-      const matchingAlbums = response.results.albums.data;
-      const matched = matchingAlbums.filter((item)=> {
-        const attributes = item.attributes;
-        return (attributes.name == album.name);
-      });
-      const convertedAlbum = new Album(matched[0].attributes.name, matched[0].attributes.artistName, matched[0].attributes.url);
+      const results = await this.appleMusicClient.asyncSearch(['albums'], searchTerm);
+      const matched = filterAlbumResults(results);
+      const convertedAlbum = new Album(matched.attributes.name, matched.attributes.artistName, matched.attributes.url);
       return convertedAlbum;
     } catch (error) {
       return error;
@@ -27,19 +36,28 @@ export default class AppleMusicConverter extends ProviderConverter {
   };
 
   async asyncConvertSong(song) {
+    function filterSongResults(results) {
+      if (results.results.songs.data.length < 1) {
+        return null;
+      }
+
+      const match = results.results.songs.data.filter((item) => {
+        if (item.attributes.name = song.name) {
+          return true;
+        }
+        return false;
+      });
+      return match[0];
+    }
     let searchTerm = `${song.name}+${song.artist}+${song.releaseAlbum}`;
     searchTerm = searchTerm.replace(' ', '+');
     try {
-      const response = await this.appleMusicClient.asyncSearch(['songs'], searchTerm);
-      const matchingSongs = response.results.songs.data;
-      const matched = matchingSongs.filter((item)=> {
-        const attributes = item.attributes;
-        return (attributes.name == song.name);
-      });
-      const convertedSong = new Song(matched[0].attributes.name, matched[0].attributes.artistName, matched[0].attributes.albumName, matched[0].attributes.url);
+      const results = await this.appleMusicClient.asyncSearch(['songs'], searchTerm);
+      const matched = filterSongResults(results);
+      console.log(matched);
+      const convertedSong = new Song(matched.attributes.name, matched.attributes.artistName, matched.attributes.albumName, matched.attributes.url);
       return convertedSong;
     } catch (error) {
-      console.log(error);
       return error;
     }
   };

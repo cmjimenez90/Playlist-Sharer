@@ -32,11 +32,11 @@ export default class ConversionHandler {
         }
         return new ConversionResult(convertedSong.url);
       case 'album':
-        const albumID = identifiedURL.destination.split('/')[2];
+        const albumID = identifiedURL.destination.split('/')[1];
         clientResponse = await this.spotifyClient.asyncGetAlbum(albumID);
         const spotifyAlbum = new Album(clientResponse.name, clientResponse.artists[0].name);
         const convertedAlbum = await appleConverter.asyncConvertAlbum(spotifyAlbum);
-        if (convertedSong.error) {
+        if (convertedAlbum.error) {
           return new ConversionResult('', true, convertedAlbum.error);
         }
         return new ConversionResult(convertedAlbum.url);

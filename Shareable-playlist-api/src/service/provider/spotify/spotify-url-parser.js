@@ -11,7 +11,7 @@ export default class SpotifyUrlParser {
     spotifyProvider.destination = `/${path.split('/').slice(2).join('/')}`;
     spotifyProvider.shareUrl = url;
 
-    const type = path.split('/')[1];
+    let type = path.split('/')[1];
     if (type === 'track') {
       type = 'song';
     }
