@@ -8,7 +8,7 @@ export const color = {
 export const styles = StyleSheet.create({
     container: {
         height: "100%",
-        backgroundColor: color.primary
+        backgroundColor: color.primary,
     }
   });
   
