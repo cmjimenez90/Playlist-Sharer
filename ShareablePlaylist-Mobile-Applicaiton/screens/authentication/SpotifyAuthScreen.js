@@ -21,11 +21,11 @@ const SpotifyAuthScreen = ({navigation}) => {
         const response = JSON.parse(data);
         if(response.hasError){
             Alert.alert('Authorization was not granted successfully, please try again..');
-            navigation.navigate('SignInScreen');
+            navigation.popToTop();
         }
         else {
             action({type: 'AuthorizeSpotify',payload: response.authorizationToken});
-            navigation.navigate('MainScreen')
+            navigation.popToTop();
         }
 
     };

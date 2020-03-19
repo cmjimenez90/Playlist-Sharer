@@ -23,9 +23,16 @@ export default AppNavigator = ()  =>{
           }}
           initialRouteName={ isUserAuthenticated()? 'MainScreen' : 'SignInScreen'}
          >
-          <Stack.Screen name='SignInScreen' component={SignInScreen} />
-          <Stack.Screen name='SpotifyAuthScreen' component={SpotifyAuthScreen}/>
-          <Stack.Screen name='MainScreen' component={MainScreen} />
+           {
+            isUserAuthenticated() == false ? (
+              <>
+              <Stack.Screen name='SignInScreen' component={SignInScreen} />
+              <Stack.Screen name='SpotifyAuthScreen' component={SpotifyAuthScreen} />
+              </>
+            ) : (
+              <Stack.Screen name='MainScreen' component={MainScreen} />
+            )
+          }
         </Stack.Navigator>
-    )
+    );
 }
