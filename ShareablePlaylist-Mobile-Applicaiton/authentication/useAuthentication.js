@@ -6,7 +6,6 @@ export default useAuthentication = () => {
 
 
     const isUserAuthenticated = () => {
-        console.log(state);
         if(state.isSpotifyAuthorized || state.isAppleAuthorized){
             return true;
         }
