@@ -20,7 +20,7 @@ export default SignIn = () => {
                 <Text>Please sign in to your music stream platform of choice:</Text>
             </View>
             <View style={styles.buttonContainer}>
-                <ApplePlatformButton onPress={handleAppleAuthorizationcle}></ApplePlatformButton>
+                <ApplePlatformButton onPress={handleAppleAuthorization}></ApplePlatformButton>
                 <SpotifyPlatfromButton onPress={handleSpotifyAuthorization}></SpotifyPlatfromButton>
             </View>
         </View>
