@@ -5,6 +5,14 @@ import SpotifyPlatfromButton from '../SpotifyPlatfromButton'
 import { styles } from '../../style/main.style';
 export default SignIn = () => {
     
+    const handleSpotifyAuthorization = () => {
+       alert("Spotify Authorization Underway");
+    };
+
+    const handleAppleAuthorization = () => {
+        alert("Apple Authorization Underway");
+    };
+
     return (
         <View style={styles.signInScreen}>
             <View style={styles.textContainer}>
@@ -12,8 +20,8 @@ export default SignIn = () => {
                 <Text>Please sign in to your music stream platform of choice:</Text>
             </View>
             <View style={styles.buttonContainer}>
-                <ApplePlatformButton></ApplePlatformButton>
-                <SpotifyPlatfromButton></SpotifyPlatfromButton>
+                <ApplePlatformButton onPress={handleAppleAuthorizationcle}></ApplePlatformButton>
+                <SpotifyPlatfromButton onPress={handleSpotifyAuthorization}></SpotifyPlatfromButton>
             </View>
         </View>
     )
