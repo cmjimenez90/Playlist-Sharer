@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
         marginTop: 150
     },
     textContainer: {
-        paddingLeft: 40,
+        alignItems: "center",
         marginBottom: 100
     },
     textContainerHeader: {

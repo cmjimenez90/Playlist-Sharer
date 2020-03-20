@@ -2,13 +2,15 @@ import React, {useContext} from 'react'
 import { WebView } from 'react-native-webview';
 import { Alert } from 'react-native';
 
+import {ShareablePlaylistURL} from 'react-native-dotenv';
 import {AuthenticationContext} from '../../authentication/AuthenticationContext';
 
 const SpotifyAuthScreen = ({navigation}) => {
 
+   
    const [state,action] = useContext(AuthenticationContext);
    let webView = null;
-
+   const authroizationURL = `${ShareablePlaylistURL}/authorize/spotify`;
    const handleAuthorizationNavigation = (newNav) => {
         const {url,loading} = newNav;
         if(url.includes('/authorize/spotify/callback?') && loading === false){
@@ -29,9 +31,8 @@ const SpotifyAuthScreen = ({navigation}) => {
         }
 
     };
-
     return (
-        <WebView ref={ref => (webView = ref)} source={{uri: 'http://localhost:3000/authorize/spotify'}} onNavigationStateChange={handleAuthorizationNavigation} onMessage={handleAuthorizationResponse} />
+        <WebView ref={ref => (webView = ref)} source={{uri: authroizationURL}} onNavigationStateChange={handleAuthorizationNavigation} onMessage={handleAuthorizationResponse} />
     )
 }
 
