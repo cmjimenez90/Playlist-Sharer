@@ -7,9 +7,8 @@ const  URLConversionForm = () => {
 
     const [state,action] = useContext(AuthenticationContext);
     const [conversionURL, setConversionURL] = useState('Spotify or Apple URL')
-
     const convertToSpotifyURL = () => {
-        Alert.alert(`${state.isSpotifyAuthorized}|${state.spotifyToken}|${state.spotifyExpiration}|${state.spotifyRefreshToken}`);
+        Alert.alert('not disabled');
     };
 
     return (
@@ -19,9 +18,13 @@ const  URLConversionForm = () => {
             <TextInput style={styles.urlTextEntry} value={conversionURL} onChangeText={(text) => setConversionURL(text)} />
         </View>
        <View style={styles.buttonContainer}>
-            <ApplePlatformButton ></ApplePlatformButton>
-            <SpotifyPlatfromButton onPress={convertToSpotifyURL}></SpotifyPlatfromButton>
-       </View>
+           {
+               (!state.isAppleAuthorized)? <></> :  <ApplePlatformButton ></ApplePlatformButton>
+           }
+           {
+               (!state.isSpotifyAuthorized)? <></> :  <SpotifyPlatfromButton onPress={convertToSpotifyURL}></SpotifyPlatfromButton>
+           }
+            </View>
        </>
     )
 }
