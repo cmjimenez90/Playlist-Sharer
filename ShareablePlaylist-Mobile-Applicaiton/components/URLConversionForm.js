@@ -9,7 +9,7 @@ const  URLConversionForm = () => {
     const [conversionURL, setConversionURL] = useState('Spotify or Apple URL')
 
     const convertToSpotifyURL = () => {
-        
+        Alert.alert(`${state.isSpotifyAuthorized}|${state.spotifyToken}|${state.spotifyExpiration}|${state.spotifyRefreshToken}`);
     };
 
     return (

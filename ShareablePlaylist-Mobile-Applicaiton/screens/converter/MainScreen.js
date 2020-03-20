@@ -1,8 +1,9 @@
-import React, {useContext} from 'react'
-import { View, Text } from 'react-native'
+import React from 'react'
+import { View, Text,Alert } from 'react-native'
 import {styles} from '../../style/main.style';
 
-import URLConversionFrom from '../../components/URLlConversionForm';
+import URLConversionForm from '../../components/URLConversionForm';
+
 const MainScreen = ({navigation, url}) => {
 
     return (
@@ -11,7 +12,7 @@ const MainScreen = ({navigation, url}) => {
             url ? (
                 <Text>WE HAVE A URL</Text>
             ) : (
-               <URLConversionFrom /> 
+               <URLConversionForm /> 
             )}
         </View>
     )

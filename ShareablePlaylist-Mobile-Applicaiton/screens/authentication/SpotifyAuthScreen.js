@@ -1,15 +1,17 @@
 import React, {useContext} from 'react'
 import { WebView } from 'react-native-webview';
 import { Alert } from 'react-native';
-import {AsyncStorage} from 'react-native';
 
 import {ShareablePlaylistURL} from 'react-native-dotenv';
 import {AuthenticationContext} from '../../authentication/AuthenticationContext';
+import AuthenticationStorage from '../../authentication/AuthenticationStorage';
 
 const SpotifyAuthScreen = ({ navigation }) => {
 
    
    const [state,action] = useContext(AuthenticationContext);
+   const authenticationStorage = new AuthenticationStorage();
+
    let webView = null;
    const authroizationURL = `${ShareablePlaylistURL}/authorize/spotify`;
    
@@ -30,19 +32,19 @@ const SpotifyAuthScreen = ({ navigation }) => {
             const response = await JSON.parse(data);
             if(response.hasError){
                 Alert.alert('Authorization was not granted successfully, please try again..');
-                navigation.goBack();
             }
             else {
                 const authorizationToken = response.authorizationToken;
+                await authenticationStorage.asyncSaveItemToStore(authenticationStorage.SPOTIFY_TOKEN,authorizationToken.access_token);
+                await authenticationStorage.asyncSaveItemToStore(authenticationStorage.SPOTIFY_REFRESH,authorizationToken.refresh_token);
+                await authenticationStorage.asyncSaveItemToStore(authenticationStorage.SPOTIFY_EXPIRATION,authorizationToken.expires_in.toString());
                 action({type: 'AuthorizeSpotify',payload: authorizationToken});
-                
             }
         } catch(error){
-            console.log(error);
-            Alert.alert('Error Parsing the response');
-            navigation.goBack();
+            console.log(error.message);
         }
     };
+
     return (
         <WebView ref={ref => (webView = ref)} source={{uri: authroizationURL}} onNavigationStateChange={handleAuthorizationNavigation} onMessage={handleAuthorizationResponse} />
     )
