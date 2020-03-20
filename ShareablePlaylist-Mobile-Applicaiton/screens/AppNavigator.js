@@ -1,38 +1,19 @@
 import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack';
-import {color} from '../style/main.style';
-import MainScreen from './converter/MainScreen';
-import SignInScreen from './authentication/SignInScreen';
-import SpotifyAuthScreen from './authentication/SpotifyAuthScreen';
 import useAuthentication from '../authentication/useAuthentication';
-export default AppNavigator = ()  =>{
-    const Stack = createStackNavigator();
-    const {isUserAuthenticated} = useAuthentication();
-    return (
-        <Stack.Navigator 
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: color.secondary,
-            },
-            headerTintColor: color.accent,
-            headerTitleAlign: "left",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-            title: 'Playlist Sharer',
-          }}
-          initialRouteName={ isUserAuthenticated()? 'MainScreen' : 'SignInScreen'}
-         >
-           {
-            isUserAuthenticated() == false ? (
-              <>
-              <Stack.Screen name='SignInScreen' component={SignInScreen} />
-              <Stack.Screen name='SpotifyAuthScreen' component={SpotifyAuthScreen} />
-              </>
-            ) : (
-              <Stack.Screen name='MainScreen' component={MainScreen} />
-            )
-          }
-        </Stack.Navigator>
-    );
+import AuthenticationStack from './authentication/AuthenticationStack';
+import MainStack from './converter/MainStack';
+
+const AppNavigator = ()  =>{  
+
+  const {isUserAuthenticated} = useAuthentication();
+
+  return (
+    isUserAuthenticated() ? (
+      <MainStack/>
+    ) : (
+      <AuthenticationStack />
+    )
+  )
 }
+
+export default AppNavigator;

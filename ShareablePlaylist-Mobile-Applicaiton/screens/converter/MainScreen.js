@@ -2,10 +2,17 @@ import React, {useContext} from 'react'
 import { View, Text } from 'react-native'
 import {styles} from '../../style/main.style';
 
-const MainScreen = () => {
+import URLConversionFrom from '../../components/URLlConversionForm';
+const MainScreen = ({navigation, url}) => {
+
     return (
         <View style={styles.container}>
-            <Text>MAIN SCREEN</Text>
+            { 
+            url ? (
+                <Text>WE HAVE A URL</Text>
+            ) : (
+               <URLConversionFrom /> 
+            )}
         </View>
     )
 }

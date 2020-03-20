@@ -36,6 +36,21 @@ export const styles = StyleSheet.create({
         margin: 0,
         padding: 0,
         resizeMode: 'contain'
+    },
+    urlEntryFrom: {
+        alignItems: "center",
+        marginBottom: 20
+    },
+    urlTextHeader: {
+        fontSize: 27,
+        color: color.secondary
+    },
+    urlTextEntry: {
+        height: 50,
+        width: '75%',
+        borderWidth: 1,
+        backgroundColor: color.accent,
+        color: color.secondary
     }
   });
   

@@ -3,6 +3,8 @@
 export const DefaultState = {
     isSpotifyAuthorized: false,
     spotifyToken: null,
+    spotifyExpiration: null,
+    spotifyRefreshToken: null,
     isAppleAuthorized: false,
     appleToken: null,
 }
@@ -13,13 +15,17 @@ export const Reducer = (state, action) =>{
             return {
                 ...state,
                 isSpotifyAuthorized: true,
-                spotifyToken: action.payload
+                spotifyToken: action.payload.access_token,
+                spotifyExpiration: action.payload.expires_in,
+                spotifyRefreshToken: action.payload.refresh_token
             };
         case 'SignOutSpotify':
             return {
                 ...state,
                 isSpotifyAuthorized: false,
-                spotifyToken: null
+                spotifyToken: null,
+                spotifyExpiration: null,
+                spotifyRefreshToken: null,
             };
         case 'AuthorizeApple':
             return {
@@ -38,6 +44,8 @@ export const Reducer = (state, action) =>{
                 ...state,
                 isSpotifyAuthorized: false,
                 spotifyToken: null,
+                spotifyExpiration: null,
+                spotifyRefreshToken: null,
                 isAppleAuthorized: false,
                 appleToken: null,
             };
