@@ -12,7 +12,6 @@ const  URLConversionForm = () => {
     const convertToSpotifyURL = () => {
         
         const authorizationHeader = `Bearer ${state.spotifyToken}`;
-        console.log(authorizationHeader);
         axios.post('http://10.0.0.45/api/v1/spotify-music',
         {
             itemURL: conversionURL,
@@ -28,7 +27,7 @@ const  URLConversionForm = () => {
         })
         .catch((error) => {
             console.log(error);
-            console.log(error.response.headers);
+            console.log(error.response.status);
             console.log(error.response.data.error);
             console.log(error.response.data.message);
         });
