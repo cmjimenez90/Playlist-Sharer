@@ -51,6 +51,17 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: color.accent,
         color: color.secondary
+    },
+    URLModalContainer: {
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    URLModalText: {
+        color: color.secondary,
+        textAlign: 'center',
+        fontSize: 20,
+        marginBottom: 20
     }
   });
   
