@@ -2,13 +2,37 @@ import React, {useState,useContext} from 'react'
 import {View, Text, TextInput, Alert} from 'react-native';
 import {AuthenticationContext} from '../authentication/AuthenticationContext';
 import {styles} from '../style/main.style';
+import axios from 'axios';
 
 const  URLConversionForm = () => {
 
     const [state,action] = useContext(AuthenticationContext);
     const [conversionURL, setConversionURL] = useState('Spotify or Apple URL')
+
     const convertToSpotifyURL = () => {
-        Alert.alert('not disabled');
+        
+        const authorizationHeader = `Bearer ${state.spotifyToken}`;
+        console.log(authorizationHeader);
+        axios.post('http://10.0.0.45/api/v1/spotify-music',
+        {
+            itemURL: conversionURL,
+        },
+        {
+            headers:{
+                authorization: authorizationHeader,
+            }
+        }
+        ).then((response) => {
+            const data = response.data;
+            console.log(data);
+        })
+        .catch((error) => {
+            console.log(error);
+            console.log(error.response.headers);
+            console.log(error.response.data.error);
+            console.log(error.response.data.message);
+        });
+        
     };
 
     return (

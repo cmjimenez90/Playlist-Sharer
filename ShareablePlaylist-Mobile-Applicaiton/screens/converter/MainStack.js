@@ -18,7 +18,7 @@ const MainStack = () => {
             },
           }}
         >
-            <stack.Screen name="MainScreen" component={MainScreen} />
+            <stack.Screen name="MainScreen" component={MainScreen} options={{ title: 'Playlist Sharer' }}/>
         </stack.Navigator>
     )
 }

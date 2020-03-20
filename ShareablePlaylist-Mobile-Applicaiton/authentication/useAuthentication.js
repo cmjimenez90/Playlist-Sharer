@@ -11,6 +11,15 @@ export default useAuthentication = () => {
         }
         return false;
     };
+
+    const validateSpotifyExpiration = () => {
+
+    }
+
+    const validateAppleExpiration = () =>{
+
+    }
+
     
     return {isUserAuthenticated}
 }
