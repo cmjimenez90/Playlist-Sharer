@@ -64,7 +64,7 @@ export const styles = StyleSheet.create({
         marginBottom: 20
     },
     accountManagement: {
-        
+        width: '75%'
     },
     accountManagementHeading: {
         flexDirection: 'row',

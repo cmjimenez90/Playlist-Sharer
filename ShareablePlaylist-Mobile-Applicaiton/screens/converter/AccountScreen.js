@@ -7,7 +7,9 @@ import AccountManagement from '../../components/AccountManagement';
 const AccountScreen = () => {
     return (
         <View style={styles.container}>
-           <AccountManagement/>
+          <View style={{justifyContent: "center", alignItems: "center", paddingTop: 25}}>
+            <AccountManagement/>
+          </View>
         </View>
     )
 }
