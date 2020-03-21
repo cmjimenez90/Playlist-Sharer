@@ -29,6 +29,18 @@ export default class AuthenticationStorage {
         
     };
 
+    async asyncClearSpotifyFromStore(){
+        try{
+            await AsyncStorage.removeItem(this.SPOTIFY_TOKEN);
+            await AsyncStorage.removeItem(this.SPOTIFY_EXPIRATION);
+            await AsyncStorage.removeItem(this.SPOTIFY_REFRESH);
+            return true;
+        }catch(error){
+            console.log(error.message);
+            return false;
+        }      
+    }
+
     async asyncSaveItemToStore(key,value){
         try{
             console.log(key);

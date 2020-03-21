@@ -1,5 +1,4 @@
 'use strict';
-
 export const DefaultState = {
     isSpotifyAuthorized: false,
     spotifyToken: null,
@@ -9,7 +8,7 @@ export const DefaultState = {
     appleToken: null,
 }
 
-export const Reducer = (state, action) =>{
+export const Reducer = (state, action) => {
     switch (action.type) {
         case 'AuthorizeSpotify':
             return {

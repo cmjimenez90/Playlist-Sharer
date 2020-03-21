@@ -3,13 +3,24 @@ import {View, Text, Alert} from 'react-native';
 
 import {styles} from '../style/main.style';
 import {AuthenticationContext} from '../authentication/AuthenticationContext';
+import AuthenticationStorage from '../authentication/AuthenticationStorage';
+
 import AccountStatus from './AccountStatus';
 
 const  AccountManagement = () => {  
+    const authenticationStorage = new AuthenticationStorage();
     const [state, action] =  useContext(AuthenticationContext);
 
-    const SignOutSpotify = () => {
-        Alert.alert('Sign out from Spotify Coming Soon')
+    const SignOutSpotify =  () => {
+        const signedOut = authenticationStorage.asyncClearSpotifyFromStore().then(
+            (data) => {
+                if(data){
+                    action({type: 'SignOutSpotify'})
+                }
+            }
+        ).catch((error) => {
+            console.log(error);
+        });  
     };
     const SignOutApple = () => {
         Alert.alert('Sign out from Apple Coming Soon')
