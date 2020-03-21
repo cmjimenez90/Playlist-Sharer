@@ -1,4 +1,4 @@
-import {StyleSheet, Platform, StatusBar} from 'react-native'
+import {StyleSheet, Platform} from 'react-native'
 export const color = {
     primary: '#D5CBFF',
     secondary: '#A49ACC',
@@ -62,6 +62,9 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 20,
         marginBottom: 20
+    },
+    TabNavigator:{
+        paddingTop: Platform.OS === 'android' ? 20 : 0
     }
   });
   

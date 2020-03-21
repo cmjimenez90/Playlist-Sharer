@@ -1,6 +1,6 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import MainScreen from './MainScreen';
+import MainTabStack from './MainTabStack';
 import {color} from '../../style/main.style';
 
 const MainStack = () => {
@@ -18,7 +18,7 @@ const MainStack = () => {
             },
           }}
         >
-            <stack.Screen name="MainScreen" component={MainScreen} options={{ title: 'Playlist Sharer' }}/>
+            <stack.Screen name="Playlist Sharer" component={MainTabStack} />
         </stack.Navigator>
     )
 }

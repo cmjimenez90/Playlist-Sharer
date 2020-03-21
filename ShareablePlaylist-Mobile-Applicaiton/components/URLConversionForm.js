@@ -48,7 +48,7 @@ const  URLConversionForm = () => {
        <>
         <View style={styles.urlEntryFrom}>
             <Text style={styles.urlTextHeader}>Enter a URL to Convert</Text>
-            <TextInput style={styles.urlTextEntry} value={sourceURL} onChangeText={(text) => setSourceURL(text)} />
+            <TextInput selectTextOnFocus={true} style={styles.urlTextEntry} value={sourceURL} onChangeText={(text) => setSourceURL(text)} />
         </View>
        <View style={styles.buttonContainer}>
            {

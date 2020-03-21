@@ -38,9 +38,10 @@ const AppNavigator = ()  =>{
     return (
       <Stack.Navigator>
             <Stack.Screen name='LoadingScreen' component={LoadingScreen} />
-        </Stack.Navigator>
+      </Stack.Navigator>
     )
   }
+
   return (
     isUserAuthenticated() ? (
       <MainStack/>
