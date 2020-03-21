@@ -7,7 +7,7 @@ import AccountManagement from '../../components/AccountManagement';
 const AccountScreen = () => {
     return (
         <View style={styles.container}>
-           <AccountManagement></AccountManagement>
+           <AccountManagement/>
         </View>
     )
 }
