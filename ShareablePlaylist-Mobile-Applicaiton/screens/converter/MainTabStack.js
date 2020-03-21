@@ -15,9 +15,9 @@ const MainTab = () => {
             inactiveTintColor: color.secondary
         }}
         screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
+            tabBarIcon: ({color, size }) => {
               let iconName;
-              if(route.name === 'MainTab'){
+              if(route.name === 'MainScreen'){
                 iconName = 'md-home'
               }
               else if(route.name === 'AccountScreen'){
@@ -28,8 +28,8 @@ const MainTab = () => {
               return <Ionicons name={iconName} size={size} color={color} />;
             },
           })}>
-            <Tab.Screen name='MainTab' component={MainScreen} />
-            <Tab.Screen name='AccountScreen' component={AccountScreen} />
+            <Tab.Screen name='MainScreen' component={MainScreen} options={{title:'MAIN'}}/>
+            <Tab.Screen name='AccountScreen' component={AccountScreen} options={{title:'SETTINGS'}}/>
         </Tab.Navigator>
     )
 }

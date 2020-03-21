@@ -63,8 +63,47 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         marginBottom: 20
     },
-    TabNavigator:{
-        paddingTop: Platform.OS === 'android' ? 20 : 0
+    accountManagement: {
+        
+    },
+    accountManagementHeading: {
+        flexDirection: 'row',
+        backgroundColor: color.secondary,
+        height: 40,
+    },
+    accountManagementHeadingAccount: {
+        color: color.accent,
+        textAlign: "center",
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        flex: 2,
+    },
+    accountManagementHeadingStatus: {
+        color: color.accent,
+        textAlign: "center",
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        flex: 1,
+    },
+    accountStatus: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 50,
+    },
+    accountStatusName: {
+        flex: 2,
+        textAlign: 'center',
+        fontSize: 25,
+        color: color.secondary
+    },
+    accountStatusIcon: {
+        marginRight: 10,
+        marginLeft: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        backgroundColor: color.secondary
     }
   });
+
   
