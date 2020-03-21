@@ -12,7 +12,7 @@ const  AccountManagement = () => {
     const [state, action] =  useContext(AuthenticationContext);
 
     const SignOutSpotify =  () => {
-        const signedOut = authenticationStorage.asyncClearSpotifyFromStore().then(
+        authenticationStorage.asyncClearSpotifyFromStore().then(
             (data) => {
                 if(data){
                     action({type: 'SignOutSpotify'})
