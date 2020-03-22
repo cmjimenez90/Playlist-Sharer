@@ -10,13 +10,13 @@ export default class AppleAuthorizationHandler {
     this.teamId = Config.APPLEMUSIC_TEAMID;
   }
 
-  asyncGenerateDeveloperToken() {
+  generateDeveloperToken() {
     const jwtOptions = {
       header: {
         kid: this.kid,
       },
       algorithm: 'ES256',
-      expiresIn: '7d',
+      expiresIn: '3h',
     };
     const developerToken = JWTHandler.sign({iss: this.teamId}, this.secret, jwtOptions);
     return developerToken;

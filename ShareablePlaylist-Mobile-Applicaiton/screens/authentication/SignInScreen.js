@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, NativeModules, Alert } from 'react-native'
 
 import {styles} from '../../style/main.style';
 import ApplePlatformButton from '../../components/ApplePlatformButton';
 import SpotifyPlatfromButton from '../../components/SpotifyPlatfromButton';
+import axios from 'axios'
 const SignInScreen = ({navigation}) => {
 
     const handleSpotifyAuthorization = () => {
@@ -11,7 +12,23 @@ const SignInScreen = ({navigation}) => {
     };
 
     const handleAppleAuthorization = () => {
-        alert("Apple Authorization Underway");
+        const AppleMusicUserAuthorization = NativeModules.AppleMusicUserAuthorization;
+        axios.get('http://localhost:3000/authorize/apple')
+        .then((response)=>{
+            const devToken = response.data;
+            AppleMusicUserAuthorization.getUserToken(devToken,(error, result) => {
+                if(error){
+                    Alert.alert(error);
+                } 
+                else{
+                    Alert.alert("SUCCESS");
+                }
+                
+            })
+        })
+        .catch((error)=>{
+            Alert.alert(error.message);
+        })
     };
 
     return (
