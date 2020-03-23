@@ -6,4 +6,4 @@ includeUnimodulesProjects()
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle");
 applyNativeModulesSettingsGradle(settings)
 
-include ':app'
+include ':app', ':musickitauth-release-1.0.0'
