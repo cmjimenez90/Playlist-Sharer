@@ -3,7 +3,7 @@ import AppleAuthorizationHandler from '../../../src/service/authorization/apple-
 // this entire test needs to be redone but works to test dependencies with working client
 it('does all the following', async ()=> {
   const authorizationHandler = new AppleAuthorizationHandler();
-  const clientToken = await authorizationHandler.asyncGenerateDeveloperToken();
+  const clientToken = authorizationHandler.generateDeveloperToken();
   expect(clientToken).not.toBeNull();
 
   const appleClient = new AppleClient(clientToken);
