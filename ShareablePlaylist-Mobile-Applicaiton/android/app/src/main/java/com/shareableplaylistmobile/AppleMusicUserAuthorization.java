@@ -8,6 +8,8 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
+
+
 public class AppleMusicUserAuthorization extends ReactContextBaseJavaModule {
 
     public AppleMusicUserAuthorization(@NonNull ReactApplicationContext reactContext) {
@@ -23,6 +25,6 @@ public class AppleMusicUserAuthorization extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getUserToken(String developerToken, Callback callbackFn){
 
-
+        callbackFn.invoke(null,"success");
     }
 }
