@@ -13,7 +13,7 @@ const SignInScreen = ({navigation}) => {
 
     const handleAppleAuthorization = () => {
         const AppleMusicUserAuthorization = NativeModules.AppleMusicUserAuthorization;
-        axios.get('http://localhost:3000/authorize/apple')
+        axios.get('http://10.0.0.168:3000/authorize/apple')
         .then((response)=>{
             const devToken = response.data;
             AppleMusicUserAuthorization.getUserToken(devToken,(error, result) => {
@@ -21,7 +21,7 @@ const SignInScreen = ({navigation}) => {
                     Alert.alert(error);
                 } 
                 else{
-                    Alert.alert("SUCCESS");
+                    Alert.alert(result);
                 }
                 
             })
