@@ -23,7 +23,15 @@ const  AccountManagement = () => {
         });  
     };
     const SignOutApple = () => {
-        Alert.alert('Sign out from Apple Coming Soon')
+        authenticationStorage.asyncClearSpotifyFromStore().then(
+            (data) => {
+                if(data){
+                    action({type: 'SignOutApple'})
+                }
+            }
+        ).catch((error) => {
+            console.log(error);
+        });  
     };
     const SignInApple = () => {
         Alert.alert('Sign in to Apple Coming Soon')

@@ -22,7 +22,12 @@ const AppNavigator = ()  =>{
        authenticationStorage.asyncLoadAuthenticationFromStore().then( (data) =>
         {
           if(data !== null){
-            action({type:'AuthorizeSpotify', payload: data})
+            if(data.spotify_authorization.isAuthorized){
+              action({type:'AuthorizeSpotify', payload: data.spotify_authorization})
+            }
+            if(data.apple_authorization.isAuthorized){
+              action({type:'AuthorizeApple', payload: data.apple_authorization})
+            }
           }
       }
       ).catch(
@@ -30,9 +35,10 @@ const AppNavigator = ()  =>{
           console.log(error);
         }
       );
+
       setLoaded(true);
     }
-  },[storageLoaded]);
+  },[]);
 
   if(storageLoaded === false){
     return (

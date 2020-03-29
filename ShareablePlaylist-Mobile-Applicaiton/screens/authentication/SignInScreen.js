@@ -1,10 +1,10 @@
 import React from 'react'
-import { View, Text, NativeModules, Alert } from 'react-native'
+import { View, Text} from 'react-native'
 
 import {styles} from '../../style/main.style';
 import ApplePlatformButton from '../../components/ApplePlatformButton';
 import SpotifyPlatfromButton from '../../components/SpotifyPlatfromButton';
-import axios from 'axios'
+
 const SignInScreen = ({navigation}) => {
 
     const handleSpotifyAuthorization = () => {
@@ -12,29 +12,7 @@ const SignInScreen = ({navigation}) => {
     };
 
     const handleAppleAuthorization = () => {
-        const AppleMusicUserAuthorization = NativeModules.AppleMusicUserAuthorization;
-        axios.get('http://10.0.0.45/authorize/apple')
-        .then((response)=>{
-            const data = response.data;
-            if(data.hasError){
-                console.log(data.errorMessage);
-                return
-            }
-            const appleToken = data.authorizationToken;
-            AppleMusicUserAuthorization.getUserToken(appleToken,(error, result) => {
-                if(error){
-                    Alert.alert(error);
-                } 
-                else{
-                    console.log(result);
-                    Alert.alert(result);
-                }
-                
-            });
-        })
-        .catch((error)=>{
-            Alert.alert(error.message);
-        })
+        navigation.navigate('AppleAuthScreen')
     };
 
     return (

@@ -1,13 +1,12 @@
-import React, {useState, useContext, useEffect} from 'react'
-import {View, Text, ActivityIndicator, NativeModules} from 'react-native'
+import React,  {useContext, useEffect} from 'react'
+import {View, ActivityIndicator, NativeModules, Alert} from 'react-native'
 import {AuthenticationContext} from '../../authentication/AuthenticationContext'
 import AuthenticationStorage from '../../authentication/AuthenticationStorage'
 import axios from 'axios'
-  const AppleAuthScreen = () => {
+import { styles, color } from '../../style/main.style'
+  const AppleAuthScreen = ({navigation}) => {
 
     const [state,action] = useContext(AuthenticationContext);
-    const [isLoading,setLoading] = useState(true);
-    const [authResult, setAuthResult] = useState('');
     const authenticationStorage = new AuthenticationStorage();
 
     const appleDeveloperTokenURL = `http://10.0.0.45/authorize/apple`;
@@ -15,8 +14,6 @@ import axios from 'axios'
     
 
     useEffect(() => {
-        setLoading(true);
-        
         axios.get(appleDeveloperTokenURL)
         .then((response)=>{
             const data = response.data;
@@ -25,39 +22,35 @@ import axios from 'axios'
                 return null;
             }
             else{
-                const appleDevToken = data.authorizationToken;
-                console.log(appleDevToken);
-
-                console.log("good continue")
-                
+                const appleDevToken = data.authorizationToken;        
                     AppleMusicUserAuthorization.getUserToken(appleDevToken,(error, result) => {
                         if(error){
-                            console.log("ERROR");
+                            Alert.alert("Authorization Error", error);
+                            navigation.navigate('SignInScreen');
                         } 
                         else{
-                            console.log("PASS");
+                            action({type: 'AuthorizeApple', payload: {'apple_music_user_token': result}})
+                            authenticationStorage.asyncSaveItemToStore(authenticationStorage.APPLE_MUSIC_USER_TOKEN,result.toString())
+                            .then()
+                            .catch((error)=>{
+                                console.log(error);
+                            })
                         }             
                     });
                 }  
         })
         .catch((error)=>{
-            console.log("REALLY BAD");
+            console.log(error);
             return null;
-        })
-        
-        
-        setLoading(false);    
+        })   
     },[])
     
 
         
 
     return (
-        <View>
-            {isLoading? (<ActivityIndicator></ActivityIndicator>
-            ):(
-                <Text>{authResult}</Text>
-            )}
+        <View style={[styles.container,styles.appleAuthScreen]}>
+            <ActivityIndicator color={color.secondary} size="large"></ActivityIndicator>
         </View>
     )
 }

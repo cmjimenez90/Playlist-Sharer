@@ -13,6 +13,10 @@ export const styles = StyleSheet.create({
     signInScreen: {
         marginTop: 150
     },
+    appleAuthScreen: {
+        justifyContent: 'center',
+        flex: 1,
+    },
     textContainer: {
         alignItems: "center",
         marginBottom: 100
