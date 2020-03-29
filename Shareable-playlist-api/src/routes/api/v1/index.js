@@ -35,7 +35,7 @@ router.post('/spotify-music', verifyAuthroizationHeader, async function(req, res
   }
   const spotifyClientToken = await spotifyAuthHandler.asyncGenerateClientCredential();
   const spotifyClient = new SpotifyClient(spotifyClientToken.access_token);
-  const appleClient = new AppleMusicClient(appleAuthHandler.asyncGenerateDeveloperToken());
+  const appleClient = new AppleMusicClient(appleAuthHandler.generateDeveloperToken());
   const conversionHandler = new ConversionHandler(spotifyClient, appleClient);
 
   const requestURL = req.body['itemURL'];
