@@ -13,7 +13,7 @@ const SpotifyAuthScreen = ({ navigation }) => {
    const authenticationStorage = new AuthenticationStorage();
 
    let webView = null;
-   const authroizationURL = `http://10.0.0.168:3000/authorize/spotify`;
+   const authroizationURL = `http://10.0.0.45/authorize/spotify`;
    
    const handleAuthorizationNavigation = (newNav) => {
         const {url,loading} = newNav;
