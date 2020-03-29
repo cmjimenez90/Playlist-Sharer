@@ -18,6 +18,32 @@ const  URLConversionForm = () => {
             Linking.openURL(`${convertedURL}`)
         }
     };
+
+    const convertToAppleURL = () => {
+        const authorizationHeader = `Bearer ${state.appleToken}`;
+        axios.post('http://10.0.0.45/api/v1/apple-music',
+        {
+            itemURL: sourceURL,
+        },
+        {
+            headers:{
+                authorization: authorizationHeader,
+            }
+        }
+        ).then((response) => {
+            console.log(response);
+            const data = response.data;
+            console.log(data);
+            setConvertedURL(data.convertedURL);
+            setShowConvertedURL(true);
+        })
+        .catch((error) => {
+            console.log(error);
+            console.log(error.response.status);
+            console.log(error.response.data.error);
+        });    
+    }
+
     const convertToSpotifyURL = () => {  
         const authorizationHeader = `Bearer ${state.spotifyToken}`;
         axios.post('http://10.0.0.45/api/v1/spotify-music',
@@ -39,7 +65,6 @@ const  URLConversionForm = () => {
             console.log(error);
             console.log(error.response.status);
             console.log(error.response.data.error);
-            console.log(error.response.data.message);
         });    
     };
 
@@ -51,7 +76,7 @@ const  URLConversionForm = () => {
         </View>
        <View style={styles.buttonContainer}>
            {
-               (!state.isAppleAuthorized)? <></> :  <ApplePlatformButton ></ApplePlatformButton>
+               (!state.isAppleAuthorized)? <></> :  <ApplePlatformButton onPress={convertToAppleURL}></ApplePlatformButton>
            }
            {
                (!state.isSpotifyAuthorized)? <></> :  <SpotifyPlatfromButton onPress={convertToSpotifyURL}></SpotifyPlatfromButton>
