@@ -30,7 +30,7 @@ export const Reducer = (state, action) => {
             return {
                 ...state,
                 isAppleAuthorized: true,
-                appleToken: action.payload
+                appleToken: action.payload.music_user_token
             };
         case 'SignOutApple':
             return {
