@@ -39,7 +39,6 @@ export default class AppleMusicClient {
       return this.handleErrorResponse(error);
     }
   }
-
   async asyncSearch(itemTypes, term, storefront='us', limit = 25) {
     const searchURL = `/v1/catalog/${storefront}/search`;
     const types = itemTypes.reduce((prev, current)=>{
@@ -54,16 +53,104 @@ export default class AppleMusicClient {
     }
   }
 
+  async asyncCreatePlaylist(userMusicToken, playlistName) {
+    const newPlaylistURL = '/v1/me/library/playlists';
+    try {
+      const response = await this.axiosClient.post(
+          newPlaylistURL,
+          {
+            attributes: {
+              name: playlistName,
+              description: 'Playlist copied with Playlist Sharer',
+            },
+          }, {
+            headers: {
+              'Music-User-Token': userMusicToken,
+            },
+          },
+      );
+      return response.data;
+    } catch (error) {
+      return this.handleErrorResponse(error);
+    }
+  }
+
+  async asyncCreatePlaylist(userMusicToken, playlistName, playlistSongIDs) {
+    const newPlaylistURL = '/v1/me/library/playlists';
+
+    const songIDs = [];
+    playlistSongIDs.forEach((songID) => {
+      const songData = {
+        id: songID,
+        type: 'songs',
+      };
+      songIDs.push(songData);
+    });
+
+    try {
+      const response = await this.axiosClient.post(newPlaylistURL,
+          {
+            attributes: {
+              name: playlistName,
+              description: 'Playlist copied with Playlist Sharer',
+            },
+            relationships: {
+              tracks: {
+                data: songIDs,
+              },
+            },
+          }, {
+            headers: {
+              'Music-User-Token': userMusicToken,
+            }},
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return this.handleErrorResponse(error);
+    }
+  }
+
+  async asyncAddSongToPlaylist(userMusicToken, playlistID, playlistSongIDs) {
+    const addSongsToPlaylistURL = `/v1/me/library/playlists/${playlistID}/tracks`;
+
+    const songIDs = [];
+
+    playlistSongIDs.forEach((songID) => {
+      const songData = {
+        id: songID,
+        type: 'songs',
+      };
+      songIDs.push(songData);
+    });
+    try {
+      const response = await this.axiosClient.post(
+          addSongsToPlaylistURL,
+          {
+            data: songIDs,
+          }, {
+            headers: {
+              'Music-User-Token': userMusicToken,
+            },
+          },
+      );
+      return response.data;
+    } catch (error) {
+      return this.handleErrorResponse(error);
+    }
+  }
+
   handleErrorResponse(error) {
     if (error.response) {
+      console.log(error.response.data.errors);
       switch (error.response.status) {
-        case '400':
+        case 400:
           return new ClientError(CLIENT_ERROR_STATES.REQUEST_ERROR, 'REQUEST WAS RECIEVED INCORRECTLY');
-        case '401':
+        case 401:
           return new ClientError(CLIENT_ERROR_STATES.AUTHORIZATION, 'TOKEN IS EXPIRED, INVALID, OR MISSING');
-        case '413':
+        case 413:
           return new ClientError(CLIENT_ERROR_STATES.PAYLOAD_SIZE, 'REQUEST WAS TOO LARGE');
-        case '429':
+        case 429:
           return new ClientError(CLIENT_ERROR_STATES.RATE_LIMIT, 'RATE LIMIT IN EFFECT... RETRY AT LATER TIME');
         default:
           return new ClientError(CLIENT_ERROR_STATES.SERVER_ERROR, 'UNKNOWN ERROR HAS OCCURED');

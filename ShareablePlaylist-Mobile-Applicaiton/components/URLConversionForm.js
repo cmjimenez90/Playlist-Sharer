@@ -57,7 +57,6 @@ const  URLConversionForm = () => {
         }
         ).then((response) => {
             const data = response.data;
-            console.log(data);
             setConvertedURL(data.convertedURL);
             setShowConvertedURL(true);
         })

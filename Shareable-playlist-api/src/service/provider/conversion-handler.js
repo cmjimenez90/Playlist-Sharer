@@ -41,6 +41,19 @@ export default class ConversionHandler {
         }
         return new ConversionResult(convertedAlbum.url);
       case 'playlist':
+        const playlistID = identifiedURL.destination.split('/')[1];
+        clientResponse = await this.spotifyClient.asyncGetPlaylist(playlistID);
+        const playlistTracksPage = clientResponse.tracks;
+        const spotifyPlaylistSongs = [];
+        playlistTracksPage.items.map((playlistTrack) => {
+          const song = new Song(playlistTrack.track.name, playlistTrack.track.artists[0].name, playlistTrack.track.album.name);
+          spotifyPlaylistSongs.push(song);
+        });
+        const playlist = new Playlist(clientResponse.name, spotifyPlaylistSongs);
+        const convertedPlaylist = await appleConverter.asyncConvertPlaylist(playlist);
+        const songIDs = convertedPlaylist.songs.filter((song) => song.url !== '').map((song)=> song.url.split('?i=')[1]);
+        const newPlaylist = await this.appleClient.asyncCreatePlaylist(userToken, convertedPlaylist.name, songIDs);
+        return new ConversionResult(`${newPlaylist.data[0].href}`);
       default:
         return new ConversionResult('', true, 'SERVER ERROR', 'BAD NEWS BEARS');
     }

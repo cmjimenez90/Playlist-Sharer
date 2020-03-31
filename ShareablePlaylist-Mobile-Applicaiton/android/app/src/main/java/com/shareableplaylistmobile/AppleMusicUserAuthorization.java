@@ -2,6 +2,7 @@ package com.shareableplaylistmobile;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,7 @@ public class AppleMusicUserAuthorization extends ReactContextBaseJavaModule  {
     private AuthenticationManager authenticationManager;
 
     private String TAG = "APPLE_AUTHORIZATION";
-    private static final int ACTIVITYCODE_APPLEAUTH = 2006;
+    private static final int ACTIVITYCODE_APPLEAUTH = 200;
     private Callback callbackFn;
 
 
@@ -31,11 +32,16 @@ public class AppleMusicUserAuthorization extends ReactContextBaseJavaModule  {
         @Override
         public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
             if (requestCode == ACTIVITYCODE_APPLEAUTH) {
+                Log.d(TAG, "onActivityResult: TOKEN  " + resultCode);
                 if (callbackFn != null) {
                     TokenResult tokenResult = authenticationManager.handleTokenResult(intent);
+                    Log.d(TAG, "onActivityResult: INTENT  " + intent.getDataString());
+
                     if(tokenResult.isError()){
+                        Log.d(TAG, "onActivityResult:" + tokenResult.getError().name());
                         callbackFn.invoke(tokenResult.getError().name(), null);
                     }else{
+                        Log.d(TAG, "onActivityResult: token success: "+ tokenResult.getMusicUserToken());
                         callbackFn.invoke(null, tokenResult.getMusicUserToken());
                     }
                 }
@@ -69,8 +75,8 @@ public class AppleMusicUserAuthorization extends ReactContextBaseJavaModule  {
         this.callbackFn = callbackFn;
         try{
             AuthIntentBuilder intentBuilder = authenticationManager.createIntentBuilder(developerToken);
-            Intent authorizationIntent = intentBuilder.setStartScreenMessage("Connect Playlist Sharer to allow Playlist Imports").build();
-
+            Intent authorizationIntent = intentBuilder.setStartScreenMessage("Connect Playlist Sharer to allow Playlist Imports").setHideStartScreen(true).build();
+            Log.d(TAG, "getUserToken: Starting Activity");
             currentActivity.startActivityForResult(authorizationIntent, ACTIVITYCODE_APPLEAUTH, null);
         }
         catch(Exception exception){
