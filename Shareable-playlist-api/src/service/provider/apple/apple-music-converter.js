@@ -27,6 +27,11 @@ export default class AppleMusicConverter extends ProviderConverter {
     searchTerm = searchTerm.replace(' ', '+');
     try {
       const results = await this.appleMusicClient.asyncSearch(['albums'], searchTerm);
+      if (results.error) {
+        console.log(results);
+        console.log(album);
+        return album;
+      }
       const matched = filterAlbumResults(results);
       const convertedAlbum = new Album(matched.attributes.name, matched.attributes.artistName, matched.attributes.url);
       return convertedAlbum;
@@ -53,11 +58,16 @@ export default class AppleMusicConverter extends ProviderConverter {
     searchTerm = searchTerm.replace(' ', '+');
     try {
       const results = await this.appleMusicClient.asyncSearch(['songs'], searchTerm);
+      if (results.error) {
+        console.log(results);
+        console.log(song);
+        return song;
+      }
       const matched = filterSongResults(results);
-      console.log(matched);
       const convertedSong = new Song(matched.attributes.name, matched.attributes.artistName, matched.attributes.albumName, matched.attributes.url);
       return convertedSong;
     } catch (error) {
+      console.log(error.message);
       return error;
     }
   };

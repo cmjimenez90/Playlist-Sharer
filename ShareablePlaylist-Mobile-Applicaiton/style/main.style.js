@@ -1,4 +1,4 @@
-import {StyleSheet, Platform, StatusBar} from 'react-native'
+import {StyleSheet, Platform} from 'react-native'
 export const color = {
     primary: '#D5CBFF',
     secondary: '#A49ACC',
@@ -6,62 +6,108 @@ export const color = {
 }
 
 export const styles = StyleSheet.create({
-    statusBar: {
-        height: (Platform.OS === 'ios') ? 40 : StatusBar.currentHeight,
-        backgroundColor: color.secondary
-
-    },
     container: {
         height: "100%",
-        backgroundColor: color.primary
+        backgroundColor: color.primary,
     },
-    header: {
-        backgroundColor: color.secondary,
-        height: 60,
-        justifyContent: "center"
+    signInScreen: {
+        marginTop: 150
     },
-    headerText: {
-        paddingLeft: 20,
-        color: color.accent,
-        fontWeight: "bold",
-        fontSize: 30,
+    appleAuthScreen: {
+        justifyContent: 'center',
+        flex: 1,
     },
-    body: {
-        height: "80%",
-        justifyContent: "center",
-    },
-    urlDisplayContainer: {
+    textContainer: {
         alignItems: "center",
         marginBottom: 100
     },
-    urlDisplayTextContainer: {
-        marginBottom: 10,
+    textContainerHeader: {
+        fontSize: 25,
+        fontWeight: '400',
+        marginBottom: 5
     },
-    urlDisplay: {
-        width: 200,
-        height: 200,
+    buttonContainer: {
+        flexDirection: "row",
+        justifyContent: 'space-around'
     },
-    urlDisplayName: {
-        color: color.accent,
-        textAlign: "right",
-        fontSize: 30
+    musicPlatformButton: {
+        height: 55,
+        width: 180
     },
-    urlDisplayType:{
-        color: color.accent,
-        textAlign: "right",
+    musicPlatformImage: {
+        width: '100%',
+        height: '100%',
+        margin: 0,
+        padding: 0,
+        resizeMode: 'contain'
+    },
+    urlEntryFrom: {
+        alignItems: "center",
+        marginBottom: 20
+    },
+    urlTextHeader: {
+        fontSize: 27,
+        color: color.secondary
+    },
+    urlTextEntry: {
+        height: 50,
+        width: '75%',
+        borderWidth: 1,
+        backgroundColor: color.accent,
+        color: color.secondary
+    },
+    URLModalContainer: {
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    URLModalText: {
+        color: color.secondary,
+        textAlign: 'center',
         fontSize: 20,
-        fontWeight: "bold",
-        textTransform: "uppercase"
+        marginBottom: 20
     },
-    logoButtonContainer: {
-        justifyContent: "center",
-        alignItems: "center"
+    accountManagement: {
+        width: '75%'
     },
-    logoButton: {
-       width: 200,
-       height: 50,
-       resizeMode: "contain",
-       marginBottom: 20
+    accountManagementHeading: {
+        flexDirection: 'row',
+        backgroundColor: color.secondary,
+        height: 40,
+    },
+    accountManagementHeadingAccount: {
+        color: color.accent,
+        textAlign: "center",
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        flex: 2,
+    },
+    accountManagementHeadingStatus: {
+        color: color.accent,
+        textAlign: "center",
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        flex: 1,
+    },
+    accountStatus: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 50,
+    },
+    accountStatusName: {
+        flex: 2,
+        textAlign: 'center',
+        fontSize: 25,
+        color: color.secondary
+    },
+    accountStatusIcon: {
+        marginRight: 10,
+        marginLeft: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        backgroundColor: color.secondary
     }
   });
+
   

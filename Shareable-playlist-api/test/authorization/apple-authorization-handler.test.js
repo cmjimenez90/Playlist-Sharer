@@ -18,7 +18,7 @@ describe('AppleAuthorizationHandler', () => {
       const fakePrivateKeyString = `-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgU208KCg/doqiSzsVF5sknVtYSgt8/3oiYGbvryIRrzSgCgYIKoZIzj0DAQehRANCAAQfrvDWizEnWAzB2Hx2r/NyvIBO6KGBDL7wkZoKnz4Sm4+1P1dhD9fVEhbsdoq9RKEf8dvzTOZMaC/iLqZFKSN6\n-----END PRIVATE KEY-----`;
       fs.readFileSync.mockReturnValue(fakePrivateKeyString);
       const appleAuthorizationHandler = new AppleAuthorizationHandler();
-      const developerToken = appleAuthorizationHandler.asyncGenerateDeveloperToken();
+      const developerToken = appleAuthorizationHandler.generateDeveloperToken();
 
       it('returns a jwt token using ECDSA encryption', async () => {
         const decodedToken = JWTHandler.decode(await developerToken, {complete: true});

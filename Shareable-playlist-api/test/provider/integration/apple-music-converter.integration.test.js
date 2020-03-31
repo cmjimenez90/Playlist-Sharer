@@ -7,7 +7,7 @@ import AppleAuthorizationHandler from '../../../src/service/authorization/apple-
 describe('AppleMusicConverter', () => {
   it('really really works', async () => {
     const appleAuthHandler = new AppleAuthorizationHandler();
-    const appleMusicClient = new AppleMusicClient(await appleAuthHandler.asyncGenerateDeveloperToken());
+    const appleMusicClient = new AppleMusicClient(appleAuthHandler.generateDeveloperToken());
 
     const converter = new AppleMusicConverter(appleMusicClient);
     let song = new Song('Holy Water', 'Galantis', 'Church');
