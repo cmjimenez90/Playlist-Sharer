@@ -57,7 +57,7 @@ export default class ConversionHandler {
           return new ConversionResult('', true, convertedProviderResult.errorStatus);
         }
         const songIDs = convertedProviderResult.convertedItem.songs.filter((song) => song.url !== '').map((song)=> song.url.split('?i=')[1]);
-        const newPlaylist = await this.appleClient.asyncCreatePlaylist(userToken, convertedPlaylist.name, songIDs);
+        const newPlaylist = await this.appleClient.asyncCreatePlaylist(userToken, convertedProviderResult.convertedItem.name, songIDs);
         return new ConversionResult(`${newPlaylist.data[0].href}`);
       default:
         return new ConversionResult('', true, 'SERVER ERROR');
