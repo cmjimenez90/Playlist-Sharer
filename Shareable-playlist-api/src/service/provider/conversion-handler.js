@@ -21,25 +21,27 @@ export default class ConversionHandler {
     const appleConverter = new AppleConverter(this.appleClient);
     const URLType = identifiedURL.type;
     let clientResponse = null;
+    // eslint-disable-next-line prefer-const
+    let convertedProviderResult = null;
     switch (URLType) {
       case 'song':
         const songID = identifiedURL.destination.split('/')[1];
         clientResponse = await this.spotifyClient.asyncGetSong(songID);
         const spotifySong = new Song(clientResponse.name, clientResponse.artists[0].name, clientResponse.album.name);
-        const convertedSong = await appleConverter.asyncConvertSong(spotifySong);
-        if (convertedSong.error) {
-          return new ConversionResult('', true, convertedSong.error);
+        convertedProviderResult = await appleConverter.asyncConvertSong(spotifySong);
+        if (convertedProviderResult.hasError) {
+          return new ConversionResult('', true, convertedProviderResult.errorStatus);
         }
-        return new ConversionResult(convertedSong.url);
+        return new ConversionResult(convertedProviderResult.convertedItem.url);
       case 'album':
         const albumID = identifiedURL.destination.split('/')[1];
         clientResponse = await this.spotifyClient.asyncGetAlbum(albumID);
         const spotifyAlbum = new Album(clientResponse.name, clientResponse.artists[0].name);
-        const convertedAlbum = await appleConverter.asyncConvertAlbum(spotifyAlbum);
-        if (convertedAlbum.error) {
-          return new ConversionResult('', true, convertedAlbum.error);
+        convertedProviderResult = await appleConverter.asyncConvertAlbum(spotifyAlbum);
+        if (convertedProviderResult.hasError) {
+          return new ConversionResult('', true, convertedProviderResult.errorStatus);
         }
-        return new ConversionResult(convertedAlbum.url);
+        return new ConversionResult(convertedProviderResult.convertedItem.url);
       case 'playlist':
         const playlistID = identifiedURL.destination.split('/')[1];
         clientResponse = await this.spotifyClient.asyncGetPlaylist(playlistID);
@@ -50,12 +52,15 @@ export default class ConversionHandler {
           spotifyPlaylistSongs.push(song);
         });
         const playlist = new Playlist(clientResponse.name, spotifyPlaylistSongs);
-        const convertedPlaylist = await appleConverter.asyncConvertPlaylist(playlist);
-        const songIDs = convertedPlaylist.songs.filter((song) => song.url !== '').map((song)=> song.url.split('?i=')[1]);
+        convertedProviderResult = await appleConverter.asyncConvertPlaylist(playlist);
+        if (convertedProviderResult.hasError) {
+          return new ConversionResult('', true, convertedProviderResult.errorStatus);
+        }
+        const songIDs = convertedProviderResult.convertedItem.songs.filter((song) => song.url !== '').map((song)=> song.url.split('?i=')[1]);
         const newPlaylist = await this.appleClient.asyncCreatePlaylist(userToken, convertedPlaylist.name, songIDs);
         return new ConversionResult(`${newPlaylist.data[0].href}`);
       default:
-        return new ConversionResult('', true, 'SERVER ERROR', 'BAD NEWS BEARS');
+        return new ConversionResult('', true, 'SERVER ERROR');
     }
   }
 
@@ -67,6 +72,8 @@ export default class ConversionHandler {
     const spotifyConverter = new SpotifyConverter(this.spotifyClient);
     const URLType = identifiedURL.type;
     let clientResponse = null;
+    // eslint-disable-next-line prefer-const
+    let convertedProviderResult = null;
     switch (URLType) {
       case 'song':
         const songID = identifiedURL.destination;
@@ -74,7 +81,10 @@ export default class ConversionHandler {
         if (clientResponse[0]) {
           const details = clientResponse[0].attributes;
           const song = new Song(details.name, details.artistName, details.albumName);
-          const convertedSong = await spotifyConverter.asyncConvertSong(song);
+          convertedProviderResult = await spotifyConverter.asyncConvertSong(song);
+          if (convertedProviderResult.hasError) {
+            return new ConversionResult(null, true, convertedProviderResult.errorStatus, convertedProviderResult.errorStatus);
+          }
           return new ConversionResult(convertedSong.url);
         }
       case 'album':
@@ -83,7 +93,10 @@ export default class ConversionHandler {
         if (clientResponse[0]) {
           const details = clientResponse[0].attributes;
           const album = new Album(details.name, details.artistName);
-          const convertedAlbum = await spotifyConverter.asyncConvertAlbum(album);
+          convertedProviderResult = await spotifyConverter.asyncConvertAlbum(album);
+          if (convertedProviderResult.hasError) {
+            return new ConversionResult(null, true, convertedProviderResult.errorStatus, convertedProviderResult.errorStatus);
+          }
           return new ConversionResult(convertedAlbum.url);
         }
       case 'playlist':
@@ -95,7 +108,11 @@ export default class ConversionHandler {
             return new Song(track.attributes.name, track.attributes.artistName, track.attributes.albumName);
           });
           const playlist = new Playlist(clientResponse[0].attributes.name, playlistTracks);
-          const convertedPlaylist = await spotifyConverter.asyncConvertPlaylist(playlist);
+          convertedProviderResult = await spotifyConverter.asyncConvertPlaylist(playlist);
+          if (convertedProviderResult.hasError) {
+            return new ConversionResult(null, true, convertedProviderResult.errorStatus, convertedProviderResult.errorStatus);
+          }
+          const convertedPlaylist = convertedProviderResult.convertedItem;
           const userDetails = await this.spotifyClient.asyncGetUserDetails(userToken);
           if (userDetails.error) {
             return new ConversionResult('', true, userDetails.error, userDetails.message);
@@ -109,7 +126,7 @@ export default class ConversionHandler {
           return new ConversionResult(newPlaylist.external_urls.spotify);
         }
       default:
-        return new ConversionResult('', true, 'SERVER ERROR', 'BAD NEWS BEARS');
+        return new ConversionResult('', true, 'SERVER ERROR');
     }
   }
 }
