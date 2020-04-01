@@ -85,7 +85,7 @@ export default class ConversionHandler {
           if (convertedProviderResult.hasError) {
             return new ConversionResult(null, true, convertedProviderResult.errorStatus, convertedProviderResult.errorStatus);
           }
-          return new ConversionResult(convertedSong.url);
+          return new ConversionResult(convertedProviderResult.convertedItem.url);
         }
       case 'album':
         const albumID = identifiedURL.destination.split('/')[2];
@@ -97,7 +97,7 @@ export default class ConversionHandler {
           if (convertedProviderResult.hasError) {
             return new ConversionResult(null, true, convertedProviderResult.errorStatus, convertedProviderResult.errorStatus);
           }
-          return new ConversionResult(convertedAlbum.url);
+          return new ConversionResult(convertedProviderResult.convertedItem.url);
         }
       case 'playlist':
         const playlistID = identifiedURL.destination.split('/')[2];

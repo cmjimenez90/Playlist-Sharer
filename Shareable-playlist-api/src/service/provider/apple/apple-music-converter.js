@@ -92,17 +92,19 @@ export default class AppleMusicConverter extends ProviderConverter {
     const awaitedSongs = await Promise.all(convertedSongResults);
 
     try {
-      convertedPlaylist.songs = awaitedSongs.filter((result) => {
-        if (result.hasError === false) {
+      const validSongResults = awaitedSongs.filter((result) => {
+        if (result.hasError === false && result.convertedItem.url != '') {
           return true;
         } else if (result.error === CLIENT_ERROR_STATES.AUTHORIZATION) {
           throw CLIENT_ERROR_STATES.AUTHORIZATION;
+        } else {
+          return false;
         }
       });
+      convertedPlaylist.songs = validSongResults.map((result) => result.convertedItem);
     } catch (error) {
-      return new ProviderConverterResult(null, true, CLIENT_ERROR_STATES.AUTHORIZATION);
+      return new ProviderConverterResult(null, true, error);
     }
-
     return new ProviderConverterResult(convertedPlaylist);
   };
 };
