@@ -5,7 +5,6 @@ import {CLIENT_ERROR_STATES} from '../types/client-error';
 import Album from '../types/album';
 import Playlist from '../types/playlist';
 import Song from '../types/song';
-import {validate} from '../../../../../../../Library/Caches/typescript/3.8/node_modules/@babel/types/lib/index';
 
 export default class SpotifyConverter extends ProviderConverter {
   constructor(spotifyClient) {
