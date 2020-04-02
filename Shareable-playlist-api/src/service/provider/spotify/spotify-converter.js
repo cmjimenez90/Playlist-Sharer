@@ -53,9 +53,8 @@ export default class SpotifyConverter extends ProviderConverter {
       if (results.tracks.items.length < 1) {
         return null;
       }
-
       const match = results.tracks.items.filter((item) => {
-        if (item.name = song.name && item.type == 'track') {
+        if (item.name == song.name && item.type == 'track') {
           return true;
         }
         return false;
@@ -68,7 +67,7 @@ export default class SpotifyConverter extends ProviderConverter {
     try {
       const response = await this.client.asyncSearch(types, query);
       if (response.error) {
-        console.log(results);
+        console.log(response);
         console.log(song);
         return new ProviderConverterResult(null, true, response.error);
       }
@@ -77,6 +76,7 @@ export default class SpotifyConverter extends ProviderConverter {
         const covertedSong = new Song(matched.name, matched.artist, matched.releaseAlbum, matched.external_urls.spotify);
         return new ProviderConverterResult(covertedSong);
       }
+      return new ProviderConverterResult(song);
     } catch (error) {
       console.log(error);
       return new ProviderConverterResult(null, true, CLIENT_ERROR_STATES.SERVER_ERROR);
@@ -85,14 +85,14 @@ export default class SpotifyConverter extends ProviderConverter {
 
   async asyncConvertPlaylist(playlist) {
     const songsToConvert = playlist.songs;
-    const songs = songsToConvert.map((song) => {
+    const songs = songsToConvert.map(async (song) => {
       return this.asyncConvertSong(song);
     });
     const convertedPlaylist = new Playlist(playlist.name);
     const awaitedSongs = await Promise.all(songs);
     try {
       const validSongResults = awaitedSongs.filter((result) => {
-        if (result.hasError === false && result.convertedItem.url !== '') {
+        if (result.hasError === false && result.convertedItem.url != '') {
           return true;
         } else if (result.error === CLIENT_ERROR_STATES.AUTHORIZATION) {
           throw CLIENT_ERROR_STATES.AUTHORIZATION;
