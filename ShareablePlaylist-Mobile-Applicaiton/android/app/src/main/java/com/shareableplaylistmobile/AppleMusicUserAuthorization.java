@@ -11,19 +11,20 @@ import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.BaseActivityEventListener;
 
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 
 import com.apple.android.sdk.authentication.*;
-
 public class AppleMusicUserAuthorization extends ReactContextBaseJavaModule  {
 
 
     private AuthenticationManager authenticationManager;
 
-    private String TAG = "APPLE_AUTHORIZATION";
-    private static final int ACTIVITYCODE_APPLEAUTH = 200;
+    private String TAG = "PLAYLIST SHARER_AUTH";
+    private static final int ACTIVITYCODE = 12345;
+    private ReactContext context;
     private Callback callbackFn;
 
 
@@ -31,17 +32,14 @@ public class AppleMusicUserAuthorization extends ReactContextBaseJavaModule  {
 
         @Override
         public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
-            if (requestCode == ACTIVITYCODE_APPLEAUTH) {
-                Log.d(TAG, "onActivityResult: TOKEN  " + resultCode);
+            if (requestCode == ACTIVITYCODE){
                 if (callbackFn != null) {
                     TokenResult tokenResult = authenticationManager.handleTokenResult(intent);
-                    Log.d(TAG, "onActivityResult: INTENT  " + intent.getDataString());
-
                     if(tokenResult.isError()){
-                        Log.d(TAG, "onActivityResult:" + tokenResult.getError().name());
+                        Log.d(TAG, "onActivityResult: ERROR " + tokenResult.getError().name());
                         callbackFn.invoke(tokenResult.getError().name(), null);
                     }else{
-                        Log.d(TAG, "onActivityResult: token success: "+ tokenResult.getMusicUserToken());
+                        Log.d(TAG, "onActivityResult: SUCCESS "+ tokenResult.getMusicUserToken());
                         callbackFn.invoke(null, tokenResult.getMusicUserToken());
                     }
                 }
@@ -54,6 +52,8 @@ public class AppleMusicUserAuthorization extends ReactContextBaseJavaModule  {
         super(reactContext);
         this.authenticationManager = AuthenticationFactory.createAuthenticationManager(reactContext);
         reactContext.addActivityEventListener(mActivityEventListener);
+        this.context = reactContext;
+
     }
 
     @NonNull
@@ -64,20 +64,12 @@ public class AppleMusicUserAuthorization extends ReactContextBaseJavaModule  {
 
     @ReactMethod
     public void getUserToken(String developerToken, Callback callbackFn){
-
-        Activity currentActivity = getCurrentActivity();
-
-        if (currentActivity == null) {
-            callbackFn.invoke("ACTIVITY_ERROR", null);
-            return;
-        }
-
         this.callbackFn = callbackFn;
         try{
             AuthIntentBuilder intentBuilder = authenticationManager.createIntentBuilder(developerToken);
-            Intent authorizationIntent = intentBuilder.setStartScreenMessage("Connect Playlist Sharer to allow Playlist Imports").setHideStartScreen(true).build();
+            Intent authorizationIntent = intentBuilder.setStartScreenMessage("Sign in to allow Playlist Sharer to access your library").setHideStartScreen(true).build();
             Log.d(TAG, "getUserToken: Starting Activity");
-            currentActivity.startActivityForResult(authorizationIntent, ACTIVITYCODE_APPLEAUTH, null);
+            this.context.startActivityForResult(authorizationIntent, ACTIVITYCODE, null);
         }
         catch(Exception exception){
             this.callbackFn.invoke(exception.getMessage(), null);
