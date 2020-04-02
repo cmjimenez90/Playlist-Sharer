@@ -10,7 +10,7 @@ const  URLConversionForm = () => {
     const [sourceURL, setSourceURL] = useState('Enter URL Here');
     const [convertedURL, setConvertedURL] = useState('');
     const [showConvertedURL, setShowConvertedURL] = useState(false);
-    
+
     const openURL = () => {
         if(Linking.canOpenURL(`${convertedURL}`)){
             setSourceURL('');
@@ -31,17 +31,15 @@ const  URLConversionForm = () => {
             }
         }
         ).then((response) => {
-            console.log(response);
             const data = response.data;
-            console.log(data);
             setConvertedURL(data.convertedURL);
             setShowConvertedURL(true);
         })
         .catch((error) => {
             console.log(error);
             console.log(error.response.status);
-            console.log(error.response.data.error);
-        });    
+            console.log(error.response);
+        });  
     }
 
     const convertToSpotifyURL = () => {  
@@ -64,7 +62,7 @@ const  URLConversionForm = () => {
             console.log(error);
             console.log(error.response.status);
             console.log(error.response.data.error);
-        });    
+        });
     };
 
     return (
