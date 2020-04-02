@@ -46,10 +46,22 @@ export default class ConversionHandler {
         const playlistID = identifiedURL.destination.split('/')[1];
         clientResponse = await this.spotifyClient.asyncGetPlaylist(playlistID);
         const playlistTracksPage = clientResponse.tracks;
-        const spotifyPlaylistSongs = [];
-        playlistTracksPage.items.map((playlistTrack) => {
-          const song = new Song(playlistTrack.track.name, playlistTrack.track.artists[0].name, playlistTrack.track.album.name);
-          spotifyPlaylistSongs.push(song);
+        const actualPlaylistTracks = playlistTracksPage.items.filter((playlistTrack) => {
+          try {
+            return playlistTrack.track.type === 'track';
+          } catch (error) {
+            console.log(error.message);
+            return false;
+          }
+        });
+
+        const spotifyPlaylistSongs = actualPlaylistTracks.map((playlistTrack) => {
+          try {
+            const song = new Song(playlistTrack.track.name, playlistTrack.track.artists[0].name, playlistTrack.track.album.name);
+            return song;
+          } catch (error) {
+            console.log(error);
+          }
         });
         const playlist = new Playlist(clientResponse.name, spotifyPlaylistSongs);
         convertedProviderResult = await appleConverter.asyncConvertPlaylist(playlist);
