@@ -36,12 +36,19 @@ const  URLConversionForm = () => {
         }
         ).then((response) => {
             const data = response.data;
-            setConvertedURL(data.convertedURL);
+            if(data.convertedURL){
+                setConvertedURL(data.convertedURL);
+            }
+            else{
+                console.log(data);
+                setShowConversionResult(false); 
+                Alert.alert("Could not convert the item successfully");
+            }  
         })
         .catch((error) => {
             console.log(error);
             setShowConversionResult(false);
-            Alert.alert("Something went wrong ... please try again");
+            Alert.alert("ERROR",error);
         });  
     }
 
@@ -59,12 +66,19 @@ const  URLConversionForm = () => {
         }
         ).then((response) => {
             const data = response.data;
-            setConvertedURL(data.convertedURL);
+            if(data.convertedURL){
+                setConvertedURL(data.convertedURL);
+            }
+            else{
+                console.log(data);
+                setShowConversionResult(false); 
+                Alert.alert("Could not convert the item successfully");
+            }  
         })
         .catch((error) => {
             console.log(error);
             setShowConversionResult(false); 
-            Alert.alert("Something went wrong ... please try again");
+            Alert.alert("ERROR",error);
         });
     };
 
