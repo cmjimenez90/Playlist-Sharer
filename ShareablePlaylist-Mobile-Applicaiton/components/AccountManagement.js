@@ -23,7 +23,7 @@ const  AccountManagement = () => {
         });  
     };
     const SignOutApple = () => {
-        authenticationStorage.asyncClearSpotifyFromStore().then(
+        authenticationStorage.asyncClearAppleFromStore().then(
             (data) => {
                 if(data){
                     action({type: 'SignOutApple'})
