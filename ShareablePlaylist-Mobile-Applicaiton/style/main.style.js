@@ -107,6 +107,34 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
         backgroundColor: color.secondary
+    },
+    urlConversionResult: {
+        height: "40%",
+        width: "75%",
+        backgroundColor: color.accent,
+        position: "absolute",
+        left: "13%",
+        top: "15%",
+        elevation: 10,
+        shadowOpacity: .9,
+        shadowRadius: 30,
+        shadowColor: color.secondary,
+        shadowOffset: { height: 0, width: 0 },
+    },
+    urlConversionResultHeader: {
+        paddingTop: 10,
+        textAlign: "center",
+        color: color.primary,
+        fontSize: 30
+    },
+    urlConversionResultBody: {
+        height: "80%",
+        justifyContent: "center",
+        alignContent: "center",
+    },
+    urlConversionResultBodyText: {
+        fontSize: 18,
+        textAlign: "center"
     }
   });
 
