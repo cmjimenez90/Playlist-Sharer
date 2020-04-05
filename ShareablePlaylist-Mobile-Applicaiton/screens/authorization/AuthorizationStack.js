@@ -4,7 +4,7 @@ import {color} from '../../style/main.style';
 import SignInScreen from './SignInScreen';
 import SpotifyAuthScreen from './SpotifyAuthScreen';
 import AppleAuthScreen from './AppleAuthScreen';
-export default AuthenticationStack = ()  =>{
+export default AuthorizationStack = ()  =>{
     const Stack = createStackNavigator();
     return (
         <Stack.Navigator 

@@ -1,25 +1,23 @@
 import React,{ useState, useEffect, useContext } from 'react'
-import {AuthenticationContext} from '../authentication/AuthenticationContext'
-import useAuthentication from '../authentication/useAuthentication';
+import AuthorizationStorage from '../authorization/AuthorizationStorage';
+import { AuthorizationContext } from '../authorization/AuthorizationContext';
 import { createStackNavigator } from '@react-navigation/stack';
-import AuthenticationStack from './authentication/AuthenticationStack';
+import useAuthorization from '../authorization/useAuthorization';
+import AuthorizationStack from './authorization/AuthorizationStack';
 import MainStack from './converter/MainStack';
+import LoadingScreen from './authorization/LoadingScreen';
 
-import AuthenticationStorage from '../authentication/AuthenticationStorage';
-import LoadingScreen from './authentication/LoadingScreen';
-
-const AppNavigator = ()  =>{  
+const AppNavigator = ()  => {  
 
   const [storageLoaded, setLoaded] = useState(false);
-  const authenticationStorage = new AuthenticationStorage();
-  const [state, action] = useContext(AuthenticationContext);
-  const {isUserAuthenticated} = useAuthentication();
-
+  const authorizationStorage = new AuthorizationStorage();
+  const {isUserAuthorized} = useAuthorization();
+  const [state, action] = useContext(AuthorizationContext);
   const Stack = createStackNavigator();
 
   useEffect(() => {
     if(storageLoaded === false){
-       authenticationStorage.asyncLoadAuthenticationFromStore().then( (data) =>
+      authorizationStorage.asyncLoadAuthorizationFromStore().then( (data) =>
         {
           if(data !== null){
             if(data.spotify_authorization.isAuthorized){
@@ -35,7 +33,6 @@ const AppNavigator = ()  =>{
           console.log(error);
         }
       );
-
       setLoaded(true);
     }
   },[]);
@@ -49,10 +46,10 @@ const AppNavigator = ()  =>{
   }
 
   return (
-    isUserAuthenticated() ? (
+    isUserAuthorized() ? (
       <MainStack/>
     ) : (
-      <AuthenticationStack />
+      <AuthorizationStack />
     )
   )
 }

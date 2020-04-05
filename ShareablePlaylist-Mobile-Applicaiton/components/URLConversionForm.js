@@ -1,13 +1,13 @@
 import React, {useState,useContext} from 'react'
 import {View, Text, TextInput, Linking, Alert} from 'react-native';
-import {AuthenticationContext} from '../authentication/AuthenticationContext';
+import {AuthorizationContext} from '../authorization/AuthorizationContext';
 import {styles} from '../style/main.style';
 import axios from 'axios';
 import URLConversionResult from './URLConversionResult';
 
 const  URLConversionForm = () => {
 
-    const [state,action] = useContext(AuthenticationContext);
+    const [state,action] = useContext(AuthorizationContext);
     const [sourceURL, setSourceURL] = useState('Enter URL Here');
     const [convertedURL, setConvertedURL] = useState('');
     const [showConversionResult,setShowConversionResult] = useState(false);

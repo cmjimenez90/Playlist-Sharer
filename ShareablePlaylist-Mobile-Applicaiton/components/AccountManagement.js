@@ -2,17 +2,17 @@ import React, {useContext} from 'react'
 import {View, Text, Alert} from 'react-native';
 
 import {styles} from '../style/main.style';
-import {AuthenticationContext} from '../authentication/AuthenticationContext';
-import AuthenticationStorage from '../authentication/AuthenticationStorage';
+import {AuthorizationContext} from '../authorization/AuthorizationContext';
+import AuthorizationStorage from '../authorization/AuthorizationStorage';
 
 import AccountStatus from './AccountStatus';
 
 const  AccountManagement = () => {  
-    const authenticationStorage = new AuthenticationStorage();
-    const [state, action] =  useContext(AuthenticationContext);
+    const authorizationStorage = new AuthorizationStorage();
+    const [state, action] =  useContext(AuthorizationContext);
 
     const SignOutSpotify =  () => {
-        authenticationStorage.asyncClearSpotifyFromStore().then(
+        authorizationStorage.asyncClearSpotifyFromStore().then(
             (data) => {
                 if(data){
                     action({type: 'SignOutSpotify'})
@@ -23,7 +23,7 @@ const  AccountManagement = () => {
         });  
     };
     const SignOutApple = () => {
-        authenticationStorage.asyncClearAppleFromStore().then(
+        authorizationStorage.asyncClearAppleFromStore().then(
             (data) => {
                 if(data){
                     action({type: 'SignOutApple'})
