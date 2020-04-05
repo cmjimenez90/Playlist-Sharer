@@ -40,9 +40,8 @@ const  URLConversionForm = () => {
                 setConvertedURL(data.convertedURL);
             }
             else{
-                console.log(data);
+                handleConversionError(response);
                 setShowConversionResult(false); 
-                Alert.alert("Could not convert the item successfully");
             }  
         })
         .catch((error) => {
@@ -70,9 +69,8 @@ const  URLConversionForm = () => {
                 setConvertedURL(data.convertedURL);
             }
             else{
-                console.log(data);
+                handleConversionError(response);
                 setShowConversionResult(false); 
-                Alert.alert("Could not convert the item successfully");
             }  
         })
         .catch((error) => {
@@ -81,6 +79,17 @@ const  URLConversionForm = () => {
             Alert.alert("ERROR",error);
         });
     };
+
+    const handleConversionError = (response) => {
+        console.log(response.error);
+        console.log(response.message);
+        if(response.error = 'AUTHORIZATION'){
+            Alert.alert("Please reauthorize the application in the settings menu");
+        }
+        else {
+            Alert.alert(response.error);
+        }
+    }
 
     return (
         <>
