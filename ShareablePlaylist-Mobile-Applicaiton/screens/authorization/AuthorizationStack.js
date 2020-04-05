@@ -20,9 +20,9 @@ export default AuthorizationStack = ()  =>{
           }}
           initialRouteName={'SignInScreen'}
          >
-            <Stack.Screen name='SignInScreen' component={SignInScreen} />
-            <Stack.Screen name='SpotifyAuthScreen' component={SpotifyAuthScreen} />
-            <Stack.Screen name='AppleAuthScreen' component={AppleAuthScreen} />
+            <Stack.Screen name='SignInScreen' component={SignInScreen} options={{ title: 'Playlist Sharer' }} />
+            <Stack.Screen name='SpotifyAuthScreen' component={SpotifyAuthScreen} options={{ title: '' }}/>
+            <Stack.Screen name='AppleAuthScreen' component={AppleAuthScreen} options={{ title: '' }} />
         </Stack.Navigator>
     );
 }
