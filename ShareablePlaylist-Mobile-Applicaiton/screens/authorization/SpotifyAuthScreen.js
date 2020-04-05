@@ -2,15 +2,14 @@ import React, {useContext} from 'react'
 import { WebView } from 'react-native-webview';
 import { Alert } from 'react-native';
 
-import {ShareablePlaylistURL} from 'react-native-dotenv';
-import {AuthenticationContext} from '../../authentication/AuthenticationContext';
-import AuthenticationStorage from '../../authentication/AuthenticationStorage';
+import {AuthorizationContext} from '../../authorization/AuthorizationContext';
+import AuthorizationStorage from '../../authorization/AuthorizationStorage';
 
-const SpotifyAuthScreen = ({ navigation }) => {
+const SpotifyAuthScreen = () => {
 
    
-   const [state,action] = useContext(AuthenticationContext);
-   const authenticationStorage = new AuthenticationStorage();
+   const [state,action] = useContext(AuthorizationContext);
+   const authorizationStorage = new AuthorizationStorage();
 
    let webView = null;
    const authroizationURL = `http://10.0.0.45/authorize/spotify`;
@@ -35,9 +34,9 @@ const SpotifyAuthScreen = ({ navigation }) => {
             }
             else {
                 const authorizationToken = response.authorizationToken;
-                await authenticationStorage.asyncSaveItemToStore(authenticationStorage.SPOTIFY_TOKEN,authorizationToken.access_token);
-                await authenticationStorage.asyncSaveItemToStore(authenticationStorage.SPOTIFY_REFRESH,authorizationToken.refresh_token);
-                await authenticationStorage.asyncSaveItemToStore(authenticationStorage.SPOTIFY_EXPIRATION,authorizationToken.expires_in.toString());
+                await authorizationStorage.asyncSaveItemToStore(authorizationStorage.SPOTIFY_TOKEN,authorizationToken.access_token);
+                await authorizationStorage.asyncSaveItemToStore(authorizationStorage.SPOTIFY_REFRESH,authorizationToken.refresh_token);
+                await authorizationStorage.asyncSaveItemToStore(authorizationStorage.SPOTIFY_EXPIRATION,authorizationToken.expires_in.toString());
                 action({type: 'AuthorizeSpotify',payload: authorizationToken});
             }
         } catch(error){

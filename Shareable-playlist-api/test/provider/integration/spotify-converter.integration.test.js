@@ -17,9 +17,9 @@ describe('spotify-converter', ()=>{
 
 
     const converter = new SpotifyConverter(spotifyClient);
-    const convertedSong = await converter.asyncConvertSong(song);
-    expect(convertedSong).not.toBeNull();
-    expect(convertedSong).toMatchObject(expectedConvertedSong);
+    const convertedItemResult = await converter.asyncConvertSong(song);
+    expect(convertedItemResult.hasError).not.toBeTruthy();
+    expect(convertedItemResult.convertedItem.url).toBe(expectedConvertedSong.url);
   });
 
   it('can convert an album', async () => {
@@ -34,9 +34,9 @@ describe('spotify-converter', ()=>{
 
     const album = new Album('Stankonia', 'OutKast');
     const converter = new SpotifyConverter(spotifyClient);
-    const convertedAlbum = await converter.asyncConvertAlbum(album);
-    expect(convertedAlbum).not.toBeNull();
-    expect(convertedAlbum).toMatchObject(expectedConvertedAlbum);
+    const convertedItemResult = await converter.asyncConvertAlbum(album);
+    expect(convertedItemResult.hasError).not.toBeTruthy();
+    expect(convertedItemResult.convertedItem.url).toBe(expectedConvertedAlbum.url);
   });
 
   it('can convert a playlist', async () => {
@@ -53,12 +53,10 @@ describe('spotify-converter', ()=>{
 
     playlist.songs = songs;
     const converter = new SpotifyConverter(spotifyClient);
-    const convertedPlaylist = await converter.asyncConvertPlaylist(playlist);
+    const convertedItemResult = await converter.asyncConvertPlaylist(playlist);
 
-    expect(convertedPlaylist).not.toBeNull();
-    expect(convertedPlaylist.songs.length).toBe(3);
-    convertedPlaylist.songs.forEach((song, index) => {
-      expect(song.name).toBe(songs[index].name);
-    });
+    expect(convertedItemResult.hasError).not.toBeTruthy();
+    console.log(convertedItemResult.convertedItem);
+    expect(convertedItemResult.convertedItem.songs).toHaveLength(3);
   });
 });

@@ -2,42 +2,25 @@ import React, {useContext} from 'react'
 import {View, Text, Alert} from 'react-native';
 
 import {styles} from '../style/main.style';
-import {AuthenticationContext} from '../authentication/AuthenticationContext';
-import AuthenticationStorage from '../authentication/AuthenticationStorage';
-
+import {AuthorizationContext} from '../authorization/AuthorizationContext';
+import useAuthorization from '../authorization/useAuthorization';
 import AccountStatus from './AccountStatus';
 
-const  AccountManagement = () => {  
-    const authenticationStorage = new AuthenticationStorage();
-    const [state, action] =  useContext(AuthenticationContext);
+const  AccountManagement = () => {
+    const {unauthorizeAppleMusic,unauthorizeSpotifyMusic} = useAuthorization();
+    const [state, action] =  useContext(AuthorizationContext);
 
     const SignOutSpotify =  () => {
-        authenticationStorage.asyncClearSpotifyFromStore().then(
-            (data) => {
-                if(data){
-                    action({type: 'SignOutSpotify'})
-                }
-            }
-        ).catch((error) => {
-            console.log(error);
-        });  
+        unauthorizeSpotifyMusic(); 
     };
     const SignOutApple = () => {
-        authenticationStorage.asyncClearSpotifyFromStore().then(
-            (data) => {
-                if(data){
-                    action({type: 'SignOutApple'})
-                }
-            }
-        ).catch((error) => {
-            console.log(error);
-        });  
+        unauthorizeAppleMusic();
     };
     const SignInApple = () => {
-        Alert.alert('Sign in to Apple Coming Soon')
+        Alert.alert("Coming soon");
     };
     const SignInSpotify = () => {
-        Alert.alert('Sign in to Spotify Coming Soon')
+        Alert.alert("Coming soon");
     };
 
     return (

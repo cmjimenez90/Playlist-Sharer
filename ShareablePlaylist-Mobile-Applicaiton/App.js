@@ -3,19 +3,19 @@ import { SafeAreaView } from 'react-native';
 
 import React from 'react';
 
-import {AuthenticationProvider} from './authentication/AuthenticationContext';
+import {AuthorizationProvider} from './authorization/AuthorizationContext';
 import AppNavigator from './screens/AppNavigator';
 import {color} from './style/main.style';
 
 export default function App() {
 
   return(
-      <AuthenticationProvider>
+      <AuthorizationProvider>
         <SafeAreaView style={{flex: 1, backgroundColor: color.secondary}}>
           <NavigationContainer>
             <AppNavigator/>
           </NavigationContainer>
         </SafeAreaView>
-      </AuthenticationProvider>
+      </AuthorizationProvider>
 )}
 

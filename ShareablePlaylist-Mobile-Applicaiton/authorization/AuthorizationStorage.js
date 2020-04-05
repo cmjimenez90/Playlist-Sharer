@@ -1,8 +1,6 @@
-import { AsyncStorage, useContext } from 'react-native';
-import {AuthenticationContext} from './AuthenticationContext'
-import AppNavigator from '../screens/AppNavigator';
+import { AsyncStorage } from 'react-native';
 
-export default class AuthenticationStorage {
+export default class AuthorizationStorage {
     constructor(){
         this.SPOTIFY_TOKEN = '@Spotify_Token';
         this.SPOTIFY_REFRESH = '@Spotify_Refresh';
@@ -11,7 +9,7 @@ export default class AuthenticationStorage {
     }
     
 
-    async asyncLoadAuthenticationFromStore(){
+    async asyncLoadAuthorizationFromStore(){
         try{
             const spotifyToken = await AsyncStorage.getItem(this.SPOTIFY_TOKEN);
             const spotifyExpiration = await AsyncStorage.getItem(this.SPOTIFY_EXPIRATION);
