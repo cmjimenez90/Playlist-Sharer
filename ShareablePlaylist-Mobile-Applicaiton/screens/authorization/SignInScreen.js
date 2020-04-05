@@ -8,11 +8,11 @@ import SpotifyPlatfromButton from '../../components/SpotifyPlatfromButton';
 const SignInScreen = ({navigation}) => {
 
     const handleSpotifyAuthorization = () => {
-        navigation.navigate('SpotifyAuthScreen')
+        navigation.navigate('SpotifyAuthScreen');
     };
 
     const handleAppleAuthorization = () => {
-        navigation.navigate('AppleAuthScreen')
+        navigation.navigate('AppleAuthScreen');
     };
 
     return (

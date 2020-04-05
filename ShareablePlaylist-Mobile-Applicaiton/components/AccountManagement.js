@@ -3,41 +3,24 @@ import {View, Text, Alert} from 'react-native';
 
 import {styles} from '../style/main.style';
 import {AuthorizationContext} from '../authorization/AuthorizationContext';
-import AuthorizationStorage from '../authorization/AuthorizationStorage';
-
+import useAuthorization from '../authorization/useAuthorization';
 import AccountStatus from './AccountStatus';
 
-const  AccountManagement = () => {  
-    const authorizationStorage = new AuthorizationStorage();
+const  AccountManagement = () => {
+    const {unauthorizeAppleMusic,unauthorizeSpotifyMusic} = useAuthorization();
     const [state, action] =  useContext(AuthorizationContext);
 
     const SignOutSpotify =  () => {
-        authorizationStorage.asyncClearSpotifyFromStore().then(
-            (data) => {
-                if(data){
-                    action({type: 'SignOutSpotify'})
-                }
-            }
-        ).catch((error) => {
-            console.log(error);
-        });  
+        unauthorizeSpotifyMusic(); 
     };
     const SignOutApple = () => {
-        authorizationStorage.asyncClearAppleFromStore().then(
-            (data) => {
-                if(data){
-                    action({type: 'SignOutApple'})
-                }
-            }
-        ).catch((error) => {
-            console.log(error);
-        });  
+        unauthorizeAppleMusic();
     };
     const SignInApple = () => {
-        Alert.alert('Sign in to Apple Coming Soon')
+        Alert.alert("Coming soon");
     };
     const SignInSpotify = () => {
-        Alert.alert('Sign in to Spotify Coming Soon')
+        Alert.alert("Coming soon");
     };
 
     return (

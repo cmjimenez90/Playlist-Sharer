@@ -4,6 +4,7 @@ import {AuthorizationContext} from '../../authorization/AuthorizationContext'
 import AuthorizationStorage from '../../authorization/AuthorizationStorage'
 import axios from 'axios'
 import { styles, color } from '../../style/main.style'
+
   const AppleAuthScreen = ({navigation}) => {
 
     const [state,action] = useContext(AuthorizationContext);

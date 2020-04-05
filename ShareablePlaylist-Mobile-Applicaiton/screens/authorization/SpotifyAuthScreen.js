@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 import {AuthorizationContext} from '../../authorization/AuthorizationContext';
 import AuthorizationStorage from '../../authorization/AuthorizationStorage';
 
-const SpotifyAuthScreen = ({ navigation }) => {
+const SpotifyAuthScreen = () => {
 
    
    const [state,action] = useContext(AuthorizationContext);
