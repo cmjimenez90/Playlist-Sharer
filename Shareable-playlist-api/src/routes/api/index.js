@@ -1,3 +1,7 @@
+/**
+ * Main routing hub for /v1/*
+ * Imports routing paths for spotify and apple music
+ */
 import {Router} from 'express';
 import v1 from './v1';
 

@@ -1,3 +1,7 @@
+/**
+ * Request handler for spotify authorization request
+ */
+
 import {Router} from 'express';
 import AuthorizationResponse from './response/authorization-response';
 import SpotifyAuthorziationHandler from '../../service/authorization/spotify-authorization-handler';
@@ -5,11 +9,14 @@ import SpotifyAuthorziationHandler from '../../service/authorization/spotify-aut
 const spotifyAuthHandler = new SpotifyAuthorziationHandler();
 const router = new Router();
 
+// Redirects request to start Spotify authoirzation flow
 router.get('/', function(req, res) {
   res.redirect(spotifyAuthHandler.getSpotifyAuthorizationUri());
 });
 
+// Handles the callback response from spotify during the enduser authorization process
 router.get('/callback', function(req, res) {
+  // user either did not accept or an unknown error occurred
   if (req.query.error || !req.query.code) {
     const response = new AuthorizationResponse('', true, 'something went wrong');
     res.send(response);
@@ -25,6 +32,8 @@ router.get('/callback', function(req, res) {
   });
 });
 
+
+// renews the enduser's authorization token using their refresh_token
 router.post('/refresh', function(req, res) {
   if (!req.body || !req.body['refresh_token']) {
     const response = new AuthorizationResponse('', true, 'something went wrong');

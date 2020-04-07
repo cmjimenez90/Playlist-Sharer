@@ -1,3 +1,6 @@
+/**
+  * Route Index for /v1/spotify-music and /v1/apple-music
+  */
 import {Router} from 'express';
 
 import SpotifyAuthorizationHandler from '../../../service/authorization/spotify-authorization-handler';
@@ -13,6 +16,8 @@ const appleAuthHandler = new AppleAuthorizationHandler();
 const spotifyAuthHandler = new SpotifyAuthorizationHandler();
 const urlRetriever = new URLRetriever();
 
+
+// Verify that received requet have an authorization token.
 const verifyAuthroizationHeader = (req, res, next) => {
   if (req.headers['authorization']) {
     next();
@@ -28,8 +33,13 @@ router.get('/', function(req, res) {
   res.send('ShareablePlaylist API V1');
 });
 
-// Request relating to Spotify Music
+/** ************************
+ *  Spotify Music ENDPOINTS
+ ** ************************/
+
+// Request handler for conversion request to spotify music
 router.post('/spotify-music', verifyAuthroizationHeader, async function(req, res) {
+  // validate that the request was sent with neccessary parameter
   if (!req.body || !req.body['itemURL']) {
     return res.status(400).send('Missing Item URL');
   }
@@ -40,6 +50,7 @@ router.post('/spotify-music', verifyAuthroizationHeader, async function(req, res
 
   const requestURL = req.body['itemURL'];
   try {
+    // Extract authorization token and attempt conversion of request item
     const userToken = req.headers['authorization'].split(' ')[1];
     const conversionResult = await conversionHandler.asyncConvertURLtoSpotifyMusic(requestURL, userToken);
     res.send(conversionResult);
@@ -51,7 +62,9 @@ router.post('/spotify-music', verifyAuthroizationHeader, async function(req, res
   }
 });
 
+// Request handler for url detail request to spotify music
 router.get('/spotify-music', async function(req, res) {
+  // validate that the request was sent with neccessary parameter
   if (!req.query.url) {
     return res.status(400).send('Please send a URL to retrieve');
   }
@@ -70,11 +83,17 @@ router.get('/spotify-music', async function(req, res) {
   }
 });
 
-// Request relating to Apple Music
+/** ************************
+ *  Apple Music ENDPOINTS
+ ** ************************/
+
+// Request handler for conversion request to apple music
 router.post('/apple-music', verifyAuthroizationHeader, async function(req, res) {
+  // validate that the request was sent with neccessary parameter
   if (!req.body || !req.body['itemURL']) {
     return res.status(400).send('Missing Item URL');
   }
+
   const spotifyClientToken = await spotifyAuthHandler.asyncGenerateClientCredential();
   const spotifyClient = new SpotifyClient(spotifyClientToken.access_token);
   const appleClient = new AppleMusicClient(appleAuthHandler.generateDeveloperToken());
@@ -83,6 +102,7 @@ router.post('/apple-music', verifyAuthroizationHeader, async function(req, res) 
   const requestURL = req.body['itemURL'];
 
   try {
+    // Extract authorization token and attempt conversion of request item
     const userToken = req.headers['authorization'].split(' ')[1];
     const conversionResult = await conversionHandler.asyncConvertURLToAppleMusic(requestURL, userToken);
     res.send(conversionResult);
@@ -94,7 +114,9 @@ router.post('/apple-music', verifyAuthroizationHeader, async function(req, res) 
   }
 });
 
+// Request handler for url detail request to Apple Music
 router.get('/apple-music', async function(req, res) {
+  // validate that the request was sent with neccessary parameter
   if (!req.query.url) {
     return res.status(400).send('Please send a URL to retrieve');
   }
