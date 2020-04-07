@@ -5,7 +5,10 @@ import axios from 'axios';
 import queryString from 'qs';
 import config from '../../config/server-config';
 
-// Spotify Authorization Handler class
+/** Spotify Authorization Handler class
+* @class
+ * @classdesc Manages the creation of the Apple Developer tokens
+ ***/
 export default class SpotifyAuthorizationHandler {
   /**
    * Create a Spotify Authorization Handler
