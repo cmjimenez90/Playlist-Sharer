@@ -8,11 +8,12 @@ import useConfig from './useConfig';
 
 const  URLConversionForm = () => {
 
+    const {API_HOST} = useConfig();
     const [state,action] = useContext(AuthorizationContext);
     const [sourceURL, setSourceURL] = useState('Enter URL Here');
     const [convertedURL, setConvertedURL] = useState('');
     const [showConversionResult,setShowConversionResult] = useState(false);
-    const {API_HOST} = useConfig
+   
   
     const openURL = () => {
         console.log("called");
@@ -56,7 +57,7 @@ const  URLConversionForm = () => {
     const convertToSpotifyURL = () => {
         setShowConversionResult(true);  
         const authorizationHeader = `Bearer ${state.spotifyToken}`;
-        axios.post(`${config.API_HOST}/api/v1/spotify-music`,
+        axios.post(`${API_HOST}/api/v1/spotify-music`,
         {
             itemURL: sourceURL,
         },
