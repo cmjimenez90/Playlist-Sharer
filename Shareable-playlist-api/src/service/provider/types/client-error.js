@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * @class
+ * @classdesc Client Response Error object
+ */
 export class ClientError {
   constructor(error, message) {
     this.error = error;
@@ -7,6 +11,9 @@ export class ClientError {
   }
 };
 
+/**
+ * @constant CLIENT_ERROR_STATES Error states
+ */
 export const CLIENT_ERROR_STATES = {
   AUTHORIZATION: 'AUTHORIZATION',
   SERVER_ERROR: 'SERVER ERROR',
