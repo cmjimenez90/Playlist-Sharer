@@ -1,6 +1,10 @@
 'use strict';
 import ParsedProviderURL from '../base/provider-url';
 
+/**
+ * @class
+ * @classdesc Spotify Music Parser to parse URL and store url attributes
+ */
 export default class SpotifyUrlParser {
   constructor() {};
   parse(url) {

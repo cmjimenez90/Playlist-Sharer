@@ -9,7 +9,7 @@ import {ClientError, CLIENT_ERROR_STATES} from '../types/client-error';
 export default class AppleMusicClient {
   /**
    * @constructor
-   * @param {string} developerToken - apple developer token
+   * @param {string} developerToken - apple developer token for request authoriztion
    */
   constructor(developerToken) {
     this.axiosClient = axios.create({

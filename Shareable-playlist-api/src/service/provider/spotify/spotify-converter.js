@@ -6,12 +6,26 @@ import Album from '../types/album';
 import Playlist from '../types/playlist';
 import Song from '../types/song';
 
+/**
+ * @class
+ * @classdesc Spotify Converter to convert Item types to their respective URLs
+ */
 export default class SpotifyConverter extends ProviderConverter {
+  /**
+   * @constructor
+   * @param {SpotifyClient} spotifyClient
+   */
   constructor(spotifyClient) {
     super();
     this.client = spotifyClient;
   };
 
+  /**
+   * Convert a album to an Spotify Music Playlist
+   * @async
+   * @param {Album} album - album object representing album to be converted
+   * @return {ProviderConverterResult} converted result
+   */
   async asyncConvertAlbum(album) {
     // Filter results to return the closet match
     function filterAlbumResult(results) {
@@ -48,6 +62,12 @@ export default class SpotifyConverter extends ProviderConverter {
     }
   };
 
+  /**
+   * Convert a Song to an Spotify Music Playlist
+   * @async
+   * @param {Song} song - Song object representing album to be converted
+   * @return {ProviderConverterResult} converted result
+   */
   async asyncConvertSong(song) {
     function filterTrackResults(results) {
       if (results.tracks.items.length < 1) {
@@ -83,6 +103,12 @@ export default class SpotifyConverter extends ProviderConverter {
     }
   };
 
+  /**
+   * Convert a playlist to an Spotify Music Playlist
+   * @async
+   * @param {Playlist} playlist - playlist object representing album to be converted
+   * @return {ProviderConverterResult} converted result
+   */
   async asyncConvertPlaylist(playlist) {
     const songsToConvert = playlist.songs;
     const songs = songsToConvert.map(async (song) => {
@@ -95,6 +121,7 @@ export default class SpotifyConverter extends ProviderConverter {
         if (result.hasError === false && result.convertedItem.url != '') {
           return true;
         } else if (result.error === CLIENT_ERROR_STATES.AUTHORIZATION) {
+          // exits out of the conversion if the api token has expired
           throw CLIENT_ERROR_STATES.AUTHORIZATION;
         } else {
           return false;

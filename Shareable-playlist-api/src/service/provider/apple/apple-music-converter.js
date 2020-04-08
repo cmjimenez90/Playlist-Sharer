@@ -22,6 +22,7 @@ export default class AppleMusicConverter extends ProviderConverter {
 
   /**
    * Convert an album to an Apple Music Album
+   * @async
    * @param {Album} album - album object representing album to be converted
    * @return {ProviderConverterResult} converted result
    */
@@ -62,6 +63,7 @@ export default class AppleMusicConverter extends ProviderConverter {
 
   /**
    * Convert a song to an Apple Music song
+   * @async
    * @param {song} song - song object representing album to be converted
    * @return {ProviderConverterResult} converted result
    */
@@ -103,6 +105,7 @@ export default class AppleMusicConverter extends ProviderConverter {
 
   /**
    * Convert a playlist to an Apple Music Playlist
+   * @async
    * @param {Playlist} playlist - album object representing album to be converted
    * @return {ProviderConverterResult} converted result
    */
@@ -120,6 +123,7 @@ export default class AppleMusicConverter extends ProviderConverter {
         if (result.hasError === false && result.convertedItem.url != '') {
           return true;
         } else if (result.error === CLIENT_ERROR_STATES.AUTHORIZATION) {
+          // exits out of the conversion if the api token has expired
           throw CLIENT_ERROR_STATES.AUTHORIZATION;
         } else {
           return false;

@@ -2,7 +2,15 @@
 import axios from 'axios';
 import {ClientError, CLIENT_ERROR_STATES} from '../types/client-error';
 
+/**
+ * @class
+ * @classdesc Spotify Music Client to handle Request to Spotify
+ */
 export default class SpotifyClient {
+  /**
+   * @constructor
+   * @param {string} applicationToken - application jwt token for request authoriztion
+   */
   constructor(applicationToken) {
     this.axiosClient = axios.create({
       baseURL: 'https://api.spotify.com/v1',
@@ -11,6 +19,13 @@ export default class SpotifyClient {
       },
     });
   }
+
+  /**
+   * Retreive song from Spotify Music catalog
+   * @async
+   * @param {string} songID - id of the song to retreive
+   * @return {object} data or response error
+   */
   async asyncGetSong(songID) {
     const songURL = '/tracks';
     try {
@@ -20,6 +35,13 @@ export default class SpotifyClient {
       return this.handleErrorResponse(error);
     }
   }
+
+  /**
+   * Retreive album from Spotify Music catalog
+   * @async
+   * @param {string} albumID - id of the album to retreive
+   * @return {object} data or response error
+   */
   async asyncGetAlbum(albumID) {
     const albumURL = '/albums';
     try {
@@ -29,6 +51,13 @@ export default class SpotifyClient {
       return this.handleErrorResponse(error);
     }
   }
+
+  /**
+   * Retreive playlist from Spotify Music catalog
+   * @async
+   * @param {string} playlistID - id of the playlist to retreive
+   * @return {object} data or response error
+   */
   async asyncGetPlaylist(playlistID) {
     const playlistURL = '/playlists';
     try {
@@ -39,6 +68,12 @@ export default class SpotifyClient {
     }
   }
 
+  /**
+   * Retreive user details from Spotify Music catalog
+   * @async
+   * @param {string} userAccessToken - access token from the enduser
+   * @return {object} data or response error
+   */
   async asyncGetUserDetails(userAccessToken) {
     const userURL = '/me';
     try {
@@ -53,6 +88,14 @@ export default class SpotifyClient {
     }
   }
 
+  /**
+  * Create an empty playlist in the enduser's spotify account
+  * @async
+  * @param {string} userAccessToken - enduser's access token
+  * @param {string} userID - userID of the enduser's spotify account
+  * @param {string} playlistName - name of the playlist to create
+  * @return {object} data or response error
+  */
   async asyncCreatePlaylist(userAccessToken, userID, playlistName) {
     const createPlaylistURL = `users/${userID}/playlists`;
     try {
@@ -73,6 +116,13 @@ export default class SpotifyClient {
     }
   }
 
+  /**
+   * Add songs to the enduser's playlist
+   * @param {string} userAccessToken - enduser's access token
+   * @param {string} playlistID  - id of the playlist to add songs to
+   * @param {Array} songIDs - array of song id's
+   * @return {object} data or response error
+   */
   async asyncAddSongsToPlaylist(userAccessToken, playlistID, songIDs) {
     // max submission is 100 at a time
     const playlistURL = `/playlists/${playlistID}/tracks`;
@@ -105,6 +155,14 @@ export default class SpotifyClient {
     };
   }
 
+
+  /**
+   * Searches the spotify music catalog
+   * @async
+   * @param {Array} itemTypes - Array of item types to search for: TRACKS,ALBUM,PLAYLIST
+   * @param {string} query  - Search term used to query the Apple Music catalog
+   * @return {object} response data or error
+   */
   async asyncSearch(itemTypes, query) {
     const searchURL = '/search';
     const types = itemTypes.reduce((prev, current)=>{
@@ -119,6 +177,12 @@ export default class SpotifyClient {
       return this.handleErrorResponse(error);
     }
   }
+
+  /**
+   * Parses the error response from http request
+   * @param {Error} error - error object from http response\
+   * @return {ClientError}
+   */
   handleErrorResponse(error) {
     if (error.response) {
       const status = error.response.status;
