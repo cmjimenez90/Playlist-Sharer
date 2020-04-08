@@ -2,8 +2,23 @@
 import UrlIdentifier from './url-identifier';
 import RetrievalResult from './types/retrieval-result';
 
+/**
+ * @class
+ * @classdesc Gets Item details of the supplied URL for respective provider
+ */
 export default class URLRetriever {
+  /**
+   * @constructor
+   */
   constructor() {};
+
+  /**
+   * Retreives Apple Music URL details
+   * @async
+   * @param {URL} url - url to retrieve
+   * @param {AppleMusicClient} appleClient - apple music client used to peform request
+   * @return {RetreivalResult}
+   */
   async asyncGetAppleURL(url, appleClient) {
     const identifiedURL = UrlIdentifier.identify(url);
 
@@ -41,6 +56,13 @@ export default class URLRetriever {
     }
   }
 
+  /**
+   * Retreives Spotify URL details
+   * @async
+   * @param {URL} url - url to retrieve
+   * @param {SpotifyClient} spotifyClient - apple music client used to peform request
+   * @return {RetreivalResult}
+   */
   async asyncGetSpotifyURL(url, spotifyClient) {
     const identifiedURL = UrlIdentifier.identify(url);
 

@@ -1,7 +1,10 @@
 import AppleMusicProvider from './apple/apple-music-provider';
 import SpotifyMusicProvider from './spotify/spotify-music-provider';
 
-
+/**
+ * @class
+ * @classdesc List of supported providers of the API
+ */
 export default class ValidProviders {
   constructor() {
     const appleMusicProvider = new AppleMusicProvider();

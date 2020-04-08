@@ -7,22 +7,42 @@ import AppleConverter from './apple/apple-music-converter';
 import SpotifyConverter from './spotify/spotify-converter';
 import ConversionResult from './types/conversion-result';
 
+/**
+ * @class
+ * @classdesc Conversion Handler manages url conversions between Spotify and Apple Music. Acts as the service for the api.
+ */
 export default class ConversionHandler {
+  /**
+   * @constructor
+   * @param {SpotifyClient} spotifyClient - Spotify Music Client
+   * @param {AppleMusicClient} appleClient - Apple Music Client
+   */
   constructor(spotifyClient, appleClient) {
     this.spotifyClient = spotifyClient;
     this.appleClient = appleClient;
   };
 
+  /**
+   * Converts supplied url to an Apple Music equivelant
+   * @async
+   * @param {URL} url - url to be converted to Apple Music
+   * @param {string} userToken - Apple Music User Token for request on behalf of the end user
+   * @return {ConversionResult}
+   */
   async asyncConvertURLToAppleMusic(url, userToken) {
     const identifiedURL = URLidentifier.identify(url);
+
+    // if url is already an Apple Music URL just return it to the user
     if (identifiedURL.platform === 'apple') {
       return new ConversionResult(url);
     }
+
     const appleConverter = new AppleConverter(this.appleClient);
     const URLType = identifiedURL.type;
     let clientResponse = null;
     // eslint-disable-next-line prefer-const
     let convertedProviderResult = null;
+    // Convert the url based on its parsed type
     switch (URLType) {
       case 'song':
         const songID = identifiedURL.destination.split('/')[1];
@@ -76,8 +96,17 @@ export default class ConversionHandler {
     }
   }
 
+  /**
+   * Converts supplied url to an Spotify equivelant
+   * @async
+   * @param {URL} url - url to be converted to Spotify
+   * @param {string} userToken - Spotify User Token for request on behalf of the end user
+   * @return {ConversionResult}
+   */
   async asyncConvertURLtoSpotifyMusic(url, userToken) {
     const identifiedURL = URLidentifier.identify(url);
+
+    // if url is already a Spotify URL just return it to the user
     if (identifiedURL.platform === 'spotify') {
       return new ConversionResult(url);
     }
@@ -86,6 +115,8 @@ export default class ConversionHandler {
     let clientResponse = null;
     // eslint-disable-next-line prefer-const
     let convertedProviderResult = null;
+
+    // Convert the url based on its parsed type
     switch (URLType) {
       case 'song':
         const songID = identifiedURL.destination;
