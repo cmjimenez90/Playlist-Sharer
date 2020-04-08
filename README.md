@@ -37,3 +37,13 @@ sudo docker build -t playlistapi .
 ```bash
 sudo docker run  -v /home/administrator/keys:/usr/app/keys -p 80:80 -e SERVER_PORT="80" -e SPOTIFY_REDIRECT_URI="http://10.0.0.45/authorize/spotify/callback" -e SPOTIFY_CLIENTID="123456789087654321" -e SPOTIFY_SECRET="987654321" -e APPLEMUSIC_TEAMID="ABCDEFGH" -e APPLEMUSIC_KID="ABCDEFGH" -e APPLEMUSIC_SECRET="/usr/app/keys/appleMusicKit_Secret.p8" -dit --rm --name api playlistapi
 ```
+
+#### Running the Playlist Sharer Mobile Application (IOS Only)
+
+The playlist Sharer Mobile Application is only fully functional on IOS at this time. To deploy the mobile application in a test environment the following must be completed.
+
+1. Point the mobile application to the API Server
+        
+    - This can be done by changing the HOST_API in the project's app-config.js in the PlaylistSharer Mobile Application directory
+    
+        - Example: http://myapi
