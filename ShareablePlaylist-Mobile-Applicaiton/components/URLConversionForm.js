@@ -4,6 +4,7 @@ import {AuthorizationContext} from '../authorization/AuthorizationContext';
 import {styles} from '../style/main.style';
 import axios from 'axios';
 import URLConversionResult from './URLConversionResult';
+import useConfig from './useConfig';
 
 const  URLConversionForm = () => {
 
@@ -11,6 +12,7 @@ const  URLConversionForm = () => {
     const [sourceURL, setSourceURL] = useState('Enter URL Here');
     const [convertedURL, setConvertedURL] = useState('');
     const [showConversionResult,setShowConversionResult] = useState(false);
+    const {API_HOST} = useConfig
   
     const openURL = () => {
         console.log("called");
@@ -25,7 +27,7 @@ const  URLConversionForm = () => {
     const convertToAppleURL = () => {
         setShowConversionResult(true); 
         const authorizationHeader = `Bearer ${state.appleToken}`;
-        axios.post('http://10.0.0.45/api/v1/apple-music',
+        axios.post(`${API_HOST}/api/v1/apple-music`,
         {
             itemURL: sourceURL,
         },
@@ -54,7 +56,7 @@ const  URLConversionForm = () => {
     const convertToSpotifyURL = () => {
         setShowConversionResult(true);  
         const authorizationHeader = `Bearer ${state.spotifyToken}`;
-        axios.post('http://10.0.0.45/api/v1/spotify-music',
+        axios.post(`${config.API_HOST}/api/v1/spotify-music`,
         {
             itemURL: sourceURL,
         },

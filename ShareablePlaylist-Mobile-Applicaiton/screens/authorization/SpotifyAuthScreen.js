@@ -4,15 +4,16 @@ import { Alert } from 'react-native';
 
 import {AuthorizationContext} from '../../authorization/AuthorizationContext';
 import AuthorizationStorage from '../../authorization/AuthorizationStorage';
+import useConfig from '../../components/useConfig';
 
 const SpotifyAuthScreen = () => {
 
-   
+   const {API_HOST} = useConfig();
    const [state,action] = useContext(AuthorizationContext);
    const authorizationStorage = new AuthorizationStorage();
 
    let webView = null;
-   const authroizationURL = `http://10.0.0.45/authorize/spotify`;
+   const authroizationURL = `${API_HOST}/authorize/spotify`;
    
    const handleAuthorizationNavigation = (newNav) => {
         const {url,loading} = newNav;
