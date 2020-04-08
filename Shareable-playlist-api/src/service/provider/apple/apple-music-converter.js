@@ -5,12 +5,26 @@ import ProviderConverter from '../../provider/base/provider-converter';
 import {ProviderConverterResult} from '../types/provider-converter-result';
 import {CLIENT_ERROR_STATES} from '../types/client-error';
 
+/**
+ * @class
+ * @classdesc Apple Music Converter to convert Item types to their respective URLs
+ * @extends ProviderConverter
+ */
 export default class AppleMusicConverter extends ProviderConverter {
+  /**
+   * @constructor
+   * @param {AppleMusicClient} appleMusicClient - AppleMusicClient for converter request
+   */
   constructor(appleMusicClient) {
     super();
     this.appleMusicClient = appleMusicClient;
   };
 
+  /**
+   * Convert an album to an Apple Music Album
+   * @param {Album} album - album object representing album to be converted
+   * @return {ProviderConverterResult} converted result
+   */
   async asyncConvertAlbum(album) {
     function filterAlbumResults(results) {
       if (results.results.albums.data.length < 1) {
@@ -46,6 +60,11 @@ export default class AppleMusicConverter extends ProviderConverter {
     }
   };
 
+  /**
+   * Convert a song to an Apple Music song
+   * @param {song} song - song object representing album to be converted
+   * @return {ProviderConverterResult} converted result
+   */
   async asyncConvertSong(song) {
     function filterSongResults(results) {
       if (results.results.songs.data.length < 1) {
@@ -82,6 +101,11 @@ export default class AppleMusicConverter extends ProviderConverter {
     }
   };
 
+  /**
+   * Convert a playlist to an Apple Music Playlist
+   * @param {Playlist} playlist - album object representing album to be converted
+   * @return {ProviderConverterResult} converted result
+   */
   async asyncConvertPlaylist(playlist) {
     const songsToConvert = playlist.songs;
     const convertedSongResults = songsToConvert.map(async (song) => {

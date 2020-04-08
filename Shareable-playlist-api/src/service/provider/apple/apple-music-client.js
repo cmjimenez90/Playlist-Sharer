@@ -2,7 +2,15 @@
 import axios from 'axios';
 import {ClientError, CLIENT_ERROR_STATES} from '../types/client-error';
 
+/**
+ * @class
+ * @classdesc Apple Music Client to handle request to the Apple Music API
+ */
 export default class AppleMusicClient {
+  /**
+   * @constructor
+   * @param {string} developerToken - apple developer token
+   */
   constructor(developerToken) {
     this.axiosClient = axios.create({
       baseURL: 'https://api.music.apple.com',
@@ -12,6 +20,13 @@ export default class AppleMusicClient {
     });
   }
 
+  /**
+   * Retreives a song from the Apple Music Catalog
+   * @param {string} songID - id of the Apple Music song to retreive
+   * @param {string} [storefront = us] - country code to retreive against
+   * @async
+   * @return {object} response data or error
+   */
   async asyncGetSong(songID, storefront='us') {
     const songURL = `/v1/catalog/${storefront}/songs/${songID}`;
     try {
@@ -21,6 +36,14 @@ export default class AppleMusicClient {
       return this.handleErrorResponse(error);
     }
   }
+
+  /**
+   *  Retreives an album from the Apple Music Catalog
+   * @param {string} albumID  - id of the Apple Music album to retreive
+   * @param {string} [storefront = us] - country code to retreive against
+   * @async
+   * @return {object} response data or error
+   */
   async asyncGetAlbum(albumID, storefront='us') {
     const albumURL = `/v1/catalog/${storefront}/albums/${albumID}`;
     try {
@@ -30,6 +53,14 @@ export default class AppleMusicClient {
       return this.handleErrorResponse(error);
     }
   }
+
+  /**
+   * Retreives a playlist from the Apple Music Catalog
+   * @param {string} playlistID - id of the Apple Music playlist to retreive
+   * @param {string } [storefront = us] - country code to retreive against
+   * @async
+   * @return {object} response data or error
+   */
   async asyncGetPlaylist(playlistID, storefront='us') {
     const playlistURL = `/v1/catalog/${storefront}/playlists/${playlistID}`;
     try {
@@ -39,6 +70,16 @@ export default class AppleMusicClient {
       return this.handleErrorResponse(error);
     }
   }
+
+  /**
+   * Searches the apple music catalog
+   * @param {Array} itemTypes - Array of item types to search for: SONG,ALBUM,PLAYLIST
+   * @param {string} term  - Search term used to query the Apple Music catalog
+   * @param {string } [storefront = us] - country code to retreive against
+   * @param {int} [limit = 25] - number of results to retrieve, 25 is max
+   * @async
+   * @return {object} response data or error
+   */
   async asyncSearch(itemTypes, term, storefront='us', limit = 25) {
     const searchURL = `/v1/catalog/${storefront}/search`;
     const types = itemTypes.reduce((prev, current)=>{
@@ -53,6 +94,13 @@ export default class AppleMusicClient {
     }
   }
 
+  /**
+   * Creates a playlist in an enduser's Apple Music Library
+   * @param {string} userMusicToken - enduser's apple music user token
+   * @param {string} playlistName  - name of the playlist to create
+   * @async
+   * @return {object} response data or error
+   */
   async asyncCreatePlaylist(userMusicToken, playlistName) {
     const newPlaylistURL = '/v1/me/library/playlists';
     try {
@@ -75,6 +123,14 @@ export default class AppleMusicClient {
     }
   }
 
+  /**
+   * Create and populate a playlist in an enduser's account
+   * @param {string} userMusicToken - enduser's Apple Music user token
+   * @param {string} playlistName - name of the playlist to create in the enduser's library
+   * @param {Array} playlistSongIDs - array of song IDs
+   * @async
+   * @return {object} response data or error
+   */
   async asyncCreatePlaylist(userMusicToken, playlistName, playlistSongIDs) {
     const newPlaylistURL = '/v1/me/library/playlists';
 
@@ -111,6 +167,14 @@ export default class AppleMusicClient {
     }
   }
 
+  /**
+   * Add songs to an enduser's playlist
+   * @param {string} userMusicToken - enduser's Apple Music user token
+   * @param {string} playlistID - id of the playlist to modify
+   * @param {Array} playlistSongIDs - array of song IDs to add to the playlist
+   * @return {object} response data
+   * @async
+   */
   async asyncAddSongToPlaylist(userMusicToken, playlistID, playlistSongIDs) {
     const addSongsToPlaylistURL = `/v1/me/library/playlists/${playlistID}/tracks`;
 
@@ -140,6 +204,11 @@ export default class AppleMusicClient {
     }
   }
 
+  /**
+   * Parses the error response from http request
+   * @param {Error} error - error object from http response\
+   * @return {ClientError}
+   */
   handleErrorResponse(error) {
     if (error.response) {
       console.log(error.response.data.errors);
