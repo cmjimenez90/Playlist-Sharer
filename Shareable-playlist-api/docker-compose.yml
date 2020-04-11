@@ -1,0 +1,27 @@
+services:
+    webserver:
+        container_name: webserver
+        image: nginx:mainline-alipine
+        ports:
+        - 80:80
+        - 443:443
+        volumes:
+        - ./nginx-conf/:/etc/nginx/conf.d
+        - /etc/letsencrypt/:/etc/letsencrypt/
+        networks:
+            - application-network
+    api:
+        container_name: api
+        build: .
+        env_file: 
+            - prod.env
+        volumes: 
+           - /home/administrator/keys:/usr/app/keys
+        depends_on:
+            - webserver
+        expose: 
+            - 3000
+        networks:
+            - application-network
+networks:
+    - application-network
