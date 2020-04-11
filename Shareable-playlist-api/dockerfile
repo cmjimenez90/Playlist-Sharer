@@ -3,5 +3,4 @@ WORKDIR /usr/app/www
 COPY package*.json /usr/app/www/
 RUN "npm" "install"
 COPY . /usr/app/www/
-EXPOSE 80
 CMD ["npm","run","dev"]
