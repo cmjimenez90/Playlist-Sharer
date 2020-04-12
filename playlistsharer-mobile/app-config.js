@@ -1,3 +1,3 @@
 export const config = {
-    API_HOST: 'http://10.0.0.45'
+    API_HOST: 'https://playlistsharer.cmjimenez.com:8443'
 } 
