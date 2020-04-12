@@ -1,10 +1,10 @@
 {
 	"folders": [
 		{
-			"path": "Shareable-playlist-api"
+			"path": "playlistsharer-api"
 		},
 		{
-			"path": "ShareablePlaylist-Mobile-Applicaiton"
+			"path": "playlistsharer-mobile"
 		}
 	],
 	"settings": {
