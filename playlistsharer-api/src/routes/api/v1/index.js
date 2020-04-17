@@ -29,10 +29,6 @@ const verifyAuthroizationHeader = (req, res, next) => {
   };
 };
 
-router.get('/', function(req, res) {
-  res.send('ShareablePlaylist API V1');
-});
-
 /** ************************
  *  Spotify Music ENDPOINTS
  ** ************************/

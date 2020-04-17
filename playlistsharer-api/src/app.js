@@ -6,6 +6,8 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import config from './config/server-config';
 
+import defaultRoute from './routes/index';
+
 const app = express();
 const port = config.PORT;
 
@@ -14,8 +16,6 @@ app.use(cors());
 app.use(cookieParser());
 app.use(morgan());
 app.use(bodyParser.json());
-
-import defaultRoute from './routes/index';
 
 app.use(defaultRoute);
 
