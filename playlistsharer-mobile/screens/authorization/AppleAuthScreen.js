@@ -13,7 +13,7 @@ import { styles, color } from '../../style/main.style'
     const [state,action] = useContext(AuthorizationContext);
     const authorizationStorage = new AuthorizationStorage();
 
-    const appleDeveloperTokenURL = `${API_HOST}/authorize/apple`;
+    const appleDeveloperTokenURL = `${API_HOST}/authorize/apple-music`;
     const AppleMusicUserAuthorization = NativeModules.AppleMusicUserAuthorization;
     
 

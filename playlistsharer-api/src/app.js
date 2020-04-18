@@ -10,6 +10,8 @@ import defaultRoute from './routes/index';
 
 const app = express();
 const port = config.PORT;
+const APIDocV1 = express.static(__dirname + '/docs/');
+const main = express.static(__dirname + '/static/');
 
 app.use(helmet());
 app.use(cors());
@@ -17,6 +19,8 @@ app.use(cookieParser());
 app.use(morgan());
 app.use(bodyParser.json());
 
+app.use('/', main);
+app.use('/api/v1', APIDocV1);
 app.use(defaultRoute);
 
 app.listen(port, function() {

@@ -13,11 +13,11 @@ const SpotifyAuthScreen = () => {
    const authorizationStorage = new AuthorizationStorage();
 
    let webView = null;
-   const authroizationURL = `${API_HOST}/authorize/spotify`;
+   const authroizationURL = `${API_HOST}/authorize/spotify-music`;
    
    const handleAuthorizationNavigation = (newNav) => {
         const {url,loading} = newNav;
-        if(url.includes('/authorize/spotify/callback?') && loading === false){
+        if(url.includes('/authorize/spotify-music/callback?') && loading === false){
             const jsScript = `
                 window.ReactNativeWebView.postMessage((document.body.innerText));
                 true;
