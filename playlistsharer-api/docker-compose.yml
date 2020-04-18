@@ -15,6 +15,7 @@ services:
             - application-network
     api:
         container_name: sharerapi
+        user: node
         build: .
         env_file: 
             - prod.env
