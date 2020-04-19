@@ -1,0 +1,6 @@
+FROM node:12
+WORKDIR /usr/app/www
+COPY package*.json /usr/app/www/
+RUN "npm" "install"
+COPY . /usr/app/www/
+CMD ["npm","run","start"]

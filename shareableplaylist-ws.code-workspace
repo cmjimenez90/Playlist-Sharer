@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "playlistsharer-api"
+		},
+		{
+			"path": "playlistsharer-mobile"
+		}
+	],
+	"settings": {
+		"jest.pathToJest": "npm run test --"
+	}
+}

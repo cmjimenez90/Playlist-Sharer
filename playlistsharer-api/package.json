@@ -1,0 +1,46 @@
+{
+  "name": "shareable-playlist-api",
+  "version": "0.0.1",
+  "description": "An api to assit users in sharing their playlist accross a variety of music streaming services",
+  "main": "app.js",
+  "private": true,
+  "scripts": {
+    "start": "babel-node -- ./src/app.js",
+    "dev": "nodemon --exec npm run start",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint --fix ./src"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
+  },
+  "author": "Carlos M Jimenez",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "core-js": "^3.6.4",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.21.2",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.9.1",
+    "qs": "^6.9.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "@types/jest": "^24.9.1",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0",
+    "jest": "^24.9.0",
+    "nodemon": "^2.0.2"
+  }
+}

@@ -1,0 +1,12 @@
+:root {
+    --primary-color: '#D5CBFF';
+    --secondary-color: '#A49ACC';
+    --accent-color: '#F1EFFB';
+}
+
+.secondary-text-color {
+    color: #A49ACC;
+}
+.primary-text-color {
+    color: #D5CBFF;
+}
