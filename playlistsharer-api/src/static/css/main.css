@@ -1,12 +1,18 @@
-:root {
-    --primary-color: '#D5CBFF';
-    --secondary-color: '#A49ACC';
-    --accent-color: '#F1EFFB';
-}
-
 .secondary-text-color {
     color: #A49ACC;
 }
 .primary-text-color {
     color: #D5CBFF;
+}
+
+.html-body {
+    background-color: #FFF1F9;
+}
+
+.base-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
 }
