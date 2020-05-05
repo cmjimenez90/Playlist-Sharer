@@ -1,14 +1,14 @@
-import React, {useReducer} from 'react'
-import {Reducer,DefaultState} from './AuthorizationReducer';
+import React from 'react'
 
 const AuthorizationContext = React.createContext({});
 
 const AuthorizationProvider = ({children}) => {
-    const [state,dispatch] = useReducer(Reducer,DefaultState);
+    
     return (
-        <AuthorizationContext.Provider value={[state,dispatch]}>
+        <AuthorizationContext.Provider>
             {children}
         </AuthorizationContext.Provider>
     )
 }
+
 export {AuthorizationProvider, AuthorizationContext};

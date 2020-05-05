@@ -5,7 +5,7 @@ import React from 'react';
 
 import {AuthorizationProvider} from './authorization/AuthorizationContext';
 import AppNavigator from './screens/AppNavigator';
-import {color} from './style/main.style';
+import {color} from './style/playlistsharer.style';
 
 export default function App() {
 

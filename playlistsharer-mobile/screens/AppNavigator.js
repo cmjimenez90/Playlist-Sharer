@@ -1,56 +1,32 @@
-import React,{ useState, useEffect, useContext } from 'react'
-import AuthorizationStorage from '../authorization/AuthorizationStorage';
-import { AuthorizationContext } from '../authorization/AuthorizationContext';
+import React from 'react'
+
 import { createStackNavigator } from '@react-navigation/stack';
-import useAuthorization from '../authorization/useAuthorization';
-import AuthorizationStack from './authorization/AuthorizationStack';
-import MainStack from './converter/MainStack';
-import LoadingScreen from './authorization/LoadingScreen';
+import { Ionicons } from '@expo/vector-icons';
+import {constants} from '../app-config'
+import {color} from '../style/playlistsharer.style';
+import Main from './Main';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const AppNavigator = ()  => {  
-
-  const [storageLoaded, setLoaded] = useState(false);
-  const authorizationStorage = new AuthorizationStorage();
-  const {isUserAuthorized} = useAuthorization();
-  const [state, action] = useContext(AuthorizationContext);
   const Stack = createStackNavigator();
 
-  useEffect(() => {
-    if(storageLoaded === false){
-      authorizationStorage.asyncLoadAuthorizationFromStore().then( (data) =>
-        {
-          if(data !== null){
-            if(data.spotify_authorization.isAuthorized){
-              action({type:'AuthorizeSpotify', payload: data.spotify_authorization})
-            }
-            if(data.apple_authorization.isAuthorized){
-              action({type:'AuthorizeApple', payload: data.apple_authorization})
-            }
-          }
-      }
-      ).catch(
-        (error) => {
-          console.log(error);
-        }
-      );
-      setLoaded(true);
-    }
-  },[]);
-
-  if(storageLoaded === false){
-    return (
-      <Stack.Navigator>
-            <Stack.Screen name='LoadingScreen' component={LoadingScreen} />
-      </Stack.Navigator>
-    )
-  }
 
   return (
-    isUserAuthorized() ? (
-      <MainStack/>
-    ) : (
-      <AuthorizationStack />
-    )
+    <Stack.Navigator screenOptions={{
+      headerStyle: {
+        backgroundColor: color.secondary,
+      },
+      headerTintColor: color.accent,
+    }}>
+          <Stack.Screen name='Main' component={Main} options={{
+            headerTitle: constants.APP_NAME,
+            headerRight: () => (
+              <TouchableOpacity style={{marginRight: 15}}>
+                <Ionicons name="md-information-circle-outline" size={32} color={color.accent}/>
+              </TouchableOpacity>
+            ),
+            }} />
+    </Stack.Navigator>
   )
 }
 
