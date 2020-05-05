@@ -7,6 +7,7 @@ import {color} from '../style/playlistsharer.style';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import Main from './Main';
+import Help from './Help';
 
 const AppNavigator = ()  => {  
   const Stack = createStackNavigator();
@@ -18,14 +19,15 @@ const AppNavigator = ()  => {
       },
       headerTintColor: color.accent,
     }}>
-          <Stack.Screen name='Main' component={Main} options={{
+          <Stack.Screen name='Main' component={Main} options={({navigation})=>({
             headerTitle: constants.APP_NAME,
             headerRight: () => (
-              <TouchableOpacity style={{marginRight: 15}}>
+              <TouchableOpacity style={{marginRight: 15}} onPress={()=>{navigation.navigate('Help')}}>
                 <Ionicons name="md-information-circle-outline" size={32} color={color.accent}/>
               </TouchableOpacity>
             ),
-            }}/>
+            })}/>
+            <Stack.Screen name="Help" component={Help} />
     </Stack.Navigator>
   )
 }
