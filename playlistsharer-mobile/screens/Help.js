@@ -7,7 +7,7 @@ import BaseText from '../components/base/BaseText'
 const Help = () => {
     return (
         <View style={styles.screen}>
-            <BaseTitle style={{fontSize: 30}}>How to use Playlist Sharer?</BaseTitle>
+            <BaseTitle style={[{fontSize: 38}]}>How to use Playlist Sharer?</BaseTitle>
             <BaseText>
                 COMING SOON...
                 Playlist Sharer FAQ

@@ -5,7 +5,7 @@ import BaseText from './BaseText'
 const BaseTitle = ({children,style}) => {
     return (
         <BaseText>
-            <Text style={styles.title,style}>{children}</Text>
+            <Text style={[styles.title,style]}>{children}</Text>
         </BaseText>
     )
 }
