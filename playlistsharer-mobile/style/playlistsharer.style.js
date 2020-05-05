@@ -1,17 +1,18 @@
 import {StyleSheet} from 'react-native'
 export const color = {
     primary: '#D5CBFF',
-    secondary: '#A49ACC',
+    secondary: '#775498',
     accent: '#F1EFFB'
 }
 
 export const styles = StyleSheet.create({
     screen: {
-        backgroundColor: color.accent,
+        backgroundColor: color.primary,
+        height: "100%"
     },
     container: {
+        flex: 1,
         width: '100%',
-        height: '100%',
         alignItems: "center"
     },
     textContainer: {
@@ -19,8 +20,15 @@ export const styles = StyleSheet.create({
         paddingBottom: 10,
         alignItems: "center",
     },
+    logoContainer: {
+        flex: 1,
+        justifyContent: "space-evenly"
+    },
     logoImage: {
-        marginTop: 25
+        alignSelf: "center"
+    },
+    caption: {
+        fontSize: 22
     },
     buttonContainer: {
         alignItems: "center",
@@ -29,7 +37,6 @@ export const styles = StyleSheet.create({
         justifyContent: "space-evenly"
     },
     buttonContainerHeader: {
-        marginTop: 25,
         textAlign: "center",
         width: "100%",
         fontSize: 22,

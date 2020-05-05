@@ -4,12 +4,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import {constants} from '../app-config'
 import {color} from '../style/playlistsharer.style';
-import Main from './Main';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import Main from './Main';
 
 const AppNavigator = ()  => {  
   const Stack = createStackNavigator();
-
 
   return (
     <Stack.Navigator screenOptions={{
@@ -25,7 +25,7 @@ const AppNavigator = ()  => {
                 <Ionicons name="md-information-circle-outline" size={32} color={color.accent}/>
               </TouchableOpacity>
             ),
-            }} />
+            }}/>
     </Stack.Navigator>
   )
 }

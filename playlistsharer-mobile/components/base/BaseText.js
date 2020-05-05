@@ -15,6 +15,6 @@ export default BaseText
 const styles = StyleSheet.create({
     text: {
         color: color.secondary,
-        fontSize: 18
+        fontSize: 20
     }
 })
