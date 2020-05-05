@@ -6,6 +6,9 @@ export const color = {
 }
 
 export const styles = StyleSheet.create({
+    screen: {
+        backgroundColor: color.accent,
+    },
     container: {
         width: '100%',
         height: '100%',
