@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native'
 const StackNavBackButton = ({onPress}) => {
     return (
        <TouchableOpacity style={styles.backButton} onPress={onPress}>
-           <Ionicons name="ios-arrow-back" size={25} color={color.accent}/>
+           <Ionicons name="md-arrow-back" size={24} color={color.accent}/>
        </TouchableOpacity>
     )
 }
