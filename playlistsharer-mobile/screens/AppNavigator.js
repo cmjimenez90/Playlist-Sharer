@@ -35,7 +35,7 @@ const AppNavigator = ()  => {
             <Stack.Screen name="Authorization" component={Authorization} />
             <Stack.Screen name="Converter" component={Converter} options={({navigation})=>({
               headerLeft: ({}) =>(
-                <StackNavBackButton onPress={()=>{navigation.popToTop();}}/>
+                <StackNavBackButton navigation={navigation}/>
               ),
              })}/>
     </Stack.Navigator>

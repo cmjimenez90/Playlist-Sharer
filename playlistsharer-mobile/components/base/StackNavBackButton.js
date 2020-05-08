@@ -3,9 +3,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import {color} from '../../style/playlistsharer.style';
 import { StyleSheet } from 'react-native'
-const StackNavBackButton = ({onPress}) => {
+const StackNavBackButton = ({navigation}) => {
     return (
-       <TouchableOpacity style={styles.backButton} onPress={onPress}>
+       <TouchableOpacity style={styles.backButton} onPress={() => {navigation.popToTop()}}>
            <Ionicons name="md-arrow-back" size={24} color={color.accent}/>
        </TouchableOpacity>
     )
