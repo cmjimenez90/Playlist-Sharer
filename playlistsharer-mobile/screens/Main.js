@@ -1,11 +1,11 @@
 import React from 'react'
-import { Image, View, Text } from 'react-native'
+import { Image, View } from 'react-native'
 import {styles} from '../style/playlistsharer.style'
 import BaseTitle from '../components/base/BaseTitle'
 import BaseText from '../components/base/BaseText'
 import ImageButton from '../components/base/ImageButton'
 
-const Main = () => {
+const Main = ({navigation}) => {
     return (
         <View style={styles.screen}>
             <View style={styles.container}>
@@ -19,8 +19,8 @@ const Main = () => {
                 </View>
                 <BaseText style={styles.buttonContainerHeader}>Select your music platform</BaseText>
                 <View style={styles.buttonContainer}>
-                    <ImageButton source={require('../assets/apple-listen-logo.png')}/>
-                    <ImageButton source={require('../assets/spotify-logox150.png')}/>
+                    <ImageButton source={require('../assets/apple-listen-logo.png')} onPress={() => {navigation.navigate("Authorization", {platform: "APPLE_MUSIC"})}}/>
+                    <ImageButton source={require('../assets/spotify-logox150.png')} onPress={() => {navigation.navigate("Authorization", {platform: "SPOTIFY_MUSIC"})}}/>
                 </View>
             </View>
         </View>

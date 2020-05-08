@@ -1,0 +1,25 @@
+import React from 'react'
+import { View, Text } from 'react-native'
+import { styles } from '../style/playlistsharer.style'
+
+import SpotifyAuthorization from '../components/SpotifyAuthorization'
+const Authorization = ({route}) => {
+    const { platform } = route.params
+
+    return (
+        <View style={styles.screen}>
+            {(() => {
+                switch(platform){
+                case "APPLE_MUSIC":
+                    return <Text>APPLE MUSIC</Text>
+                case "SPOTIFY_MUSIC":
+                    return <SpotifyAuthorization testString={"SPOTIFY"}/>
+                default: 
+                    return <Text>Something Went Wrong...</Text>
+            }
+                })()}
+        </View>
+    )
+}
+
+export default Authorization

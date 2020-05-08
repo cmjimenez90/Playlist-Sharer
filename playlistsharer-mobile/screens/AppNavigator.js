@@ -6,8 +6,12 @@ import {constants} from '../app-config'
 import {color} from '../style/playlistsharer.style';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import StackNavBackButton from '../components/base/StackNavBackButton'
+
 import Main from './Main';
 import Help from './Help';
+import Authorization from './Authorization';
+import Converter from './Converter';
 
 const AppNavigator = ()  => {  
   const Stack = createStackNavigator();
@@ -28,6 +32,12 @@ const AppNavigator = ()  => {
             ),
             })}/>
             <Stack.Screen name="Help" component={Help} />
+            <Stack.Screen name="Authorization" component={Authorization} />
+            <Stack.Screen name="Converter" component={Converter} options={({navigation})=>({
+              headerLeft: ({}) =>(
+                <StackNavBackButton onPress={()=>{navigation.popToTop();}}/>
+              ),
+             })}/>
     </Stack.Navigator>
   )
 }

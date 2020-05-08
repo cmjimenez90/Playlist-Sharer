@@ -8,7 +8,7 @@ export const color = {
 export const styles = StyleSheet.create({
     screen: {
         backgroundColor: color.primary,
-        height: "100%"
+        flex: 1
     },
     container: {
         flex: 1,
