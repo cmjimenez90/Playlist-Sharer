@@ -47,7 +47,13 @@ const SpotifyAuthorization = () => {
 
     return (
         <>
-            <WebView ref={ref => (webView = ref)} source={{ uri:  new URL(config.SPOTIFY_AUTH_ENDPOINT,config.API_HOST).toString()}} onNavigationStateChange={handleNavigationChange} onMessage={handleAuthorizationResponse}/>
+            <WebView 
+                ref={ref => (webView = ref)} 
+                source={{ uri:  new URL(config.SPOTIFY_AUTH_ENDPOINT,config.API_HOST).toString()}} 
+                onNavigationStateChange={handleNavigationChange} 
+                onMessage={handleAuthorizationResponse}
+                startInLoadingState={true}
+            />
         </>
     )
 }
