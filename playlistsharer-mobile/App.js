@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native';
 
 import React from 'react';
 
-import {AuthorizationProvider} from './authorization/AuthorizationContext';
+import {AuthorizationProvider} from './components/authorization/AuthorizationContext';
 import AppNavigator from './screens/AppNavigator';
 import {color} from './style/playlistsharer.style';
 

@@ -6,6 +6,4 @@ export const config = {
 
 export const constants = {
     APP_NAME: 'Playlist Sharer',
-    LOCALSTORE_SPOTIFY_AUTHORIZATION: '@Spotify',
-    LOCALSTORE_APPLE_AUTHORIZATION: '@Apple'
 }

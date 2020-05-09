@@ -1,17 +1,17 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { WebView } from 'react-native-webview';
 import { Alert } from 'react-native';
 
 import moment from 'moment';
 import {config} from '../app-config';
-import {AuthorizationContext,actionType} from '../authorization/AuthorizationContext';
+import {useAuthorizationAction, actionType} from '../components/authorization/AuthorizationContext';
 
 const SpotifyAuthorization = () => {
 
     const navigation = useNavigation();
     let webView = null;
-    const [state,action] = useContext(AuthorizationContext);
+    const action = useAuthorizationAction();
 
     const handleNavigationChange = (navigationState) => {
         const {url,loading} = navigationState;
@@ -36,7 +36,7 @@ const SpotifyAuthorization = () => {
                 navigation.goBack();
             } else {
                 const expDate = moment().add(authorizationToken.expires_in,'seconds');
-                action({type: actionType.authorizeSpotify, payload: {expDate,...authorizationToken}});
+                action({type: actionType.authorizeSpotify, payload: {'SpotifyAuth': {expDate,...authorizationToken}}});
                 navigation.navigate("Converter");
             }
         } catch(error){

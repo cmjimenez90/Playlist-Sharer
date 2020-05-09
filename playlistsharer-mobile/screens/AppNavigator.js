@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
@@ -15,7 +15,7 @@ import Converter from './Converter';
 
 const AppNavigator = ()  => {  
   const Stack = createStackNavigator();
-
+ 
   return (
     <Stack.Navigator screenOptions={{
       headerStyle: {
