@@ -15,7 +15,7 @@ const Authorization = ({route}) => {
                 case "APPLE_MUSIC":
                     return <AppleAuthorization />
                 case "SPOTIFY_MUSIC":
-                    return <SpotifyAuthorization testString={"SPOTIFY"}/>
+                    return <SpotifyAuthorization />
                 default: 
                     return <Text>Something Went Wrong...</Text>
             }

@@ -31,6 +31,12 @@ const AuthorizationReducer =  (state, action) => {
                 'SpotifyAuth': action.payload.SpotifyAuth
             }
         case actionType.authorizeApple:
+            AsyncStorage.setItem('@AppleAuth', JSON.stringify(action.payload.AppleAuth))
+                .then()
+                .catch((error) => {
+                    console.error("Failed to save to local storage");
+                    console.error(error);
+                });
             return {
                 ...state,
                 'AppleAuth': action.payload.AppleAuth
@@ -52,7 +58,7 @@ const AuthorizationProvider = ({children}) => {
             try{
                 const spotifyAuth = await AsyncStorage.getItem('@SpotifyAuth');
                 const appleAuth = await AsyncStorage.getItem('@AppleAuth');
-
+                
                 action({type: actionType.loadStore, payload: {
                     'SpotifyAuth': spotifyAuth,
                     'AppleAuth': appleAuth
