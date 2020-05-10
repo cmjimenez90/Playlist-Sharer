@@ -1,17 +1,19 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { WebView } from 'react-native-webview';
-import { Alert } from 'react-native';
+import { Alert, View } from 'react-native';
 
 import moment from 'moment';
 import {config} from '../../app-config';
-import {useAuthorizationAction, actionType} from './AuthorizationContext';
+import {useAuthorizationState, useAuthorizationAction, actionType} from './AuthorizationContext';
+import { styles } from '../../style/playlistsharer.style';
 
 const SpotifyAuthorization = () => {
 
     const navigation = useNavigation();
     let webView = null;
     const action = useAuthorizationAction();
+    const {SpotifyAuth} = useAuthorizationState();
 
     const handleNavigationChange = (navigationState) => {
         const {url,loading} = navigationState;
@@ -45,16 +47,25 @@ const SpotifyAuthorization = () => {
         }
     };
 
+
+    useEffect(()=>{
+        if(SpotifyAuth){
+            webView?.stopLoading();
+            navigation.navigate("Converter");
+        }
+    },[SpotifyAuth]);
+
     return (
-        <>
-            <WebView 
-                ref={ref => (webView = ref)} 
-                source={{ uri:  new URL(config.SPOTIFY_AUTH_ENDPOINT,config.API_HOST).toString()}} 
-                onNavigationStateChange={handleNavigationChange} 
-                onMessage={handleAuthorizationResponse}
-            />
-        </>
-    )
+       (SpotifyAuth) ?  
+        <View style={styles.screen}>
+        </View> : 
+        <WebView 
+            ref={ref => (webView = ref)} 
+            source={{ uri:  new URL(config.SPOTIFY_AUTH_ENDPOINT,config.API_HOST).toString()}} 
+            onNavigationStateChange={handleNavigationChange} 
+            onMessage={handleAuthorizationResponse}
+        />
+    );
 }
 
 export default SpotifyAuthorization

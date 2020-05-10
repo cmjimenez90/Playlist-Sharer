@@ -4,7 +4,7 @@ import {styles} from '../style/playlistsharer.style'
 import BaseTitle from '../components/base/BaseTitle'
 import BaseText from '../components/base/BaseText'
 import ImageButton from '../components/base/ImageButton'
-
+import {constants} from '../app-config'
 const Main = ({navigation}) => {
     return (
         <View style={styles.screen}>
@@ -19,8 +19,8 @@ const Main = ({navigation}) => {
                 </View>
                 <BaseText style={styles.buttonContainerHeader}>Select your music platform</BaseText>
                 <View style={styles.buttonContainer}>
-                    <ImageButton source={require('../assets/apple-listen-logo.png')} onPress={() => {navigation.navigate("Authorization", {platform: "APPLE_MUSIC"})}}/>
-                    <ImageButton source={require('../assets/spotify-logox150.png')} onPress={() => {navigation.navigate("Authorization", {platform: "SPOTIFY_MUSIC"})}}/>
+                    <ImageButton source={require('../assets/apple-listen-logo.png')} onPress={() => {navigation.navigate("Authorization", {platform: constants.PLATFORM.APPLE})}}/>
+                    <ImageButton source={require('../assets/spotify-logox150.png')} onPress={() => {navigation.navigate("Authorization", {platform: constants.PLATFORM.SPOTIFY})}}/>
                 </View>
             </View>
         </View>

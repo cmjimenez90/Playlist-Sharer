@@ -7,4 +7,8 @@ export const config = {
 
 export const constants = {
     APP_NAME: 'Playlist Sharer',
+    PLATFORM: {
+        APPLE: "APPLE_MUSIC",
+        SPOTIFY: "SPOTIFY_MUSIC"
+    },
 }
