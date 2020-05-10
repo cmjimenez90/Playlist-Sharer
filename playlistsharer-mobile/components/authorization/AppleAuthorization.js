@@ -10,14 +10,15 @@ const AppleAuthorization = () => {
     const AppleMusicUserAuthorization = NativeModules.AppleMusicUserAuthorization;
     const navigation = useNavigation();
     const action = useAuthorizationAction();
-    
+
     useEffect(() => {
         axios.get(new URL(config.APPLE_TOKEN_ENDPOINT,config.API_HOST).toString())
             .then((response)=>{
                 const data = response.data;
                 if(data.hasError){
                     console.log(data.errorMessage);
-                    return null;
+                     Alert.alert("Authorization Error", data.errorMessage);
+                     navigation.popToTop();
                 }
                 else{
                     const appleDevToken = data.authorizationToken;        

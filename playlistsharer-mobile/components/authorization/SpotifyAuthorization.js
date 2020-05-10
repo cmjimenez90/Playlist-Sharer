@@ -52,7 +52,6 @@ const SpotifyAuthorization = () => {
                 source={{ uri:  new URL(config.SPOTIFY_AUTH_ENDPOINT,config.API_HOST).toString()}} 
                 onNavigationStateChange={handleNavigationChange} 
                 onMessage={handleAuthorizationResponse}
-                startInLoadingState={true}
             />
         </>
     )
