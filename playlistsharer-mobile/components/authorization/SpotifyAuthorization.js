@@ -4,8 +4,8 @@ import { WebView } from 'react-native-webview';
 import { Alert } from 'react-native';
 
 import moment from 'moment';
-import {config} from '../app-config';
-import {useAuthorizationAction, actionType} from '../components/authorization/AuthorizationContext';
+import {config} from '../../app-config';
+import {useAuthorizationAction, actionType} from './AuthorizationContext';
 
 const SpotifyAuthorization = () => {
 
@@ -32,7 +32,7 @@ const SpotifyAuthorization = () => {
         try{
             const {hasError, authorizationToken } = await JSON.parse(data);
             if(hasError) {
-                Alert.alert("SPOTIFY AUTH FAILURE - Please try again.");
+                Alert.alert("AUTHORIZATION ERROR","SPOTIFY AUTH FAILURE - Please try again.");
                 navigation.goBack();
             } else {
                 const expDate = moment().add(authorizationToken.expires_in,'seconds');

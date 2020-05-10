@@ -30,6 +30,11 @@ const AuthorizationReducer =  (state, action) => {
                 ...state,
                 'SpotifyAuth': action.payload.SpotifyAuth
             }
+        case actionType.authorizeApple:
+            return {
+                ...state,
+                'AppleAuth': action.payload.AppleAuth
+            }
         default:
             return state;
     }
