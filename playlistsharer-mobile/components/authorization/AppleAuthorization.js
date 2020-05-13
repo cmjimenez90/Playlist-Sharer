@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {View, ActivityIndicator, NativeModules, Alert} from 'react-native';
 import {color, styles} from '../../style/playlistsharer.style';
 import axios from 'axios';
-import {config} from '../../app-config';
+import {config, constants} from '../../app-config';
 import { useNavigation } from '@react-navigation/native';
 import {useAuthorizationState,useAuthorizationAction, actionType} from './AuthorizationContext';
 
@@ -14,7 +14,7 @@ const AppleAuthorization = () => {
 
     useEffect(() => {
         if(AppleAuth){
-            navigation.navigate("Converter");
+            navigation.navigate("Converter", {platform: constants.PLATFORM.APPLE});
         }
         else{
             axios.get(new URL(config.APPLE_TOKEN_ENDPOINT,config.API_HOST).toString())

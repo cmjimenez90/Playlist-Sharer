@@ -4,7 +4,7 @@ import { WebView } from 'react-native-webview';
 import { Alert, View } from 'react-native';
 
 import moment from 'moment';
-import {config} from '../../app-config';
+import {config, constants} from '../../app-config';
 import {useAuthorizationState, useAuthorizationAction, actionType} from './AuthorizationContext';
 import { styles } from '../../style/playlistsharer.style';
 
@@ -51,7 +51,7 @@ const SpotifyAuthorization = () => {
     useEffect(()=>{
         if(SpotifyAuth){
             webView?.stopLoading();
-            navigation.navigate("Converter");
+            navigation.navigate("Converter", {platform: constants.PLATFORM.SPOTIFY});
         }
     },[SpotifyAuth]);
 

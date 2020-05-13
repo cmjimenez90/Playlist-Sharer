@@ -60,8 +60,8 @@ const AuthorizationProvider = ({children}) => {
                 const appleAuth = await AsyncStorage.getItem('@AppleAuth');
                 
                 action({type: actionType.loadStore, payload: {
-                    'SpotifyAuth': spotifyAuth,
-                    'AppleAuth': appleAuth
+                    'SpotifyAuth': JSON.parse(spotifyAuth),
+                    'AppleAuth': JSON.parse(appleAuth)
                 }});
             }
             catch(error) {
