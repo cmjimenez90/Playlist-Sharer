@@ -18,6 +18,7 @@ const PlatformConverter = ({platform}) => {
 
     const [showModal,setShowModal] = useState(false);
     const [inputURL, setInputURL] = useState("");
+    const [hasInputError,setInputError] = useState(false);
     const [convertedURL, setConvertedURL] = useState(''); 
     const [conversionError, setConversionError] = useState('');
     const [conversionState, setConversionState] = useState('CONVERTING')
@@ -33,7 +34,25 @@ const PlatformConverter = ({platform}) => {
         setInputURL('');
     };
 
+    const validateInput = () => {
+        if(inputURL == '' || inputURL == null) {
+            setInputError(true);
+            return false;
+        }
+
+        if(!inputURL.match(/^https:\/\//)) {
+            setInputError(true);
+            return false;
+        }
+
+        return true;
+    }
+
     const convertToAppleURL = async () => {
+        if(!validateInput()){
+            return;
+        }
+
         setConversionState("CONVERTING");
         setShowModal(true);
         try{
@@ -57,6 +76,9 @@ const PlatformConverter = ({platform}) => {
     }
 
     const convertToSpotifyURL = async () => {
+        if(!validateInput()){
+            return;
+        }
         setConversionState("CONVERTING");
         setShowModal(true);
         try{
@@ -84,6 +106,7 @@ const PlatformConverter = ({platform}) => {
         setInputURL("");
         setConversionError(null);
         setConvertedURL(null);
+        setInputError(false);
     }
 
     return (
@@ -98,9 +121,14 @@ const PlatformConverter = ({platform}) => {
            </View>
             <View style={styles.container}>
                 <TextInput
-                    style={[component.urlInput]} 
+                    style={[component.urlInput,(hasInputError ? component.urlInputError : {})]} 
                     value={inputURL} 
-                    onChangeText={(text) => setInputURL(text)}
+                    onChangeText={(text) => {
+                        if(hasInputError){
+                            setInputError(false);
+                        }
+                        setInputURL(text)
+                    }}
                 />
                 {(() => {
                 switch(platform){
@@ -149,6 +177,9 @@ const component = StyleSheet.create({
         backgroundColor: color.accent,
         borderWidth: 1,
         borderColor: color.secondary
+    },
+    urlInputError: {
+        borderColor: 'red'
     },
     modalCloseButton: {
         marginTop: 15
