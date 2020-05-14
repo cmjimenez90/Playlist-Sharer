@@ -4,9 +4,8 @@ import { StyleSheet, View, TextInput, ActivityIndicator, Linking } from 'react-n
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Ionicons } from '@expo/vector-icons';
 import { color, styles } from '../../style/playlistsharer.style'
-import axios from 'axios'
 
-import { constants, config } from '../../app-config'
+import { constants } from '../../app-config'
 import BaseTitle from '../base/BaseTitle'
 import BaseText from '../base/BaseText'
 import ImageButton from '../base/ImageButton'
@@ -118,7 +117,7 @@ const PlatformConverter = ({platform}) => {
                 {(() => {
                     switch(conversionState){
                     case "COMPLETE":
-                        return (conversionError) ? <BaseText>{conversionError}</BaseText> : <ConversionResult>{convertedURL}</ConversionResult>
+                        return (conversionError) ? <BaseText>{conversionError}</BaseText> : <ConversionResult onPress={openURL}>{convertedURL}</ConversionResult>
                     case "CONVERTING":
                     default: 
                         return <ActivityIndicator size={"large"} color={color.secondary}/>
