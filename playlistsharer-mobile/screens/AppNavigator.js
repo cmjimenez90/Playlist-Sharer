@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
+import {StyleSheet} from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import {constants} from '../app-config'
@@ -26,7 +27,7 @@ const AppNavigator = ()  => {
           <Stack.Screen name='Main' component={Main} options={({navigation})=>({
             headerTitle: constants.APP_NAME,
             headerRight: () => (
-              <TouchableOpacity style={{marginRight: 15}} onPress={()=>{navigation.navigate('Help')}}>
+              <TouchableOpacity style={component.helpButton} onPress={()=>{navigation.navigate('Help')}}>
                 <Ionicons name="md-information-circle-outline" size={32} color={color.accent}/>
               </TouchableOpacity>
             ),
@@ -34,12 +35,18 @@ const AppNavigator = ()  => {
             <Stack.Screen name="Help" component={Help} />
             <Stack.Screen name="Authorization" component={Authorization} />
             <Stack.Screen name="Converter" component={Converter} options={({navigation})=>({
-              headerLeft: ({}) =>(
+              headerLeft: () =>(
                 <StackNavBackButton navigation={navigation}/>
               ),
              })}/>
     </Stack.Navigator>
   )
 }
+
+const component = StyleSheet.create({
+  helpButton: {
+    marginRight: 15
+  }
+})
 
 export default AppNavigator;

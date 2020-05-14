@@ -1,10 +1,12 @@
+/* eslint-disable no-undef */
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image, View, StyleSheet } from 'react-native'
 import {styles} from '../style/playlistsharer.style'
 import BaseTitle from '../components/base/BaseTitle'
 import BaseText from '../components/base/BaseText'
 import ImageButton from '../components/base/ImageButton'
 import {constants} from '../app-config'
+
 const Main = ({navigation}) => {
     return (
         <View style={styles.screen}>
@@ -13,7 +15,7 @@ const Main = ({navigation}) => {
                     <View style={styles.textContainer}>
                         <BaseTitle>Playlist Sharer</BaseTitle>
                         <BaseText style={styles.caption}>My Platform, Your Platform,</BaseText>
-                        <BaseText style={styles.caption}><BaseText style={[styles.caption,{fontStyle: "italic",fontWeight: "bold"}]}>ANY</BaseText> Platform</BaseText>
+                        <BaseText style={styles.caption}><BaseText style={[styles.caption,component.emphasize]}>ANY</BaseText> Platform</BaseText>
                     </View>
                     <Image source={require('../assets/psicon.png')} style={styles.logoImage}/>
                 </View>
@@ -26,5 +28,12 @@ const Main = ({navigation}) => {
         </View>
     )
 }
+
+const component = StyleSheet.create({
+    emphasize: {
+        fontStyle: "italic",
+        fontWeight: "bold"
+    }
+})
 
 export default Main

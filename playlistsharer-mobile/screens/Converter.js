@@ -7,7 +7,6 @@ import PlatformConverter from '../components/converter/PlatformConverter'
 const Converter = ({route}) => {
     const { platform } = route.params
 
-    console.log(platform);
     return (
         <View style={styles.screen}>
            <PlatformConverter platform={platform}/>

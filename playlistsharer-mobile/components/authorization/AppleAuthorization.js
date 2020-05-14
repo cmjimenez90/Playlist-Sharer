@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {View, ActivityIndicator, NativeModules, Alert} from 'react-native';
 import {color, styles} from '../../style/playlistsharer.style';
 import axios from 'axios';
 import {config, constants} from '../../app-config';
 import { useNavigation } from '@react-navigation/native';
 import {useAuthorizationState,useAuthorizationAction, actionType} from './AuthorizationContext';
-
+ 
 const AppleAuthorization = () => {  
     const AppleMusicUserAuthorization = NativeModules.AppleMusicUserAuthorization;
     const navigation = useNavigation();
@@ -21,7 +21,6 @@ const AppleAuthorization = () => {
             .then((response)=>{
                 const data = response.data;
                 if(data.hasError){
-                    console.log(data.errorMessage);
                      Alert.alert("Authorization Error", data.errorMessage);
                      navigation.popToTop();
                 }
@@ -42,11 +41,10 @@ const AppleAuthorization = () => {
                     }  
             })
             .catch((error)=>{
-                console.log(error);
-                return null;
+                return error;
             })   
         }    
-    },[AppleAuth]);
+    },[AppleAuth, AppleMusicUserAuthorization, action, navigation]);
     
     return (
             <View style={[{flex: 1, justifyContent: "center"},styles.screen]}>

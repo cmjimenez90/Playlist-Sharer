@@ -1,5 +1,6 @@
+/* eslint-disable no-undef */
 import React, { useState } from 'react'
-import { StyleSheet, View, TextInput, Button, ActivityIndicator, Alert } from 'react-native'
+import { StyleSheet, View, TextInput, ActivityIndicator, Linking } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Ionicons } from '@expo/vector-icons';
 import { color, styles } from '../../style/playlistsharer.style'
@@ -12,16 +13,17 @@ import ImageButton from '../base/ImageButton'
 import BaseModal from '../base/BaseModal'
 import ConversionResult from './ConversionResult'
 import {useAuthorizationState} from '../authorization/AuthorizationContext'
-
+import PlaylistSharerClient from '../../service/PlaylistSharerClient'
 
 const PlatformConverter = ({platform}) => {
 
     const [showModal,setShowModal] = useState(false);
-    const [inputURL, setInputURL] = useState("URL");
+    const [inputURL, setInputURL] = useState("");
     const [convertedURL, setConvertedURL] = useState(''); 
     const [conversionError, setConversionError] = useState('');
-    const [conversionState, setConversionState] = useState('COMPLETED')
+    const [conversionState, setConversionState] = useState('CONVERTING')
     const {SpotifyAuth, AppleAuth} = useAuthorizationState();
+    const client = new PlaylistSharerClient();
 
     const openURL = () => {
         if(Linking.canOpenURL(`${convertedURL}`)){
@@ -32,72 +34,55 @@ const PlatformConverter = ({platform}) => {
         setInputURL('');
     };
 
-    const convertToAppleURL = () => {
+    const convertToAppleURL = async () => {
         setConversionState("CONVERTING");
         setShowModal(true);
-        const requestURL = new URL(config.APPLE_CONVERSION_ENDPOINT,config.API_HOST);
-        const authorizationHeader = `Bearer ${AppleAuth.access_token}`;
-        axios.post(requestURL.toString(),
-        {
-            itemURL: inputURL,
-        },
-        {
-            headers:{
-                authorization: authorizationHeader,
+        try{
+            const conversionResult = await client.convertItemToSpotify(AppleAuth.access_token,inputURL)
+            if(conversionResult.hasError){
+                if(conversionResult.error == 'AUTHORIZATION'){
+                    setConversionError(conversionResult.error);
+                } else {
+                    setConversionError(conversionResult.error);
+                }
+            } else if (!conversionResult.convertedURL){
+                setConversionError("Sorry, Failed to convert item");  
+            } else {
+                setConvertedURL(conversionResult.convertedURL);
             }
+        
+        }catch(error) {
+            setConversionError(error.message);
         }
-        ).then((response) => {
-            const data = response.data;
-            if(data.hasError){
-                setConversionError(data.message);
-            }else {
-                setConvertedURL(data.convertedURL);
-            }
-            setConversionState("COMPLETE");
-        })
-        .catch((error) => {
-            handleConversionError(error);
-            setConversionState("COMPLETE");
-        });  
+       setConversionState("COMPLETE");
     }
 
-    const convertToSpotifyURL = () => {
+    const convertToSpotifyURL = async () => {
         setConversionState("CONVERTING");
         setShowModal(true);
-        const requestURL = new URL(config.SPOTIFY_CONVERSION_ENDPOINT,config.API_HOST);
-        const authorizationHeader = `Bearer ${SpotifyAuth.access_token}`;
-        axios.post(requestURL.toString(),
-        {
-            itemURL: inputURL,
-        },
-        {
-            headers:{
-                authorization: authorizationHeader,
+        try{
+            const conversionResult = await client.convertItemToSpotify(SpotifyAuth.access_token,inputURL)
+            if(conversionResult.hasError){
+                if(conversionResult.error == 'AUTHORIZATION'){
+                    setConversionError(conversionResult.error);
+                } else {
+                    setConversionError(conversionResult.error);
+                }
+            } else if (!conversionResult.convertedURL){
+                setConversionError("Sorry, Failed to convert item");  
+            } else {
+                setConvertedURL(conversionResult.convertedURL);
             }
+        
+        }catch(error) {
+            setConversionError(error.message);
         }
-        ).then((response) => {
-            const data = response.data;
-            if(data.hasError){
-                setConversionError(data.message);
-            }else {
-                setConvertedURL(data.convertedURL);
-            }
-            setConversionState("COMPLETE");
-        })
-        .catch((error) => {
-            handleConversionError(error);
-            setConversionState("COMPLETE");
-        });  
-    }
-
-    const handleConversionError = (response) => {
-        console.log(response);
-        setConversionError(response.message);
+       setConversionState("COMPLETE");
     }
 
     const reset = () => {
         setShowModal(false);
-        setInputURL("URL");
+        setInputURL("");
         setConversionError(null);
         setConvertedURL(null);
     }
