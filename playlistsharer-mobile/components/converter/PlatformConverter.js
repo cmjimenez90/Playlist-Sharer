@@ -152,7 +152,7 @@ const PlatformConverter = ({platform}) => {
                 }
                 })()}
                 <TouchableOpacity onPress={reset} style={component.modalCloseButton}>
-                    <Ionicons name="md-close-circle-outline" color={color.secondary} size={38} />
+                    <Ionicons name="md-close-circle-outline" color={color.secondary} size={50} />
                 </TouchableOpacity>
            </BaseModal>
         </View>
